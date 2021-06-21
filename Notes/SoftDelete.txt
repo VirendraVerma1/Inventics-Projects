@@ -1,0 +1,25 @@
+Soft Delete
+	1.Create a new column or edit in table
+		(i). create new column
+			 -php artisan make:migration add_deleted_at_categories_table --table=categories
+		(ii)under migration file
+			-$table->softDeletes();
+			
+	2.Model
+		above the class
+			-use Illuminate\Database\Eloquent\SoftDeletes;
+		inside the class
+			-use SoftDeletes;
+			
+	3.controller
+		for soft delete
+			-$category->delete();
+		for permanent delete
+			$category->forcedelete();
+			
+		can see deleted item use
+			->withTrashed()
+			
+			or
+			
+			->onlyTrashed()

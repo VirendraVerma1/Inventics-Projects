@@ -1,0 +1,27 @@
+Slug
+	1.create new Column
+		-php artisan make:migration add_slug_to_categories_table --table=categories
+	2. On migration folder
+		-in up function
+		$table->string('slug')->nullable()->default(null)->after('description');
+		- down function
+		$table->string('slug');
+		
+	3. import on controller
+		-use Illuminate\Support\Str;
+		
+	4. on controller
+		$slug = preg_replace('/\s+/', '-', $str);
+        $random = Str::random(5);
+        $category->slug=$slug.$random;//category is variable of category table
+		
+		//before saving
+		
+	5. on blade pages
+		-replace $category->id to $category->slug
+	
+	6. on controller
+		use Category::where('slug',$slug)->first();
+		
+
+there can be error if slug column is empty on the database

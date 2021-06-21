@@ -1,0 +1,63 @@
+Sessions
+	1.import
+		-use Session;
+		
+	2.controller
+		-session()->flash('created','Blog Created Succesfully');
+		
+	3.blade
+		to get session value from controller
+		eg
+			@if(session('success'))
+			{{session('success')}}
+			@endif
+			
+	4.more things
+		storing values in session
+			//normally storing
+			session(['key' => 'value']);
+			
+			// Via a request instance...
+			$request->session()->put('key', 'value');
+			
+		getting values from the session
+			//using request
+			$value = $request->session()->get('key', 'default');
+			
+			// Retrieve a piece of data from the session...
+			$value = session('key');
+
+			// Specifying a default value...
+			$value = session('key', 'default');
+			
+		
+		Retrieving All Session Data
+			$data = $request->session()->all();
+			
+		checking sessions
+			To determine if an item is present in the session, you may use the has method. The has method returns true if the item is present and is not null:
+			if ($request->session()->has('users')) {
+				//
+			}
+			
+			
+			To determine if an item is present in the session, even if its value is null, you may use the exists method:
+			if ($request->session()->exists('users')) {
+				//
+			}
+			
+			To determine if an item is not present in the session, you may use the missing method. The missing method returns true if the item is null or if the item is not present:
+			if ($request->session()->missing('users')) {
+				//
+			}
+			
+			
+		Increment Decrement
+			$request->session()->increment('count');
+
+			$request->session()->increment('count', $incrementBy = 2);
+
+			$request->session()->decrement('count');
+
+			$request->session()->decrement('count', $decrementBy = 2);
+			

@@ -1,0 +1,9 @@
+1.Controller
+	->paginate(10);
+	
+	Ex.
+	$blogs=Blog::search('name',$name)->paginate(10);
+	return view('Blog.index',compact('blogs','name'));
+	
+2.Blade page
+	{{ $blogs->links() }}

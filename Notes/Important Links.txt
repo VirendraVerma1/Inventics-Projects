@@ -1,0 +1,17 @@
+http://virendra.inventics.tech/books
+https://www.freakyjolly.com/resolved-when-i-faced-1273-unknown-collation-utf8mb4_0900_ai_ci-error/
+mysql -u username -p databasename < filename.sql
+
+$sub_categories=DB::table('category_groups')
+        ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+        ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+        ->where('category_groups.name','Electronics')
+        ->select('categories.*','category_sub_groups.name as cat_sub_name')->get();
+		
+		
+https://stackoverflow.com/questions/59484966/how-to-merge-two-table-data-in-laravel
+
+->join('category_product', function ($join) {
+            $join->on('categories.id', '=', 'category_product.category_id')
+            ->orOn('products.id', '=', 'category_product.product_id');
+        })

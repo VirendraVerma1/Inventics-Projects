@@ -1,0 +1,47 @@
+Image intervention
+	1. terminal command
+		-php composer require intervention/image
+		
+	2. in app.php
+		-providers
+			-Intervention\Image\ImageServiceProvider::class,
+		-aliases
+			-'Image' => Intervention\Image\Facades\Image::class,
+	3. terminal command
+		-php artisan vendor:publish --provider="Intervention\Image\ImageServiceProviderLaravelRecent"
+		
+	4. on every blade form page
+		use - enctype="multipart/form-data"
+		<input type="file" class="form-control" name="image">
+		
+	5. on every controller page
+		import
+			-use Intervention\Image\Facades\Image as Photo;
+			
+			
+	6.
+		public function uploadImage($image)
+		{
+        $random_name=time(); //random name
+        $extension=$image->getClientOriginalExtension();
+        $filename=$random_name.'.'.$extension;
+        Photo::make($image)->save(public_path('image/'. $filename));
+        return $filename;
+		}
+		
+		for saving
+			-if($request->file('image'))
+			{
+				//$extension=$request->file('image')->getClientOriginalExtension();
+				// if($extension!='png' || $extension!='jpg' || $extension!='jpeg')
+				// {
+				//     session()->flash('danger', 'uploaded file is not an image! TRY AGAIN');
+				//     return redirect()->back();
+				// }
+
+				$filename=$this->uploadImage($request->file('image'));
+				$blogs->image=$filename;
+			}
+		
+	7.Getting images from blade page
+		<img style="height:40%;width:40%;" src="{{asset('image/'.$blog->image)}}" alt="">

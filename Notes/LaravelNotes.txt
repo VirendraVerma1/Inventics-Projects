@@ -1,0 +1,30 @@
+First Class
+1.Environment set up PHP,Composer,Wamp/Xamp,VScode
+2.Commands composer global require laravel/installer
+3.composer create-project --prefer-dist laravel/laravel blog "6.*"
+4.run= php artisan serve
+5.set DB setting in .env file
+6.auth setup
+7.composer require laravel/ui "^1.0" --dev
+8.php artisan ui vue --auth
+
+9.run migration for DB table= php artisan migrate
+10.create category MVC by php artisan make:model Category -a
+11.setup routes for urls and drsign .blade page in view
+12.Complete Blog,Tag,Category with relation
+
+Topics to Cover
+Select2 ✔
+Auth Routes ✔
+Server side validation ✔
+Session ✔
+Factory/Seeder ✔
+Pagination ✔
+Search ✔
+Soft Delete ✔
+Slug ✔
+ImageIntervention ✔
+SummerNote
+Middleware
+Laratrust ✔
+Web Services ✔

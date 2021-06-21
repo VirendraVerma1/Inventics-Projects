@@ -1,0 +1,122 @@
+Authentication API
+	1.terminal command for making seperate table
+		php artisan make:migration create_connection_request_table
+		
+	2.migration part of table create_connection_request_table
+		-under up function code
+			$table->unsignedInteger('user_id')->nullable()->default(null);
+            $table->string('connection_id')->nullable()->default(null);
+            $table->string('auth_code')->nullable()->default(null);
+            $table->timestamps();
+			
+	3.api controller code
+		public function registration_process(Request $request)
+		{
+			if($request->key==12345678)//this will happen on the very first time for creating new connection id
+			{
+				//we will create new random string for connection id
+				$str=Str::random(5);
+				DB::table('connection_request')->insert(['connection_id'=>$str]);
+				$response=$this->response('connection_id',$str,'1000');
+			}
+			else
+			{
+				//it means android user has send his connection_id but not sure for auth_id
+				$exist_user=User::where('email',$request->email)->first();
+				if($exist_user)
+				{
+					
+					//generate new authcode because he dont have at the starting time
+					$valid=$this->check_user($request->connection_id,$request->auth_code);
+				}
+				else    //from this we will create a new account and give new auth code for that
+				{
+					$valid=$this->check_connection($request->connection_id,$request->name,$request->email,$request->password);
+				}
+				if($valid)
+				{
+				$data=[$valid];
+				$response=$this->response('Category List',$data,'1000');
+				}
+				else
+				$response=$this->response('Invalid User ',null,'1000');
+				
+			}
+			return $response;
+		}
+		
+	6.for checking 
+		-example
+			public function index(Request $request)
+			{
+				$dat=$this->check_user($request->connection_id,$request->auth_code);
+				if($dat)
+				{
+					$categories=Category::all();
+					$merger_dat=[$dat,$categories];
+					$response=$this->response('Category List',$merger_dat,'1000');
+				}
+				else
+				{
+					$response=$this->response('auth code dosent match',null,'1000');
+				}
+				
+				return $response;
+			}
+		
+		
+	5. use common function for checking and creating user account
+		public function check_connection($connection_id,$name,$email,$password)
+		{
+			$valid=DB::table('connection_request')->where('connection_id',$connection_id)->first();
+
+			if($valid)
+			{
+				$user=new User;
+				$user->name=$name;
+				$user->email=$email;
+				$user->password=$password;
+				$user->save();
+				$a_code=Str::random(5);
+				DB::table('connection_request')->where('connection_id',$connection_id)->update(['user_id'=>$user->id,'auth_code'=>$a_code]);
+				$user->auth_code=$a_code;
+				return $user;
+			}
+			else
+			return false;
+			
+		}
+		
+		public function check_user($connection_id,$auth_code)
+		{
+			$valid=DB::table('connection_request')->where('connection_id',$connection_id)->where('auth_code',$auth_code)->first();
+			if($valid)
+			{
+				$a_code=Str::random(6);
+				DB::table('connection_request')->where('connection_id',$connection_id)
+				->update(['auth_code'=>$a_code]);
+				$connection= DB::table('connection_request')->where('connection_id',$connection_id)->first();
+				return $connection;
+			}
+			else
+			return false;
+		}
+		
+	
+For password encription
+	1.import above class
+		-use Illuminate\Support\Facades\Hash;
+	
+	2.now save the password using hash and bcrypt like-
+			$temppassword = Hash::make($password);
+            // $temppassword = bcrypt($temppassword);
+            $user->password=$temppassword;
+            $user->remember_token=Str::random(100);
+            $user->save();
+            
+			
+	3.for checking or at the login time use
+		if (Hash::check($user_given_password, $hashed_password_from_user_table))
+		{
+			// The passwords match...
+		}
