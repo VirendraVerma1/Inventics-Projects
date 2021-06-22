@@ -7,14 +7,12 @@
                 <div class="sidebar-block_content">
                   <div class="selected-filters-wrap">
                     <ul class="selected-filters">
-                      
-                      <!-- <li><a href="#">Grey</a></li>
-                      <li><a href="#">Men</a></li>
-                      <li><a href="#">Above $200</a></li> -->
+                      <li><a href="#" id="brand_remove">Brand</a></li>
+                      <li><a href="#" id="price_remove">Price</a></li>
                     </ul>
                     <div class="d-flex flex-wrap align-items-center">
-                      <a href="#" class="clear-filters"><span>Clear All</span></a>
-                      <div class="selected-filters-count ml-auto d-none d-lg-block">Selected <span>6 items</span></div>
+                      <a href="#" class="clear-filters" id="clear_all_search"><span>Clear All</span></a>
+                      <!-- <div class="selected-filters-count ml-auto d-none d-lg-block">Selected <span>6 items</span></div> -->
                     </div>
                   </div>
                 </div>
@@ -78,7 +76,7 @@
               </div>
                 <!-- category section end -->
 
-              <div class="sidebar-block filter-group-block collapsed">
+              <!-- <div class="sidebar-block filter-group-block collapsed">
                 <div class="sidebar-block_title">
                   <span>Colors</span>
                   <span class="toggle-arrow"><span></span><span></span></span>
@@ -114,7 +112,7 @@
                     <li data-value="XXXL"><a href="#">XXXL</a></li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
               <div class="sidebar-block filter-group-block collapsed">
                 <div class="sidebar-block_title">
                   <span>Brands</span>
@@ -141,17 +139,17 @@
                 </div>
                 <div class="sidebar-block_content">
                   <ul class="category-list">
-                    <li><a class="priceName">Under $5000</a></li>
-                    <li><a class="priceName">Under $2000</a></li>
-                    <li><a class="priceName">Under $1000</a></li>
-                    <li><a class="priceName">Under $500</a></li>
-                    <li><a class="priceName">Under $300</a></li>
-                    <li ><a class="priceName">Under $200</a></li>
-                    <li><a class="priceName">Under $100</a></li>
+                    <li class="price_Name"><a class="priceName">Under $5000</a></li>
+                    <li class="price_Name"><a class="priceName">Under $2000</a></li>
+                    <li class="price_Name"><a class="priceName">Under $1000</a></li>
+                    <li class="price_Name"><a class="priceName">Under $500</a></li>
+                    <li class="price_Name"><a class="priceName">Under $300</a></li>
+                    <li class="price_Name" ><a class="priceName">Under $200</a></li>
+                    <li class="price_Name"><a class="priceName">Under $100</a></li>
                   </ul>
                 </div>
               </div>
-              <div class="sidebar-block filter-group-block collapsed">
+              <!-- <div class="sidebar-block filter-group-block collapsed">
                 <div class="sidebar-block_title">
                   <span>Popular tags</span>
                   <span class="toggle-arrow"><span></span><span></span></span>
@@ -165,7 +163,7 @@
                     <li><a href="#">Maxi dress</a></li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
               <a href="https://bit.ly/3eJX5XE" class="bnr image-hover-scale bnr--bottom bnr--left" data-fontratio="3.95">
                 <div class="bnr-img">
                   <img src="{{asset('images/banners/banner-collection-aside.png')}}" alt="">
@@ -197,13 +195,22 @@ $(document).ready(function () {
       get_filtered_product();
   });
 
-  $("#short_by_name").change(function() {
-    alert("hello");
-    // var e = document.getElementById("short_by_name");
-    // var strUser = e.value;
-    // alert(strUser);
+  $("#clear_all_search").click(function () {
+    brand_name="";
+    price_val=-1;
+    get_filtered_product();
   });
 
+  $("#brand_remove").click(function () {
+    brand_name="";
+    get_filtered_product();
+  });
+
+  $("#price_remove").click(function () {
+    price_val=-1;
+    get_filtered_product();
+  });
+  check_and_show_filter();
 });
 
 function on_change_short_by()
@@ -227,8 +234,52 @@ function get_filtered_product()
          success: function(response){
           console.log(response);
           $("#my_searched_items_container").html(response);
+          check_and_show_filter();
         }
       });  
+  }
+
+  function check_and_show_filter()
+  {
+    var count=0;
+    if(brand_name!="")
+    {
+      document.getElementById("brand_remove").innerHTML=brand_name;
+      document.getElementById("brand_remove").style.display = 'block';
+      count++;
+    }
+    else
+    {
+      document.getElementById("brand_remove").style.display = 'none';
+      var allBrands = document.getElementsByClassName('brand_name');
+      for (var i = 0; i < allBrands.length; i ++) {
+        allBrands[i].classList.remove('active');
+      }
+    }
+
+    if(price_val!=-1)
+    {
+      document.getElementById("price_remove").innerHTML="Under $"+price_name;
+      document.getElementById("price_remove").style.display = 'block';
+      count++;
+    }
+    else
+    {
+      document.getElementById("price_remove").style.display = 'none';
+      var allprice = document.getElementsByClassName('price_Name');
+      for (var i = 0; i < allprice.length; i ++) {
+        allprice[i].classList.remove('active');
+      }
+    }
+    
+    if(count==0)
+    {
+      document.getElementById("clear_all_search").style.display = 'none';
+    }
+    else
+    {
+      document.getElementById("clear_all_search").style.display = 'block';
+    }
   }
 
 </script>
