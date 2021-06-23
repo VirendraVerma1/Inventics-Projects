@@ -21,7 +21,18 @@ class WebinarController extends Controller
     {
         $str="[19324,21232]";
         $explode_id = json_decode($str);
-        dd($explode_id);
+
+        $sum=1000;
+        $count=0;
+        for($i=1;$i<10000;$i++)
+        {
+            $sum =$sum-$i;
+            $count++;
+            if($sum<0)
+            $i=99999;
+        }
+        dd($count);
+        //dd($explode_id);
     }
 
     #region webinar crud
@@ -215,9 +226,9 @@ class WebinarController extends Controller
 
     public function addlike_dislike(Request $request)
     {
-        if($request->connection_id==null || $request->auth_code==null || $request->room_id==null|| $request->type==null)
+        if($request->connection_id==null || $request->auth_code==null || $request->room_id==null|| $request->inventory_id==null|| $request->type==null)
         {
-            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,room_id,type)');
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,room_id,inventory_id,type)');
         }
 
         $key = $request->connection_id;
@@ -229,38 +240,110 @@ class WebinarController extends Controller
             
             if($webinar)
             {
-                //check if user and webinar already exist or not
-                $old_like_dislike=LikeDislike::where('user_id',$user_id)->where('webinar_id',$webinar->id)->first();
-                if(!$old_like_dislike)
-                {
-                    $like_dislike=new LikeDislike;
-                    $like_dislike->user_id=$user_id;
-                    $like_dislike->webinar_id=$webinar->id;
-                    $like_dislike->type=$request->type;
-                    $like_dislike->save();
-                }
-                else
-                {
-                    //means exist if have same type then show this msg else change the type
-                    if($old_like_dislike->type==$request->type)
-                    return $this->processResponse('LikeDislike',null,'success','Already added this type');
-                    else
-                    {
-                        //update the type
-                        $old_like_dislike->user_id=$user_id;
-                        $old_like_dislike->webinar_id=$webinar->id;
-                        $old_like_dislike->type=$request->type;
-                        $old_like_dislike->save();
-                        return $this->processResponse('LikeDislike',$old_like_dislike,'success','Changed type successfully');
-                    }
-                }
+                $like_dislike=new LikeDislike;
+                $like_dislike->user_id=$user_id;
+                $like_dislike->webinar_id=$webinar->id;
+                $like_dislike->inventory_id=$request->inventory_id;
+                $like_dislike->type=$request->type;
+                $like_dislike->save();
+               
             }
             else
             {
                 $like_dislike=null;
+                return $this->processResponse('LikeDislike',null,'success','Dont have webinar');
             }
                
             return $this->processResponse('LikeDislike',$like_dislike,'success','Like Dislike added Successfully');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    public function get_like_dislike_inventory(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null || $request->room_id==null|| $request->inventory_id==null)
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,room_id,inventory_id)');
+        }
+
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+        if($user_id)
+        {
+            $old_like_dislike= DB::table('webinar')
+            ->join('like_dislike', 'webinar.id', '=', 'like_dislike.webinar_id')
+            ->where('webinar.room_id',$request->room_id)
+            ->where('like_dislike.inventory_id',$request->inventory_id)
+            ->select('like_dislike.*')
+            ->get();
+
+            $total_likes=0;
+            $total_dislike=0;
+            
+            foreach($old_like_dislike as $old)
+            {
+                
+                if($old->type=="like")
+                $total_likes++;
+                if($old->type=="dislike")
+                $total_dislike++;
+            }
+
+            $total_calculation=[
+                'total_likes'=>$total_likes,
+                'total_dislike'=>$total_dislike
+            ];
+
+            
+            return $this->processResponse('LikeDislike',$total_calculation,'success','Count of like and dislike');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    public function get_like_dislike_webinar(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null || $request->room_id==null)
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,room_id)');
+        }
+
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+        if($user_id)
+        {
+            $old_like_dislike= DB::table('webinar')
+            ->join('like_dislike', 'webinar.id', '=', 'like_dislike.webinar_id')
+            ->where('webinar.room_id',$request->room_id)
+            ->select('like_dislike.*')
+            ->get();
+
+            $total_likes=0;
+            $total_dislike=0;
+            
+            foreach($old_like_dislike as $old)
+            {
+                
+                if($old->type=="like")
+                $total_likes++;
+                if($old->type=="dislike")
+                $total_dislike++;
+            }
+
+            $total_calculation=[
+                'total_likes'=>$total_likes,
+                'total_dislike'=>$total_dislike
+            ];
+
+            
+            return $this->processResponse('LikeDislike',$total_calculation,'success','Count of like and dislike');
         }
         else
         {

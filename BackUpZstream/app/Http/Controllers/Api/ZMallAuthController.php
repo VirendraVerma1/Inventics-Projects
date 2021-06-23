@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Vendor;
+use App\Customer;
 use DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\Traits\ProcessResponseTrait;
 use App\Http\Controllers\Api\Traits\ValidationTrait;
 
-class AuthController extends Controller
+class ZMallAuthController extends Controller
 {
     use ProcessResponseTrait,ValidationTrait;
     public function otp_request(Request $request)
@@ -22,7 +22,7 @@ class AuthController extends Controller
             $request->validate([
                'mobile'=>'required',
            ]);
-                   $user = Vendor::where('phone',$request->mobile)->count();
+                   $user = Customer::where('phone',$request->mobile)->count();
                    if($user>0)
                    {
                        $this->generate_otp($request->mobile);
@@ -91,7 +91,7 @@ class AuthController extends Controller
    {
        if($this->validate_connection_id($request->connection_id))
        {  
-           if (DB::table('vendors')->where('phone', '=', $request->mobile)->count()>0)
+           if (DB::table('customers')->where('phone', '=', $request->mobile)->count()>0)
            {
               return response()->json([
                    'Status'=>'error',
@@ -109,7 +109,7 @@ class AuthController extends Controller
                    );
                    
                    // Register new Customer
-                   $id = DB::table('vendors')->insertGetId($customerData);
+                   $id = DB::table('customers')->insertGetId($customerData);
                   
                    // update authcode and user_id in customer_request table on registration
                    $authCode = Str::random(20);
@@ -122,12 +122,12 @@ class AuthController extends Controller
                    ->where('connection_id', $request->connection_id)
                    ->update($connection_data);
                    
-                    DB::table('vendors')
+                    DB::table('customers')
                    ->where('id', $id)
                    ->update(['auth_code'=>$authCode]);
                  
                    //return customer_detail
-                   $customer = Vendor::select('id','name','phone','email','auth_code')->where('id','=',$id)->get();
+                   $customer = Customer::select('id','name','phone','email','auth_code')->where('id','=',$id)->get();
                    return $this->processResponse('customer',$customer[0],'success','Customer Registered Successfully');
 
            }
@@ -143,7 +143,7 @@ class AuthController extends Controller
           
            if($this->validate_otp($otp,$mobile))
            {
-               $cust=DB::table('vendors')
+               $cust=DB::table('customers')
                ->select('id','name','phone','email')
                ->where([
                        ['phone', '=', $mobile],
@@ -160,20 +160,20 @@ class AuthController extends Controller
                        ->where('connection_id', $connection_id)
                        ->update($connection_data);
 
-                     DB::table('vendors')
+                     DB::table('customers')
                        ->where('id', $cust->id)
                        ->update(
                            ['auth_code'=>$updatedAuthCode]
                        );
 
-                    DB::table('vendors')
+                    DB::table('customers')
                            ->where('id', $cust->id)
                            ->update(
                                ['token'=>$fcm_token]
                            );
 
 
-                   $customer=Vendor::select('id','name','phone','email','token','auth_code')->where([
+                   $customer=Customer::select('id','name','phone','email','token','auth_code')->where([
                        ['phone', '=', $mobile],
                        ])->first();
 
@@ -226,7 +226,7 @@ class AuthController extends Controller
    {
        if($this->validate_connection_id($request->connection_id))
        {
-           if(DB::table('vendors')->where('phone', '=', $request->mobile)->count()>0)
+           if(DB::table('customers')->where('phone', '=', $request->mobile)->count()>0)
            {
               $customer = $this->customer_login($request->connection_id,$request->mobile,$request->otp,$request->fcm_token); 
            }
@@ -336,7 +336,7 @@ class AuthController extends Controller
                ->where('connection_id', $request->connection_id)
                ->update($connection_data);
 
-           DB::table('vendors')
+           DB::table('customers')
                ->where('id', $user->user_id)
                ->update(['token'=>'','auth_code'=>'']);
            
@@ -346,7 +346,6 @@ class AuthController extends Controller
        else
            return $this->processResponse('Related to','Connection_id','error','Invalid Session');
    }
-   
    public function profile(Request $request,$type)
    {
        $user= DB::table('connection_request')->select('user_id')->where('auth_code','=', $request->auth_code)->where('connection_id','=', $request->connection_id)->first();
@@ -355,7 +354,7 @@ class AuthController extends Controller
        {
            switch ($type) {
                case 'customer':
-                   $data=DB::table('vendors')
+                   $data=DB::table('customers')
                        ->where('id', $user->user_id)
                        ->first();
                    break;

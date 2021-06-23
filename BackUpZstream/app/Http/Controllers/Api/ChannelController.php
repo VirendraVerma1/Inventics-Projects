@@ -34,9 +34,9 @@
         
         public function createmyChannel(Request $request)
         {
-            if($request->connection_id==null || $request->auth_code==null ||$request->channel_data==null)
+            if($request->connection_id==null || $request->auth_code==null ||$request->channel_data==null||$request->latitude==null||$request->longitude==null)
             {
-                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,channel_data)');
+                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,channel_data,latitude,longitude)');
             }
             
             $channel_data=json_decode($request->channel_data);
@@ -50,6 +50,18 @@
                 //check if current channel is synced
                 $old_channel=DB::table('channel_synced')->where('user_id',$user_id)->where('channel_id',$channel_data->channel_id)->first();
                 $channel_synced=null;
+
+                //check if this user already exist or not
+                $old_user=DB::table('channel_synced')->where('user_id',$user_id)->first();
+                $old_shop=DB::table('shops')->where('owner_id',$user_id)->first();
+                if(!$old_user||!$old_shop)
+                {
+                    //create new shop for this user
+                    $user_data=DB::table('vendors')->where('id',$user_id)->first();
+                    $user_slug=str_replace(" ","-",$user_data->name);
+                    DB::table('shops')->insert(['owner_id' => $user_id, 'name' => $user_data->name, 'slug' => $user_slug, 'email' => $user_data->email, 'lat' => $request->latitude, 'lng' => $request->longitude]);
+                }
+
                 if($old_channel)
                 {
                     //means have channel
@@ -58,7 +70,7 @@
                 else
                 {
                     //create new channel
-                    $channel_synced=DB::table('channel_synced')->insert(['channel_id' => $channel_data->channel_id, 'auth_code' => $channel_data->auth_code, 'connection_id' => $channel_data->connection_id, 'user_id' => $user_id, 'synced' => 1]);
+                    $channel_synced=DB::table('channel_synced')->insert(['channel_id' => $channel_data->channel_id, 'channel_auth_code' => $channel_data->auth_code, 'channel_connection_id' => $channel_data->connection_id, 'user_id' => $user_id, 'synced' => 1]);
                     return $this->processResponse('Channel Synced',$channel_data->channel_id,'success','Synced successfully');
                 }
                 
