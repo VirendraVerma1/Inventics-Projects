@@ -8,10 +8,12 @@ use DB;
 
 class SearchController extends Controller
 {
+    public $searchLimit=2;
+
     public function index(Request $request)
     {
         $name=($request->search) ? $request->search:'';
-        $inventory=$this->searchinventory($name);
+        $tempinventory=$this->searchinventory($name,"Latest");
 
         $cat_product=$this->getcategoriesproduct();
         
@@ -34,52 +36,85 @@ class SearchController extends Controller
             }
         }
 
+        //making custom search limit
+        $temp_index=0;
+        $totalProductCount=count($tempinventory);
+        $inventory=array();
+        foreach($tempinventory as $inv)
+        {
+            if($temp_index<$this->searchLimit)
+            array_push($inventory,$inv);
+
+            $temp_index++;
+        }
         //this variable is used to add custom class for the search page, which helps in adding the class on the master body
         $tempcategory=true;
-        return view('SearchPage.index',compact('tempcategory','inventory','allBrands','name'));
+        $viewLimit=$this->searchLimit;
+        return view('SearchPage.index',compact('tempcategory','inventory','allBrands','name','totalProductCount','viewLimit'));
     }
 
     public function get_filtered_product(Request $request)
     {
+        // dd($request->shortbyfilter);
         //get all the searched item from the name
         $name=($request->name) ? $request->name:'';
-        $new_inventory=$this->searchinventory($name);
+        $new_inventory=$this->searchinventory($name,$request->shortbyfilter);
+
+        //get loaded product information
+        $loadedProduct=$request->loadedProduct;
+        $totalProductCount=count($new_inventory);
+        $totalViewCount=$request->viewCount+$loadedProduct;
 
         //initialize new array
-        $inventory=array();
+        $completeinventory=array();
         foreach($new_inventory as $inv)
         {
-            //if having brand name, store in the inventory array
-            if(($request->brandName!="" && $request->priceVal!=-1))
-            {
-                if($inv->brand==$request->brandName && $inv->min_price<=$request->priceVal)
+            
+                //if having brand name, store in the inventory array
+                if(($request->brandName!="" && $request->priceVal!=-1))
                 {
-                    array_push($inventory,$inv);
+                    if($inv->brand==$request->brandName && $inv->min_price<=$request->priceVal)
+                    {
+                        array_push($completeinventory,$inv);
+                    }
                 }
-            }
-            else if($request->brandName!="" && $request->priceVal==-1)
-            {
-                if($inv->brand==$request->brandName)
+                else if($request->brandName!="" && $request->priceVal==-1)
                 {
-                    array_push($inventory,$inv);
-                }
-            }else if($request->brandName=="" && $request->priceVal!=-1)
-            {
-                if($inv->min_price<=$request->priceVal)
+                    if($inv->brand==$request->brandName)
+                    {
+                        array_push($completeinventory,$inv);
+                    }
+                }else if($request->brandName=="" && $request->priceVal!=-1)
                 {
-                    array_push($inventory,$inv);
+                    if($inv->min_price<=$request->priceVal)
+                    {
+                        array_push($completeinventory,$inv);
+                    }
                 }
-            }
-            //for adding more filters use else if here
-            else
-            {
-                //means nothing is selected then show all the data
-                array_push($inventory,$inv);
-            }
+                //for adding more filters use else if here
+                else
+                {
+                    //means nothing is selected then show all the data
+                    array_push($completeinventory,$inv);
+                }
             
         }
 
-        return view('SearchPage.product',compact('inventory'));
+        //limiting count
+        $temp_index=0;
+        $inventory=array();
+        foreach($completeinventory as $inv)
+        {
+            if($temp_index>=$loadedProduct && $temp_index<$totalViewCount)
+            {
+                array_push($inventory,$inv);
+            }
+            $temp_index++;
+        }
+        
+        $viewLimit=count($completeinventory);
+        $return_HTML=view('SearchPage.product',compact('inventory'))->render();
+        return json_encode(array('data'=>$return_HTML,'viewLimit'=>$viewLimit));;
     }
 
 }

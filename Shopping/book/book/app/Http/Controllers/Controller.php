@@ -260,42 +260,83 @@ class Controller extends BaseController
 
     #region search functions
 
-    public function searchinventory($name)
+    public function searchinventory($name,$filter="Latest")
     {
         //this function will search on the basis of product name and category name
         //on the basis of product name
-        $catname_onthebasisofname= DB::table('category_groups')
-        ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
-        ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
-        ->join('category_product', 'categories.id', '=', 'category_product.category_id')
-        ->join('products', 'category_product.product_id', '=', 'products.id')
-        ->join('inventories', 'products.id', '=', 'inventories.product_id')
-        ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
-        ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
-        ->join('images', 'inventories.id', '=', 'images.imageable_id')
-        ->where('category_groups.name',$this->my_category)
-        ->where('images.imageable_type','App\Inventory')
-        ->where('images.featured',1)
-        ->where('inventories.title', 'like', "%$name%")
-        ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
-        ->inRandomOrder()->get();
-
-        //on the basis of category name
-        $catname_onthebasisofcategory=DB::table('category_groups')
-        ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
-        ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
-        ->join('category_product', 'categories.id', '=', 'category_product.category_id')
-        ->join('products', 'category_product.product_id', '=', 'products.id')
-        ->join('inventories', 'products.id', '=', 'inventories.product_id')
-        ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
-        ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
-        ->join('images', 'inventories.id', '=', 'images.imageable_id')
-        ->where('category_groups.name',$this->my_category)
-        ->where('images.imageable_type','App\Inventory')
-        ->where('images.featured',1)
-        ->where('categories.name', 'like', "%$name%")
-        ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
-        ->inRandomOrder()->get();
+        $catname_onthebasisofname=array();
+        $catname_onthebasisofcategory=array();
+        if($filter=="Latest")
+        {
+            $catname_onthebasisofname= DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('inventories.title', 'like', "%$name%")
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.updated_at', 'DESC')->get();
+    
+            //on the basis of category name
+            $catname_onthebasisofcategory=DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('categories.name', 'like', "%$name%")
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.updated_at', 'DESC')->get();
+        }
+        else if($filter=="Price")
+        {
+            $catname_onthebasisofname= DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('inventories.title', 'like', "%$name%")
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.sale_price', 'ASC')->get();
+    
+            //on the basis of category name
+            $catname_onthebasisofcategory=DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('categories.name', 'like', "%$name%")
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.sale_price', 'ASC')->get();
+        }
+        
 
         //initializing new array and push all the searched items
         $completeSearList=array();

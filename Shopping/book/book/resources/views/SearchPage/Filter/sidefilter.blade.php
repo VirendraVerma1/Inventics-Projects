@@ -1,9 +1,9 @@
 <div class="col-lg-4 aside aside--left filter-col filter-mobile-col filter-col--sticky js-filter-col filter-col--opened-desktop" data-grid-tab-content>
             <div class="filter-col-content filter-mobile-content">
               <div class="sidebar-block">
-                <div class="sidebar-block_title">
+                <!-- <div class="sidebar-block_title">
                   <span>Current testse</span>
-                </div>
+                </div> -->
                 <div class="sidebar-block_content">
                   <div class="selected-filters-wrap">
                     <ul class="selected-filters">
@@ -17,16 +17,16 @@
                   </div>
                 </div>
               </div>
-              <div class="sidebar-block d-filter-mobile">
+              <!-- <div class="sidebar-block d-filter-mobile">
                 <h3 class="mb-1">SORT BY</h3>
                 <div class="select-wrapper select-wrapper-xs">
-                  <select class="form-control short_by_class" id="short_by_name" onchange="on_change_short_by()">
+                  <select class="hort_by_class" id="short_by_name" name="short_by" onchange="on_change_short_by(this)" >
                     <option value="Featured">Featured</option>
-                    <!-- <option value="rating">Rating</option> -->
+                    <option value="rating">Rating</option>
                     <option value="Price">Price</option>
                   </select>
                 </div>
-              </div>
+              </div> -->
               <!-- category section start -->
               <div class="sidebar-block filter-group-block open">
                 <div class="sidebar-block_title">
@@ -139,13 +139,13 @@
                 </div>
                 <div class="sidebar-block_content">
                   <ul class="category-list">
-                    <li class="price_Name"><a class="priceName">Under $5000</a></li>
-                    <li class="price_Name"><a class="priceName">Under $2000</a></li>
-                    <li class="price_Name"><a class="priceName">Under $1000</a></li>
-                    <li class="price_Name"><a class="priceName">Under $500</a></li>
-                    <li class="price_Name"><a class="priceName">Under $300</a></li>
-                    <li class="price_Name" ><a class="priceName">Under $200</a></li>
-                    <li class="price_Name"><a class="priceName">Under $100</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}5000</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}2000</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}1000</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}500</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}300</a></li>
+                    <li class="price_Name" ><a class="priceName">Under {{$current_currency}}200</a></li>
+                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}100</a></li>
                   </ul>
                 </div>
               </div>
@@ -165,14 +165,15 @@
                 </div>
               </div> -->
               <a href="https://bit.ly/3eJX5XE" class="bnr image-hover-scale bnr--bottom bnr--left" data-fontratio="3.95">
-                <div class="bnr-img">
+                <!-- <div class="bnr-img">
                   <img src="{{asset('images/banners/banner-collection-aside.png')}}" alt="">
-                </div>
+                </div> -->
               </a>
             </div>
           </div>
 
 <script>
+//-------------------------------------------variable initialization
 var searchName="{{$name}}";
 
 var brand_name="";
@@ -180,47 +181,94 @@ var price_name="";
 var price_val=-1;
 var short_by_type="Featured";//accepts only Featured,Price
 
+//for load more variables
+var currentProductCount=0;
+var totalProductCount={{$totalProductCount}};
+var appendData=false;
+
+//view by
+var short_by_filter="Latest";
+var view_count={{$viewLimit}};
+
+
+//--------------------------------------------------some event listners
 $(document).ready(function () {
+
   
+  //for brand filter
   $(".brandName").click(function () {
       let brandName=$(this).html();
       brand_name=brandName;
+      appendData=false;
       get_filtered_product();
   });
 
+  //for price filter
   $(".priceName").click(function () {
       let price=$(this).html();
-      price_name=price.replace('Under $','');
+      price_name=price.replace('Under {{$current_currency}}','');
       price_val=parseInt(price_name);
+      appendData=false;
       get_filtered_product();
   });
 
+  //filter reduction
   $("#clear_all_search").click(function () {
     brand_name="";
     price_val=-1;
+    appendData=false;
     get_filtered_product();
   });
 
   $("#brand_remove").click(function () {
     brand_name="";
+    appendData=false;
     get_filtered_product();
   });
 
   $("#price_remove").click(function () {
     price_val=-1;
+    appendData=false;
     get_filtered_product();
   });
+  
+
+  //load more
+  $("#custom_load_moree").click(function () {
+    // alert("Hello");
+    appendData=true;
+    get_filtered_product();
+  });
+
   check_and_show_filter();
+  updateCurrentProduct();
 });
 
+
+//-------------------------------------------------------sort by and view by change functions
 function on_change_short_by()
 {
-  alert("how are you");
+  var select = document.getElementById("short_by_name");
+  var selectedString = select.options[select.selectedIndex].value;
+  short_by_filter=selectedString;
+  appendData=false;
+  get_filtered_product();
 }
 
+function on_change_view_by()
+{
+  var select = document.getElementById("view_by_name");
+  var selectedString = select.options[select.selectedIndex].value;
+  view_count=parseInt(selectedString);
+  appendData=false;
+  get_filtered_product();
+}
+
+//-------------------------------------------------------------main common azax
 function get_filtered_product()
   {
-    
+    if(!appendData)
+    currentProductCount=0;
     $.ajax({
       url: "{{route('get_filtered_product')}}",
       type: 'POST',
@@ -229,41 +277,59 @@ function get_filtered_product()
         name:searchName,
         brandName: brand_name,
         priceVal:price_val,
+        viewCount:view_count,
+        shortbyfilter:short_by_filter,
+        loadedProduct:currentProductCount,
         _token:'{{ csrf_token() }}'
       },
          success: function(response){
           console.log(response);
-          $("#my_searched_items_container").html(response);
+          var dataResult = JSON.parse(response);
+          if(appendData)
+          $("#my_searched_items_container").append(dataResult.data);
+          else
+          $("#my_searched_items_container").html(dataResult.data);
+
+          totalProductCount=dataResult.viewLimit;
           check_and_show_filter();
+          updateCurrentProduct();
         }
       });  
   }
 
+
+//----------------------------------------------------------------filters and others hide unhide
   function check_and_show_filter()
   {
     var count=0;
-    if(brand_name!="")
+    //brand
+    if(brand_name!="")//if have any brand then show the brand tag
     {
+      //rename the tag with brand name
       document.getElementById("brand_remove").innerHTML=brand_name;
+      //show the tag of brand
       document.getElementById("brand_remove").style.display = 'block';
       count++;
     }
-    else
+    else  //remove the brand tag
     {
+      //remove brand tag
       document.getElementById("brand_remove").style.display = 'none';
+      //remove all the tick on the brand filter
       var allBrands = document.getElementsByClassName('brand_name');
       for (var i = 0; i < allBrands.length; i ++) {
         allBrands[i].classList.remove('active');
       }
     }
 
-    if(price_val!=-1)
+    //price
+    if(price_val!=-1)//if have any price then show price tag
     {
-      document.getElementById("price_remove").innerHTML="Under $"+price_name;
+      document.getElementById("price_remove").innerHTML="Under {{$current_currency}}"+price_name;
       document.getElementById("price_remove").style.display = 'block';
       count++;
     }
-    else
+    else//remove all the price tag
     {
       document.getElementById("price_remove").style.display = 'none';
       var allprice = document.getElementsByClassName('price_Name');
@@ -272,14 +338,45 @@ function get_filtered_product()
       }
     }
     
-    if(count==0)
+    if(count==0)//if dont have any filter then remove clear all button
     {
       document.getElementById("clear_all_search").style.display = 'none';
     }
-    else
+    else//show clear all filter button
     {
       document.getElementById("clear_all_search").style.display = 'block';
     }
   }
+
+
+
+
+
+  //------------------------------------------------------------------load more functions and initialize things
+
+  function updateCurrentProduct()
+  {
+    var allProduct = document.getElementsByClassName('my_product');
+    if(allProduct!=null)
+    currentProductCount=allProduct.length;
+    else
+    currentProductCount=0;
+    //update load more values
+    document.getElementById("currentProduct_count").innerHTML = currentProductCount;
+
+    if(currentProductCount<totalProductCount && currentProductCount!=0)//if product are less than total product then show loadmore button
+    {
+      document.getElementById("load_more_box").style.display = 'block';
+    }
+    else  //dont show load more button
+    {
+      document.getElementById("load_more_box").style.display = 'none';
+    }
+
+    //update totalproduct item on the left side of short by
+    document.getElementById("items_count").innerHTML = currentProductCount+" items";
+    document.getElementById("totalProduct_count").innerHTML = totalProductCount;
+  }
+
 
 </script>

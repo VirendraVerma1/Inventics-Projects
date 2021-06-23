@@ -721,10 +721,10 @@
                   </div>
                 </div> -->
               </div>
-              <!-- <div class="loader-horizontal-sm js-loader-horizontal-sm d-none" data-loader-horizontal style="opacity: 0;"><span></span></div>
+              <!-- <div class="loader-horizontal-sm js-loader-horizontal-sm d-none" data-loader-horizontal style="opacity: 0;"><span></span></div> -->
               <div class="circle-loader-wrap">
-                <div class="circle-loader">
-                  <a href="ajax/ajax-product-category.json" data-total="30" data-loaded="12" data-load="6" class="lazyload js-circle-loader">
+                <div class="circle-loader" id="load_more_box">
+                  <a href="#" id="custom_load_moree" data-total="30" data-loaded="12" data-load="6" class="lazyload js-circle-loader">
                     <svg id="svg_d" version="1.1" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="50%" cy="50%" r="63" fill="transparent"></circle>
                       <circle class="js-circle-bar" cx="50%" cy="50%" r="63" fill="transparent"></circle>
@@ -734,10 +734,10 @@
                       <circle class="js-circle-bar" cx="50%" cy="50%" r="50" fill="transparent"></circle>
                     </svg>
                     <div class="circle-loader-text">Load More</div>
-                    <div class="circle-loader-text-alt"><span class="js-circle-loader-start"></span>&nbsp;out of&nbsp;<span class="js-circle-loader-end"></span></div>
+                    <div class="circle-loader-text-alt"><span class="js-circle-loader" id="currentProduct_count">6</span>&nbsp;out of&nbsp;<span class="js-circle-loader" id="totalProduct_count">{{$totalProductCount}}</span></div>
                   </a>
                 </div>
-              </div> -->
+              </div>
               <!-- /Products Grid -->
             </div>
           </div>

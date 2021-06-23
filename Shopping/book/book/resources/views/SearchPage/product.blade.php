@@ -1,6 +1,6 @@
 @if(count($inventory)>0)
 @foreach($inventory as $product)
-              <div class="prd prd--style2 prd-labels--max prd-labels-shadow " style="opacity:1;">
+              <div class="prd prd--style2 prd-labels--max prd-labels-shadow my_product " style="opacity:1;">
                   <div class="prd-inside">
                     <div class="prd-img-area">
                       <a href="{{asset('product/'.$product->product_sub_cat.'/'.$product->product_cat.'/'.$product->slug)}}" class="prd-img image-hover-scale image-container">
