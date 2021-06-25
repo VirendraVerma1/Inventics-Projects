@@ -1,5 +1,20 @@
 <script>
 
+  function getQuickViewData(product_id,product_name,product_desripction,product_img_path,product_price)
+  {
+    alert("thids");
+    document.getElementById('quick_view_Modal').style.display='block';
+    // document.getElementById("Product_img_temp").innerHTML=product_id;
+    document.getElementById("Product_name_temp").innerHTML=product_name;
+    document.getElementById("Product_description_temp").innerHTML=product_desripction;
+
+    // document.getElementById("Product_img_temp").src="{{$img_url}}"+product_img_path;
+    document.getElementsById("Product_img_temp").src="http://zcommerce.online/image/images/1624596966.jpeg";
+    document.getElementById("Product_price_temp").innerHTML=product_price;
+  }
+
+
+
 //notification mechanism ------------------------------------------------------------------------------
 
 //get msg from the session if exist(only for success, warning, danger msg type)

@@ -8,20 +8,20 @@
 					<div class="prd-block_main-image mt-0">
 						<div class="prd-block_main-image-holder">
 							<div class="product-main-carousel js-product-main-carousel-qw js-product-main-zoom-container" data-zoom-position="inner">
-								<div data-value="Beige"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-01.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-01.jpg')}}"/></span></div>
-								<div data-value="Beige"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-02.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-02.jpg')}}"/></span></div>
+								<div data-value="Beige"><span class="prd-img"><img  id="Product_img_temp" src="{{asset('images/skins/fashion/product-page/product-01.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-01.jpg')}}"/></span></div>
+								<!-- <div data-value="Beige"><span class="prd-img"><img  id="Product_img_temp" data-src="{{asset('images/skins/fashion/product-page/product-02.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-02.jpg')}}"/></span></div> -->
 								<div class="inner-video js-inner-video">
-									<video preload="metadata" controls="controls" playsinline="playsinline">
+									<!-- <video preload="metadata" controls="controls" playsinline="playsinline">
 										<source src="images/skins/fashion/product-page/product-video.mp4" type="video/mp4">
-									</video>
+									</video> -->
 								</div>
-								<div data-value="Beige"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-03.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-03.jpg')}}"/></span></div>
-								<div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-04.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-04.jpg')}}"/></span></div>
+								<!-- <div data-value="Beige"><span class="prd-img"><img  id="Product_name_temp" data-src="{{asset('images/skins/fashion/product-page/product-03.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-03.jpg')}}"/></span></div> -->
+								<!-- <div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-04.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-04.jpg')}}"/></span></div>
 								<div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-05.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-05.jpg')}}"/></span></div>
 								<div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-06.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-06.jpg')}}"/></span></div>
 								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-07.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-07.jpg')}}"/></span></div>
 								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-08.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-08.jpg')}}"/></span></div>
-								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-09.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-09.jpg')}}"/></span></div>
+								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-09.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-09.jpg')}}"/></span></div> -->
 							</div>
 						</div>
 						<!-- <div class="prd-block_viewed-wrap">
@@ -67,19 +67,19 @@
 							</div>
 						</div>
 						<div class="prd-block_title-wrap">
-							<h1 class="prd-block_title">Leather Pegged Pants</h1>
+							<h1 class="prd-block_title" id="Product_name_temp">Leather Pegged Pants</h1>
 						</div>
 						<div class="prd-block_price">
-							<div class="prd-block_price--actual">$154</div>
-							<div class="prd-block_price-old-wrap">
+							<div class="prd-block_price--actual"  id="Product_price_temp">$154</div>
+							<!-- <div class="prd-block_price-old-wrap">
 								<span class="prd-block_price--old">$184</span>
 								<span class="prd-block_price--text">You Save: <span>$30</span> (<span>16</span>%)</span>
-							</div>
+							</div> -->
 						</div>
 						<div class="prd-block_description prd-block_info_item">
-							<p>Model is 5'9" wearing Size XS TallAnd without further ado, we give you our finest Shopify Theme FOXic! It is a subtle, complex and yet an extremely easy to use template for anyone, who wants to create own website in ANY area of expertise.</p>
+							<p  id="Product_description_temp">Model is 5'9" wearing Size XS TallAnd without further ado, we give you our finest Shopify Theme FOXic! It is a subtle, complex and yet an extremely easy to use template for anyone, who wants to create own website in ANY area of expertise.</p>
 							<div class="mt-1"></div>
-							<div class="row vert-margin-less">
+							<!-- <div class="row vert-margin-less">
 								<div class="col-sm">
 									<ul class="list-marker">
 										<li>100% Polyester</li>
@@ -92,10 +92,10 @@
 										<li>Only non-chlorine</li>
 									</ul>
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div class="prd-block_options">
-							<div class="prd-color swatches">
+							<!-- <div class="prd-color swatches">
 								<div class="option-label">Color:</div>
 								<select class="form-control hidden single-option-selector-modalQuickView" id="SingleOptionSelector-2" data-index="option1">
 									<option value="Beige" selected="selected">Beige</option>
@@ -113,8 +113,8 @@
 										<a href="#" data-value="Red" data-toggle="tooltip" data-placement="top" data-original-title="Red"><span class="image-container image-container--product"><img src="images/skins/fashion/product-page/product-07.jpg')}}" alt=""></span></a>
 									</li>
 								</ul>
-							</div>
-							<div class="prd-size swatches">
+							</div> -->
+							<!-- <div class="prd-size swatches">
 								<div class="option-label">Size:</div>
 								<select class="form-control hidden single-option-selector-modalQuickView" id="SingleOptionSelector-3" data-index="option2">
 									<option value="Small" selected="selected">Small</option>
@@ -126,7 +126,7 @@
 									<li><a href="#" data-value="Medium"><span class="value">Medium</span></a></li>
 									<li><a href="#" data-value="Large"><span class="value">Large</span></a></li>
 								</ul>
-							</div>
+							</div> -->
 						</div>
 						<div class="prd-block_actions prd-block_actions--wishlist">
 							<div class="prd-block_qty">
