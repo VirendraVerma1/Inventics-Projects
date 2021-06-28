@@ -50,7 +50,7 @@ Route::post('/zmall_forgot_pass_otp_verify','Api\ZMallAuthController@forgotpass_
 
 //channels
 // Route::post('/channels','Api\ChannelController@index');
-Route::post('/zstream_createmyChannel','Api\ChannelController@createmyChannel');
+Route::post('/zstream_syncmyChannel','Api\ChannelController@syncmyChannel');
 Route::post('/zstream_showmychannels','Api\ChannelController@showmychannels');
 
 //test
@@ -76,5 +76,18 @@ Route::post('/zstream_get_like_dislike_webinar','Api\WebinarController@get_like_
 // Route::post('/zstream_add_to_cart','Api\CartController@add_to_cart');
 
 //home page routes
-Route::post('/getall_HomePageDetails','Api\CartController@getall_HomePageDetails');
-Route::post('/get_all_nearby_shops','Api\CartController@get_all_nearby_shops');
+Route::post('/zmall_getall_HomePageDetails','Api\CartController@getall_HomePageDetails');
+Route::post('/zmall_get_all_nearby_shops','Api\CartController@get_all_nearby_shops');
+
+//shop routes
+Route::post('/zstream_shopUpdate','Api\ShopController@shopUpdate');
+
+//shop gallery
+Route::post('/zstream_storeShopGallery','Api\ShopController@storeShopGallery');
+Route::post('/zstream_showshopDetails','Api\ShopController@showshopDetails');
+// Route::post('/showShopGallery','Api\ShopController@showShopGallery');
+// Route::post('/zstream_updateShopGalleryImage','Api\ShopController@updateShopGalleryImage');
+Route::post('/zstream_deleteShopGalleryImage','Api\ShopController@deleteShopGalleryImage');
+
+//zmall shop details
+Route::post('/zmall_showshopDetailsZmall','Api\ShopController@showshopDetailsZmall');

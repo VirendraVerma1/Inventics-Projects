@@ -35,6 +35,21 @@ class CartController extends Controller
             $nearbyRange=100;//this is in kilo meter
             
             $nearbyShops=$this->getByDistance($request->latitude,$request->longitude,$nearbyRange);
+            $images=DB::table('images')->where('imageable_type','App\Shop')->get();
+
+            foreach($nearbyShops as $shops)
+            {
+                $image_path="";
+                foreach($images as $img)
+                {
+                    if($shops->id==$img->imageable_id)
+                    {
+                        $image_path=$img->path;
+                        break;
+                    }
+                }
+                $shops->img_path="http://zcommerce.online/image/".$image_path;
+            }
             
             return $this->processResponse('NearbyShops',$nearbyShops,'success','Shops fetched successfully');
         }

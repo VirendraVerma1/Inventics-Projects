@@ -32,7 +32,7 @@
             }
         }
         
-        public function createmyChannel(Request $request)
+        public function syncmyChannel(Request $request)
         {
             if($request->connection_id==null || $request->auth_code==null ||$request->channel_data==null||$request->latitude==null||$request->longitude==null)
             {
@@ -51,17 +51,6 @@
                 $old_channel=DB::table('channel_synced')->where('user_id',$user_id)->where('channel_id',$channel_data->channel_id)->first();
                 $channel_synced=null;
 
-                //check if this user already exist or not
-                $old_user=DB::table('channel_synced')->where('user_id',$user_id)->first();
-                $old_shop=DB::table('shops')->where('owner_id',$user_id)->first();
-                if(!$old_user||!$old_shop)
-                {
-                    //create new shop for this user
-                    $user_data=DB::table('vendors')->where('id',$user_id)->first();
-                    $user_slug=str_replace(" ","-",$user_data->name);
-                    DB::table('shops')->insert(['owner_id' => $user_id, 'name' => $user_data->name, 'slug' => $user_slug, 'email' => $user_data->email, 'lat' => $request->latitude, 'lng' => $request->longitude]);
-                }
-
                 if($old_channel)
                 {
                     //means have channel
@@ -69,6 +58,32 @@
                 }
                 else
                 {
+                    //check if this user already exist or not
+                    // $old_user=DB::table('channel_synced')->where('user_id',$user_id)->first();
+                    $old_shop=DB::table('shops')->where('owner_id',$user_id)->first();
+                    if(!$old_shop)
+                    {
+                        // $url="http://zcommerce.online/api/shop_details?connection_id=WtYNjcTc0RDPjLYmcQvJMzTcLi9Ek3&auth_code=77Wuoqeihd97Onyufncf";
+                        $url='http://zcommerce.online/api/shop_details?connection_id='.$channel_data->connection_id.'&auth_code='.$channel_data->auth_code;
+                        $result=$this->getdata($url);
+                        $data = json_decode($result,true);
+                        
+                        //create new shop for this user
+                        $user_data=DB::table('vendors')->where('id',$user_id)->first();
+                        $user_slug=str_replace(" ","-",$user_data->name);
+                        $new_shop=DB::table('shops')->insertGetId(['owner_id' => $user_id, 'name' => $data['shopdetails']['name'], 'slug' => $data['shopdetails']['slug'], 'email' => $user_data->email, 'lat' => $request->latitude, 'lng' => $request->longitude]);
+                        $nw_shop_id=$new_shop;
+
+                        $img_path=$data['shopdetails']['img_path'];
+                        $img_name=$data['shopdetails']['img_name'];
+                        $extention=$data['shopdetails']['img_size'];
+                        $img_size=$data['shopdetails']['img_extension'];
+                        $order=$data['shopdetails']['img_order'];
+                        $featured=0;
+                        
+                        DB::table('images')->insert(['path' => $img_path, 'name' => $img_name, 'extension' => $extention, 'size' => $img_size, 'order' => $order, 'featured' => $featured, 'imageable_id' => $new_shop, 'imageable_type' => 'App\Shop']);
+                    }
+
                     //create new channel
                     $channel_synced=DB::table('channel_synced')->insert(['channel_id' => $channel_data->channel_id, 'channel_auth_code' => $channel_data->auth_code, 'channel_connection_id' => $channel_data->connection_id, 'user_id' => $user_id, 'synced' => 1]);
                     return $this->processResponse('Channel Synced',$channel_data->channel_id,'success','Synced successfully');
@@ -125,11 +140,14 @@
                 return $this->processResponse('Connection',null,'erroe','Connection not established');
             }
         }
-        
-        public function getSynced()
+       
+        public function uploadImage($image)
         {
-            
+            $random_name=time(); //random name
+            $extension=$image->getClientOriginalExtension();
+            $filename=$random_name.'.'.$extension;
+            Photo::make($image)->save(public_path('image/'. $filename));
+            return $filename;
         }
-        
         
     }
