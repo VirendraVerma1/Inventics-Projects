@@ -1,8 +1,21 @@
 <script>
 
-  function getQuickViewData(product_id,product_name,product_desripction,product_img_path,product_price)
+    $(function(){
+      
+      $(document).ajaxSend(function(){
+          $(".ajaxloader").fadeIn(250);
+      });
+      $(document).ajaxComplete(function(){
+          $(".ajaxloader").fadeOut(250);
+      });
+      
+    });
+
+   
+
+  function getQuickViewData(isWishList,product_id,product_name,product_desripction,product_img_path,product_price)
   {
-    alert("thids");
+   alert(isWishList);
     document.getElementById('quick_view_Modal').style.display='block';
     // document.getElementById("Product_img_temp").innerHTML=product_id;
     document.getElementById("Product_name_temp").innerHTML=product_name;
@@ -11,6 +24,31 @@
     // document.getElementById("Product_img_temp").src="{{$img_url}}"+product_img_path;
     document.getElementsById("Product_img_temp").src="http://zcommerce.online/image/images/1624596966.jpeg";
     document.getElementById("Product_price_temp").innerHTML=product_price;
+
+
+
+    var addClassString="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add";
+    var removeClassString="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off";
+    var addToWishlist = document.getElementById('AddWishList');
+    var removeFromWishlist = document.getElementById('RemoveWishList');
+
+    if(isWishList)
+    {
+      addToWishlist.classList.remove(addClassString);
+      removeFromWishlist.classList.remove(removeClassString);
+
+      addToWishlist.classList.add(removeClassString);
+      removeFromWishlist.classList.add(addClassString);
+    }
+    else
+    {
+      addToWishlist.classList.remove(removeClassString);
+      removeFromWishlist.classList.remove(addClassString);
+
+      addToWishlist.classList.add(addClassString);
+      removeFromWishlist.classList.add(removeClassString);
+    }
+
   }
 
 

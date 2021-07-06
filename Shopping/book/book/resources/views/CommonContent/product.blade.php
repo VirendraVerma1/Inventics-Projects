@@ -31,7 +31,7 @@
                 @else
                   <a  class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" onclick="onwishlistbuttonpressed({{$cat_product[$i]->inventory_id}},{{$cat_product[$i]->product_id}})" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a><a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" onclick="onremovewishlistbuttonpressed({{$cat_product[$i]->inventory_id}},{{$cat_product[$i]->product_id}})"title="Remove From Wishlist"><i class="icon-heart-hover"></i></a>
                 @endif
-                  <a  class="circle-label-qview prd-hide-mobile" onclick="getQuickViewData({{$cat_product[$i]->id}},'{{$cat_product[$i]->name}}','{{$cat_product[$i]->description}}','{{$cat_product[$i]->img_path}}',{{$cat_product[$i]->min_price}})"><i class="icon-eye"></i><span>QUICK VIEW</span></a>
+                  <a  class="circle-label-qview prd-hide-mobile" onclick="getQuickViewData({{$wishadd}},{{$cat_product[$i]->id}},'{{$cat_product[$i]->name}}','{{$cat_product[$i]->description}}','{{$cat_product[$i]->img_path}}',{{$cat_product[$i]->min_price}})"><i class="icon-eye"></i><span>QUICK VIEW</span></a>
                 </div>
               </div>
               <div class="prd-info">
@@ -55,7 +55,7 @@
                 <div class="prd-hovers">
                   <div class="prd-circle-labels">
                     <div><a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a><a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist"><i class="icon-heart-hover"></i></a></div>
-                    <div class="prd-hide-mobile"><a href="#" class="circle-label-qview " onclick="getQuickViewData({{$cat_product[$i]->id}},'{{$cat_product[$i]->name}}','{{$cat_product[$i]->description}}','{{$cat_product[$i]->img_path}}',{{$cat_product[$i]->min_price}})"><i class="icon-eye"></i><span>QUICK VIEW</span></a></div>
+                    <div class="prd-hide-mobile"><a href="#" class="circle-label-qview " onclick="getQuickViewData({{$wishadd}},{{$cat_product[$i]->id}},'{{$cat_product[$i]->name}}','{{$cat_product[$i]->description}}','{{$cat_product[$i]->img_path}}',{{$cat_product[$i]->min_price}})"><i class="icon-eye"></i><span>QUICK VIEW</span></a></div>
                   </div>
                   <div class="prd-price">
                     <div class="price-new">{{$current_currency}} {{$cat_product[$i]->min_price+0}}</div>

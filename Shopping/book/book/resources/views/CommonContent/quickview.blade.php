@@ -140,8 +140,8 @@
 								<button class="btn btn--add-to-cart js-prd-addtocart" data-product='{"name":"Leather Pegged Pants ", "url": "product.html", "path": "images/skins/fashion/products/product-01-1.jpg')}}", "aspect_ratio ": "0.78"}'>Add to cart</button>
 							</div>
 							<div class="btn-wishlist-wrap">
-								<a href="#" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add js-add-wishlist" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a>
-								<a href="#" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off js-remove-wishlist" title="Remove From Wishlist"><i class="icon-heart-hover"></i></a>
+								<a href="#" id="AddWishList" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add" title="Add To Wishlist"><i class="icon-heart-hover"></i></a>
+								<a href="#" id="RemoveWishList" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off" title="Remove From Wishlist"><i class="icon-heart-stroke"></i></a>
 							</div>
 						</div>
 						<div class="prd-block_shopping-info-wrap-compact">

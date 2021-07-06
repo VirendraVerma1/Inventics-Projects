@@ -16,6 +16,5 @@
     @include('Books.booksforknowledge')
     @include('Books.collection')
 
-   @include('CommonContent.quickview')
   </div>
 @endsection

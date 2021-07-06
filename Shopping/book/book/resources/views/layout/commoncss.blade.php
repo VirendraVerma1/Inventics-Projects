@@ -125,4 +125,34 @@ button {
 }
 
 
+/* ajax Loader */
+.ajaxloader {
+    position: fixed;
+      
+      height: 100vh; /* to make it responsive */
+      width: 100vw; /* to make it responsive */
+      overflow: hidden; /*to remove scrollbars */
+      z-index: 99999; /*to make it appear on topmost part of the page */
+      display: block; /*to make it visible only on fadeIn() function */
+      top: 0;
+
+      z-index: 99999; /*to make it appear on topmost part of the page */
+     
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+  .loadbar{
+    max-width: 100%;
+    max-height: 100%;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    position: fixed;
+    right: 0;
+    top: 45%;
+  }
+
+
 </style>
