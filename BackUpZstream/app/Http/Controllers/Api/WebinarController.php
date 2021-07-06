@@ -55,6 +55,7 @@ class WebinarController extends Controller
             foreach($oldwebinar as $webinar)
             {
                 $webinar->inventories_id=json_decode($webinar->inventories_id);
+                $webinar->user_schedule=json_decode($webinar->user_schedule);
                 array_push($newwebinar,$webinar);
             }
             return $this->processResponse('Webinar',$newwebinar,'success','webinar details fetched successfully');
@@ -146,6 +147,93 @@ class WebinarController extends Controller
             $webinar= Webinar::where('user_id',$user_id)->where('room_id',$request->room_id)->first();
             $webinar->delete();
             return $this->processResponse('Webinar',null,'success','Webinar deleted Successfully');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    #endregion
+
+    #region request for book an appointment
+
+    public function show_all_booked_appointment(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null )
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code)');
+        }
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+       
+        if($user_id)
+        {
+            $appointment=DB::table('book_appointment')->get();
+
+            return $this->processResponse('BookAppointment',$appointment,'success','all apointment fetched successfully');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    public function book_an_appointment(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null || $request->date==null|| $request->time==null|| $request->category==null|| $request->room_id==null|| $request->msg==null)
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,date,time,category,room_id,msg)');
+        }
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+       
+        if($user_id)
+        {
+            DB::table('book_appointment')->insert(['user_id' => $user_id, 'date' => $request->date, 'time' => $request->time, 'category' => $request->category, 'room_id' => $request->room_id, 'msg' => $request->msg]);
+              
+            return $this->processResponse('BookAppointment',null,'success','appointment done successfully');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    #endregion
+
+    #region webinar schedules
+
+    public function schedule_my_webinar(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null || $request->room_id==null|| $request->schedule_user_id==null)
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,room_id,schedule_user_id)');
+        }
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+       
+        if($user_id)
+        {
+            $webinar=Webinar::where('user_id',$user_id)->where('room_id',$request->room_id)->first();
+            $user_ids=$webinar->user_schedule;
+            $useridarray=array();
+            if($user_ids!=null)
+            {
+                $useridarray=json_decode($user_ids);
+                array_push($useridarray,(int)$request->schedule_user_id);
+            }
+            else
+            {
+                array_push($useridarray,(int)$request->schedule_user_id);
+            }
+            $webinar->user_schedule=$useridarray;
+            $webinar->save();
+
+            return $this->processResponse('Schedule',$useridarray,'success','scheduled done successfully');
         }
         else
         {

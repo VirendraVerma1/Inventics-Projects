@@ -48,7 +48,7 @@
             if($user_id)
             {
                 //check if current channel is synced
-                $old_channel=DB::table('channel_synced')->where('user_id',$user_id)->where('channel_id',$channel_data->channel_id)->first();
+                $old_channel=DB::table('channel_synced')->where('user_id',$user_id)->where('channel_id',$channel_data->channel_id)->where('synced',1)->first();
                 $channel_synced=null;
 
                 if($old_channel)
@@ -68,20 +68,27 @@
                         $result=$this->getdata($url);
                         $data = json_decode($result,true);
                         
+                        $image_data=$data['shopdetails']['imagedata'];
+                        
                         //create new shop for this user
                         $user_data=DB::table('vendors')->where('id',$user_id)->first();
                         $user_slug=str_replace(" ","-",$user_data->name);
                         $new_shop=DB::table('shops')->insertGetId(['owner_id' => $user_id, 'name' => $data['shopdetails']['name'], 'slug' => $data['shopdetails']['slug'], 'email' => $user_data->email, 'lat' => $request->latitude, 'lng' => $request->longitude]);
                         $nw_shop_id=$new_shop;
 
-                        $img_path=$data['shopdetails']['img_path'];
-                        $img_name=$data['shopdetails']['img_name'];
-                        $extention=$data['shopdetails']['img_size'];
-                        $img_size=$data['shopdetails']['img_extension'];
-                        $order=$data['shopdetails']['img_order'];
-                        $featured=0;
                         
-                        DB::table('images')->insert(['path' => $img_path, 'name' => $img_name, 'extension' => $extention, 'size' => $img_size, 'order' => $order, 'featured' => $featured, 'imageable_id' => $new_shop, 'imageable_type' => 'App\Shop']);
+                        foreach($image_data as $images_d)
+                        {
+                            $img_path=$images_d['path'];
+                            $img_name=$images_d['name'];
+                            $extention=$images_d['extension'];
+                            $img_size=$images_d['size'];
+                            $order=$images_d['order'];
+                            $featured=$images_d['featured'];
+                            
+                            DB::table('images')->insert(['path' => $img_path, 'name' => $img_name, 'extension' => $extention, 'size' => $img_size, 'order' => $order, 'featured' => $featured, 'imageable_id' => $new_shop, 'imageable_type' => 'App\Shop']);
+                        
+                        }
                     }
 
                     //create new channel
@@ -119,7 +126,7 @@
                     $ch->synced=0;
                     $ch->channel_connection_id=null;
                     $ch->channel_auth_code=null;
-                    $temp=DB::table('channel_synced')->where('channel_id',$ch->id)->where('user_id',$user_id)->first();
+                    $temp=DB::table('channel_synced')->where('channel_id',$ch->id)->where('user_id',$user_id)->where('synced',1)->first();
                     if($temp)
                     {
                         $ch->synced=1;

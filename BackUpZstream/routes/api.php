@@ -17,12 +17,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+include('zcommerce_api.php');
+include('ethenicbazaar_api.php');
+
 Route::get('/test','Api\AuthController@test');
 /*new api*/
-Route::post('/zstream_get_connection_id','Api\AuthController@get_connection_id');
+Route::post('/zstream_get_connection_id/0','Api\AuthController@get_connection_id');
 Route::post('/zstream_get_diary_connection_id','DiaryApi\AuthController@get_connection_id');
-Route::post('/zstream_request_otp','Api\AuthController@otp_request');
-Route::post('/zstream_verify_otp','Api\AuthController@verify_otp');
+Route::post('/zstream_request_otp/0','Api\AuthController@otp_request');
+Route::post('/zstream_verify_otp/0','Api\AuthController@verify_otp');
 Route::post('/zstream_verify_otp/{type}','Api\AuthController@verify_otp_new');
 Route::post('/zstream_customer_register','Api\AuthController@customer_register');
 Route::post('/zstream_customer_login','Api\AuthController@customer_login');
@@ -71,6 +74,11 @@ Route::post('/zstream_addlike_dislike','Api\WebinarController@addlike_dislike');
 Route::post('/zstream_get_like_dislike_inventory','Api\WebinarController@get_like_dislike_inventory');
 Route::post('/zstream_get_like_dislike_webinar','Api\WebinarController@get_like_dislike_webinar');
 // Route::post('/removelike_dislike','Api\WebinarController@removelike_dislike');
+
+//webinar request
+Route::post('/zmall_show_all_booked_appointment','Api\WebinarController@show_all_booked_appointment');
+Route::post('/zmall_book_an_appointment','Api\WebinarController@book_an_appointment');
+Route::post('/zmall_schedule_my_webinar','Api\WebinarController@schedule_my_webinar');
 
 //cart routes
 // Route::post('/zstream_add_to_cart','Api\CartController@add_to_cart');

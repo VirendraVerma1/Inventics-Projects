@@ -18,41 +18,47 @@ class ShopController extends Controller
 
     public function showshopDetailsZmall(Request $request)
     {
-        if($request->connection_id==null || $request->auth_code==null)
+        if($request->connection_id==null || $request->shop_id==null)
         {
-            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code)');
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,shop_id)');
         }
 
         $key = $request->connection_id;
-        $auth=$request->auth_code;
         
-        $user_id=$this->validate_connection_auth($key,$auth);
+        $user_id=$this->validate_connection_id($key);
         if($user_id)
         {
-            $shop=Shop::where('owner_id',$user_id)->first();
-            $images_logo=Image::where('imageable_id',$shop->id)->where('imageable_type','App\Shop')->first();
+            $shop=Shop::where('id',$request->shop_id)->first();
+            $images_logo=Image::where('imageable_id',$shop->id)->where('imageable_type','App\Shop')->where('featured',0)->first();
+            $images_banner=Image::where('imageable_id',$shop->id)->where('imageable_type','App\Shop')->where('featured',1)->select(DB::raw("CONCAT('http://zcommerce.online/image/',images.path) AS path"),'id')->get();
             $images_gallery=Image::where('imageable_id',$shop->id)->where('imageable_type','App\ShopGallery')->select(DB::raw("CONCAT('http://zstream.zmall.live/',images.path) AS path"),'id')->get();
             $channelDetails=DB::table('channel_synced')
             ->join('channels', 'channel_synced.channel_id', '=', 'channels.id')
             ->where('channel_synced.channel_id',$shop->channel_id)
-            ->where('channel_synced.user_id',$user_id)
+            ->where('channel_synced.user_id',$shop->owner_id)
             ->select('channels.channel_name as channel_name','channels.channel_url as channel_url','channels.channel_logo as channel_logo','channel_synced.channel_connection_id as channel_connection_id','channel_synced.channel_auth_code as channel_auth_code')
             ->get();
-            
-
             $shop->logo="http://zcommerce.online/image/".$images_logo->path;
-            
 
+
+            $channel_synced=DB::table('channel_synced')->where('user_id',$shop->owner_id)->where('channel_id',$shop->channel_id)->first();
+
+            $url='http://zcommerce.online/api/shop_category_name?connection_id='.$channel_synced->channel_connection_id.'&auth_code='.$channel_synced->channel_auth_code;
+            $result=$this->getdata($url);
+            $data = json_decode($result,true);
+            $related_categories=$data['shopcategory'];
+            
             $gallery_images=array();
             foreach($images_gallery as $gallery)
             {
                 array_push($gallery_images,$gallery->path);
             }
+            $shop->banner=$images_banner;
             $shop->gallery=$images_gallery;
-            
             $shop->channel_data=$channelDetails;
-
-            return $this->processResponse('ShopUpdate',$shop,'success','Shop Updated Successfully');
+            $shop->categories=$related_categories;
+            
+            return $this->processResponse('ZmallShopDetails',$shop,'success','Fetched shop details successfully');
         }
         else
         {
@@ -61,7 +67,6 @@ class ShopController extends Controller
     }
 
     #endregion
-
 
     #region shop update
 
@@ -106,8 +111,8 @@ class ShopController extends Controller
         if($user_id)
         {
             $shop=Shop::where('owner_id',$user_id)->first();
-            $images_logo=Image::where('imageable_id',$shop->id)->where('imageable_type','App\Shop')->first();
-            $images_gallery=Image::where('imageable_id',$shop->id)->where('imageable_type','App\ShopGallery')->get();
+            $images_logo=Image::where('imageable_id',$shop->id)->where('imageable_type','App\Shop')->where('featured',0)->first();
+            $images_gallery=Image::where('imageable_id',$shop->id)->where('imageable_type','App\ShopGallery')->select(DB::raw("CONCAT('http://zstream.zmall.live/',images.path) AS path"),'id')->get();
             
 
             $shop->logo="http://zcommerce.online/image/".$images_logo->path;

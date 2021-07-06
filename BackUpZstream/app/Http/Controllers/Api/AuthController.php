@@ -222,7 +222,7 @@ class AuthController extends Controller
 
 
 
-       public function verify_otp(Request $request)
+    public function verify_otp(Request $request)
    {
        if($this->validate_connection_id($request->connection_id))
        {
