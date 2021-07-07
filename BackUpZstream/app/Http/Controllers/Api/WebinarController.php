@@ -473,5 +473,121 @@ class WebinarController extends Controller
 
     #endregion
 
+    #region webinar dashbord
+
+    public function webinar_dashbord(Request $request)
+    {
+        if($request->connection_id==null || $request->auth_code==null )
+        {
+            return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code)');
+        }
+        $key = $request->connection_id;
+        $auth=$request->auth_code;
+        $user_id=$this->validate_connection_auth($key,$auth);
+       
+        if($user_id)
+        {
+           //get all the webinars
+           $webinar=DB::table('webinar')->get();
+           $channel_data=DB::table('channels')
+           ->join('channel_synced', 'channels.id', '=', 'channel_synced.channel_id')
+           ->where('channel_synced.user_id',$user_id)->get();
+
+           //get webinar counts
+           $current_date = date('Y-m-d');
+           $completed_webinar_count=0;
+           $upcomming_webinar_count=0;
+           $total_webinar_count=0;
+           foreach($webinar as $web)
+           {
+                $subtract = strtotime($current_date) - strtotime($web->webinar_date);
+                if($subtract>0)
+                $completed_webinar_count++;
+                else
+                $upcomming_webinar_count++;
+                
+           }
+           $total_webinar_count=$completed_webinar_count+$upcomming_webinar_count;
+    
+           //merge inventory
+           $webinar=DB::table('webinar')->where('webinar.user_id',$user_id)
+           ->join('channels', 'webinar.channel_id', '=', 'channels.id')
+           ->join('channel_synced', 'channels.id', '=', 'channel_synced.channel_id')
+           ->get();
+           
+           foreach($webinar as $web)
+           {
+                $webinar_ids=json_decode($web->inventories_id);
+                $first_id=$webinar_ids[0];
+                if($web->type==1)
+                {
+                    $url=$this->ZShop_base_url."api/inventory_details";
+                    $data = [
+                        'connection_id' => $web->channel_connection_id,
+                        'auth_code' => $web->channel_auth_code,
+                        'inventory_id' => $first_id
+                    ];
+                    $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+                    if($response->status=="Connection Failure")
+                    $web->inventory_data=[];
+                    elseif($response->status=="success")
+                    $web->inventory_data=$response->inventory_detail;
+
+                }else if($web->type==2)
+                {
+                    $web->inventory_data=[];
+                    // $url=$this->ZShop_base_url."api/inventory_details";
+                    // $data = [
+                    //     'connection_id' => $web->channel_connection_id,
+                    //     'auth_code' => $web->channel_auth_code,
+                    //     'inventory_id' => $first_id
+                    // ];
+                    // $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+                }else{
+                    $web->inventory_data=[];
+                }
+           }
+           $webinar=$this->giveMeUnRepeated($webinar);
+
+           // ------- webinar graph
+           $webinar_channel_id=array();
+           $webinar_channel_counter=array();
+           $channels=DB::table('channels')->get();
+           $webinar_user=DB::table('webinar')->where('user_id',$user_id)->get();
+           $new_channels=array();
+           foreach($channels as $cl)
+           {
+               $counter=0;
+               foreach($webinar_user as $web)
+               {
+                   if($web->channel_id==$cl->id)
+                   {
+                        $counter++;
+                   }
+               }
+               $cl->webinar_count=$counter;
+               if($counter>0)
+               array_push($new_channels,$cl);
+           }
+
+           $webinar_dashbord=[
+               'upcomming_webinar_count'=>$upcomming_webinar_count,
+               'completed_webinar_count'=>$completed_webinar_count,
+               'total_webinar_count'=>$total_webinar_count,
+               'webinars'=>$webinar,
+               'webinar_graph'=>$new_channels
+           ];
+
+            return $this->processResponse('Webinar',$webinar_dashbord,'success','webinar details fetched successfully');
+        }
+        else
+        {
+            return $this->processResponse('Connection',null,'erroe','Connection not established');
+        }
+    }
+
+    #endregion
 
 }

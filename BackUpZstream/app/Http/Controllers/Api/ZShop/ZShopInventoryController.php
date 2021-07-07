@@ -13,6 +13,8 @@ class ZShopInventoryController extends Controller
     
     public function inventory_lists(Request $request)
     {
+        $category_id=$request->category_id;
+
         $url=$this->ZShop_base_url."api/inventory_lists";
         $data = [
             'connection_id' => $request->connection_id,
@@ -35,6 +37,9 @@ class ZShopInventoryController extends Controller
             {
                 $mcl->images=$this->ZShop_base_url."image/".$mcl->images;
             }
+            //TODO
+            //if having the same category then insert in array elses not
+            //$category_id
             $temp= $response->inventory_list;
             return $this->processResponse('inventory_detail',$temp,'success','Product List');
         }

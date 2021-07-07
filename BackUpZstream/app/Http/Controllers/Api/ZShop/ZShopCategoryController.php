@@ -73,6 +73,10 @@ class ZShopCategoryController extends Controller
 
     public function sub_category_list(Request $request)
     {
+        $subgroup_ids=array();
+
+
+
         $url=$this->ZShop_base_url."api/sub_category_list";
         $data = [
             'connection_id' => $request->connection_id,
@@ -105,10 +109,12 @@ class ZShopCategoryController extends Controller
     public function category_list(Request $request)
     {
         $url=$this->ZShop_base_url."api/category_list";
+        $temp_array=array();
+        array_push($temp_array,$request->category_id);
         $data = [
             'connection_id' => $request->connection_id,
             'auth_code' => $request->auth_code,
-            'category_group_id' => $request->category_id
+            'category_group_id' => $temp_array
         ];
 
         $response=$this->get_responseDataFromURLPost($data,$url,true);
@@ -121,7 +127,20 @@ class ZShopCategoryController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
-            $temp= $response->category_list;
+            foreach($response->category_list as $mcl)
+            {
+                $mcl->image=$this->ZShop_base_url.$mcl->image;
+            }
+
+            $newcategory_list=array();
+            foreach($response->category_list as $cl)
+            {
+                if($request->category_id==$cl->category_sub_group_id)
+                {
+                    array_push($newcategory_list,$cl);
+                }
+            }
+            $temp= $newcategory_list;
             return $this->processResponse('category_list',$temp,'success','Product List');
         }
         

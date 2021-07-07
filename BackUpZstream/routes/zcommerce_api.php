@@ -8,6 +8,9 @@ Route::post('/zstream_request_otp/1','Api\ZShop\ZShopController@request_otp_ZSho
 //product
 // Route::post('/zstream_product_lists/1','Api\ZShop\ZShopProductController@product_lists');
 
+//homepage
+Route::post('/zstream_homepage/1','Api\ZShop\ZShopController@home_page');
+
 //inventory
 Route::post('/zstream_inventory_lists/1','Api\ZShop\ZShopInventoryController@inventory_lists');
 Route::post('/zstream_inventory_details/1','Api\ZShop\ZShopInventoryController@inventory_details');

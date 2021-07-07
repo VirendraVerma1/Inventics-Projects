@@ -76,6 +76,7 @@ Route::post('/zstream_get_like_dislike_webinar','Api\WebinarController@get_like_
 // Route::post('/removelike_dislike','Api\WebinarController@removelike_dislike');
 
 //webinar request
+Route::post('/zmall_webinar_dashbord','Api\WebinarController@webinar_dashbord');
 Route::post('/zmall_show_all_booked_appointment','Api\WebinarController@show_all_booked_appointment');
 Route::post('/zmall_book_an_appointment','Api\WebinarController@book_an_appointment');
 Route::post('/zmall_schedule_my_webinar','Api\WebinarController@schedule_my_webinar');

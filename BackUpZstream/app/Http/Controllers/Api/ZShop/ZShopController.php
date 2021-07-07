@@ -101,5 +101,37 @@ class ZShopController extends Controller
     #endregion
 
 
+    #region Hompe Page things
+
+    public function home_page(Request $request)
+    {
+        $url=$this->ZShop_base_url."api/home";
+        $data = [
+            'connection_id' => $request->connection_id,
+            'auth_code' => $request->auth_code
+        ];
+
+        $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+        dd($response);
+        if($response==null)
+        return $this->processResponse('API',null,'error','returning null from refrence api');
+        elseif($response->status=='error')
+        return $this->processResponse('Connection',null,'error','Invalid Session');
+        else if($response->status=="Connection Failure")
+        return $this->processResponse('Connection',null,'error','Invalid Session');
+        else if($response->status=="success")
+        {
+            // foreach($response->master_category_list as $mcl)
+            // {
+            //     $mcl->image=$this->ZShop_base_url."image/".$mcl->image;
+            // }
+            $temp= $response->shop_data->catgeroy;
+            return $this->processResponse('dashbord',$temp,'success','Home Page');
+        }
+        
+    }
+    
+    #endregion
 }
 

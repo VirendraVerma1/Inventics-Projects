@@ -89,6 +89,11 @@ class EthenicBazaarCategoryController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
+            foreach($response->Category_sub_group as $g)
+            {
+                unset($g->description);
+            }
+            
             $temp= $response->Category_sub_group;
             return $this->processResponse('sub_category_list',$temp,'success','Product List');
         }
@@ -97,11 +102,11 @@ class EthenicBazaarCategoryController extends Controller
 
     public function category_list(Request $request)
     {
-        $url=$this->EthenicBazaar_base_url."api/categories_category";
         $data = [
             'connection_id' => $request->connection_id
         ];
-
+        $url=$this->EthenicBazaar_base_url."api/categories_category/".$request->category_id;
+        
         $response=$this->get_responseDataFromURLPost($data,$url,true);
 
         if($response==null)
@@ -112,6 +117,10 @@ class EthenicBazaarCategoryController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
+            foreach($response->Category_sub_group as $g)
+            {
+                unset($g->description);
+            }
             $temp= $response->Category_sub_group;
             return $this->processResponse('category_list',$temp,'success','Product List');
         }
