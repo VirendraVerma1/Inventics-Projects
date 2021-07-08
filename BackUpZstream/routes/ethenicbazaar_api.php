@@ -24,3 +24,6 @@ Route::post('/zstream_order_details/2','Api\EthenicBazaar\EthenicBazaarOrderCont
 Route::post('/zstream_order_status_update/2','Api\EthenicBazaar\EthenicBazaarOrderController@ethenicbazaar_order_status_update');
 Route::post('/zstream_order_status_list/2','Api\EthenicBazaar\EthenicBazaarOrderController@ethenicbazaar_order_status_list');
 Route::post('/zstream_pdf_save/2','Api\EthenicBazaar\EthenicBazaarOrderController@ethenicbazaar_pdf_save');
+
+//cart
+Route::post('/zstream_addtocart/2','Api\EthenicBazaar\EthenicBazaarCartController@addtocart');

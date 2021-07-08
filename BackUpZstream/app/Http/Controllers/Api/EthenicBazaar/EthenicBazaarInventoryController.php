@@ -77,31 +77,24 @@ class EthenicBazaarInventoryController extends Controller
 
     public function inventory_details(Request $request)
     {
-        $url=$this->EthenicBazaar_base_url."api/listing".$cat_slug;
+        $url=$this->EthenicBazaar_base_url."api/listing/".$request->inventory_id;
         $data = [
-            'connection_id' => $request->connection_id,
-            'auth_code' => $request->auth_code,
-            'inventory_id' => $request->inventory_id
+            'connection_id' => $request->connection_id
         ];
         $response=$this->get_responseDataFromURLPost($data,$url,true);
 
-        // dd($response->product_list);
-        
         if($response==null)
         return $this->processResponse('API',null,'error','returning null from refrence api');
-        elseif($response->status=='error')
-        return $this->processResponse('Connection',null,'error','Invalid Session');
-        else if($response->status=="Connection Failure")
-        return $this->processResponse('Connection',null,'error','Invalid Session');
-        else if($response->status=="success")
+        else if($response->data!=null)
         {
-            foreach($response->inventory_detail->images as $mcl)
-            {
-                $mcl->path=$this->EthenicBazaar_base_url.$mcl->path;
-            }
-            $temp= $response->inventory_detail;
+            if($response->data->has_offer==true)
+                {
+                    $response->data->price=$response->data->offer_price;
+                }
+                unset($response->data->offer_price);
+            $temp= $response->data;
+           
             return $this->processResponse('inventory_detail',$temp,'success','Product List');
         }
-        
     }
 }

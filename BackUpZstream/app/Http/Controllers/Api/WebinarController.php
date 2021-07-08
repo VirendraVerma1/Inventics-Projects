@@ -533,17 +533,33 @@ class WebinarController extends Controller
                     $web->inventory_data=[];
                     elseif($response->status=="success")
                     $web->inventory_data=$response->inventory_detail;
+                    else
+                    $web->inventory_data=[];
 
                 }else if($web->type==2)
                 {
+                    $url=$this->EthenicBazaar_base_url."api/listing/".$first_id;
+                    $data = [
+                        'connection_id' => $web->channel_connection_id
+                    ];
+                    $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+                    if($response==null)
                     $web->inventory_data=[];
-                    // $url=$this->ZShop_base_url."api/inventory_details";
-                    // $data = [
-                    //     'connection_id' => $web->channel_connection_id,
-                    //     'auth_code' => $web->channel_auth_code,
-                    //     'inventory_id' => $first_id
-                    // ];
-                    // $response=$this->get_responseDataFromURLPost($data,$url,true);
+                    else if($response->data!=null)
+                    {
+                        if($response->data->has_offer==true)
+                            {
+                                $response->data->price=$response->data->offer_price;
+                            }
+                            unset($response->data->offer_price);
+                        $temp= $response->data;
+                    
+                        $web->inventory_data=$temp->product->image;
+                    }else
+                    {
+                        $web->inventory_data=[];
+                    }
 
                 }else{
                     $web->inventory_data=[];
@@ -580,7 +596,7 @@ class WebinarController extends Controller
                'webinar_graph'=>$new_channels
            ];
 
-            return $this->processResponse('Webinar',$webinar_dashbord,'success','webinar details fetched successfully');
+            return $this->processResponse('Dashboard',$webinar_dashbord,'success','dashboard details fetched successfully');
         }
         else
         {

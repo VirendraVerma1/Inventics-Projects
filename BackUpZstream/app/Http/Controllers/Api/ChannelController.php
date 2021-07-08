@@ -106,9 +106,9 @@
         
         public function showmychannels(Request $request)
         {
-            if($request->connection_id==null || $request->auth_code==null )
+            if($request->connection_id==null || $request->auth_code==null)
             {
-                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code)');
+                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,channel_id)');
             }
             
             $key = $request->connection_id;
@@ -117,8 +117,10 @@
             // dd($user_id);
             if($user_id)
             {
-                
+                if($request->channel_id==null)
                 $mychannels=DB::table('channels')->get();
+                else
+                $mychannels=DB::table('channels')->where('id',$request->channel_id)->get();
                 
                 $channels=array();
                 foreach($mychannels as $ch)
@@ -126,7 +128,9 @@
                     $ch->synced=0;
                     $ch->channel_connection_id=null;
                     $ch->channel_auth_code=null;
+                    
                     $temp=DB::table('channel_synced')->where('channel_id',$ch->id)->where('user_id',$user_id)->where('synced',1)->first();
+                   
                     if($temp)
                     {
                         $ch->synced=1;
