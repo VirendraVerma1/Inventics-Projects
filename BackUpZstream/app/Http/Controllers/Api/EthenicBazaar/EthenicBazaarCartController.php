@@ -25,6 +25,7 @@ class EthenicBazaarCartController extends Controller
         
         $response=$this->get_responseDataFromURLPost($data,$url,true);
         
+        dd($response,$url);
         if($response==null)
         return $this->processResponse('API',null,'error','returning null from refrence api');
         elseif(isset($response->status))

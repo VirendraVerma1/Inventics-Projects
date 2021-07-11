@@ -584,7 +584,7 @@ class WebinarController extends Controller
                    }
                }
                $cl->webinar_count=$counter;
-               if($counter>0)
+               
                array_push($new_channels,$cl);
            }
 
