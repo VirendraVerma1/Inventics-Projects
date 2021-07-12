@@ -13,7 +13,7 @@ class EthenicBazaarOrderController extends Controller
     
     public function ethenicbazaar_orders(Request $request)
     {
-        $url="http://zcommerce.online/api/orders";
+        $url=$this->EthenicBazaar_base_url."api/orders";
         $data = [
             'connection_id' => $request->connection_id,
             'auth_code' => $request->auth_code
@@ -28,26 +28,26 @@ class EthenicBazaarOrderController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
-            // foreach($response->order_data->images as $mcl)
-            // {
-            //     $mcl->path=$this->ethenicbazaar_base_url.$mcl->path;
-            // }
-            $temp= $response->order_data;
+           $temp= $response->Order_list;
             return $this->processResponse('order_data',$temp,'success','Order Data');
         }   
     }
 
     public function ethenicbazaar_order_details(Request $request)//this one
     {
-        $url="http://zcommerce.online/api/order_detail";
+
+        $url=$this->EthenicBazaar_base_url."api/order_details/".$request->order_id;
         $data = [
             'connection_id' => $request->connection_id,
-            'auth_code' => $request->auth_code,
-            'order_id' => $request->order_id
+            'auth_code' => $request->auth_code
         ];
         $response=$this->get_responseDataFromURLPost($data,$url,true);
 
-        dd($response);
+        if(isset($response->data))
+        {
+            $temp= $response->data;
+            return $this->processResponse('order_details',$temp,'success','Order Details');
+        }
         
         if($response==null)
         return $this->processResponse('API',null,'error','returning null from refrence api');
@@ -57,13 +57,37 @@ class EthenicBazaarOrderController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
-            foreach($response->inventory_detail->images as $mcl)
-            {
-                $mcl->path=$this->ethenicbazaar_base_url.$mcl->path;
-            }
-            $temp= $response->inventory_detail;
+            
+            //$temp= $response->inventory_detail;
+            //return $this->processResponse('inventory_detail',$temp,'success','Product List');
+        } else{
+            return $this->processResponse('error',null,'error','error');
+        }  
+    }
+
+    public function ethenicbazaar_order_status(Request $request)//this one
+    {
+        $url=$this->EthenicBazaar_base_url."api/order/status/".$request->order_id;
+        $data = [
+            'connection_id' => $request->connection_id,
+            'auth_code' => $request->auth_code
+        ];
+        $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+        if($response==null)
+        return $this->processResponse('API',null,'error','returning null from refrence api');
+        elseif($response->status=='error')
+        return $this->processResponse('Connection',null,'error','Invalid Session');
+        else if($response->status=="Connection Failure")
+        return $this->processResponse('Connection',null,'error','Invalid Session');
+        else if($response->status=="success")
+        {
+            $temp= $response->data;
             return $this->processResponse('inventory_detail',$temp,'success','Product List');
-        }   
+        } 
+        else{
+            return $this->processResponse('error',null,'error','error');
+        }    
     }
 
     public function ethenicbazaar_order_status_update(Request $request)//this one
