@@ -106,14 +106,14 @@
         
         public function showmychannels(Request $request)
         {
-            if($request->connection_id==null || $request->auth_code==null)
+            if($request->connection_id==null )
             {
-                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id,auth_code,channel_id)');
+                return $this->processResponse('Connection',null,'erroe','missing parameter(connection_id)');
             }
             
             $key = $request->connection_id;
-            $auth=$request->auth_code;
-            $user_id=$this->validate_connection_auth($key,$auth);
+           
+            $user_id=$this->validate_connection_id($key);
             // dd($user_id);
             if($user_id)
             {

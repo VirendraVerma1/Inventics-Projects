@@ -12,6 +12,7 @@ use DB;
 use Illuminate\Support\Str;
 use App\Comment;
 use App\LikeDislike;
+use Illuminate\Support\Collection;
 
 class CartController extends Controller
 {
@@ -32,7 +33,7 @@ class CartController extends Controller
 
         if($user_id)
         {
-            $nearbyRange=100;//this is in kilo meter
+            $nearbyRange=9999;//this is in kilo meter
             
             $nearbyShops=$this->getByDistance($request->latitude,$request->longitude,$nearbyRange);
             $images=DB::table('images')->where('imageable_type','App\Shop')->get();
@@ -50,7 +51,20 @@ class CartController extends Controller
                 }
                 $shops->img_path="http://zcommerce.online/image/".$image_path;
             }
-            
+
+            for($i=0;$i<count($nearbyShops);$i++)
+            {
+                for($j=1;$j<count($nearbyShops)-1;$j++)
+                {
+                    if($nearbyShops[$j]>$nearbyShops[$j+1])
+                    {
+                        $temp=$nearbyShops[$j];
+                        $nearbyShops[$j]=$nearbyShops[$j+1];
+                        $nearbyShops[$j+1]=$temp;
+                    }
+                }
+            }
+
             return $this->processResponse('NearbyShops',$nearbyShops,'success','Shops fetched successfully');
         }
         else
@@ -157,4 +171,6 @@ class CartController extends Controller
             return $this->processResponse('Connection',null,'erroe','Connection not established');
         }
     }
+
+    
 }

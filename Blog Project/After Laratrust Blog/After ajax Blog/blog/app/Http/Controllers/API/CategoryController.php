@@ -33,7 +33,7 @@ class CategoryController extends Controller
                     //generate new authcode because he dont have at the starting time
                     $valid=$this->check_user($request->connection_id,$request->auth_code);
                 }
-                else    //from this we will create a new account and give new auth code for that
+                else  //from this we will create a new account and give new auth code for that
                 {
                     $valid=$this->check_connection($request->connection_id,$request->name,$request->email,$request->password);
                 }

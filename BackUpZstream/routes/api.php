@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 include('zcommerce_api.php');
 include('ethenicbazaar_api.php');
+include('zmall.php');
 
 Route::get('/test','Api\AuthController@test');
 /*new api*/
@@ -35,21 +36,6 @@ Route::post('/zstream_celebrity_login','Api\AuthController@celebrity_login');
 Route::post('/zstream_manager_login','Api\AuthController@manager_login');
 Route::post('/zstream_forgot_pass','Api\AuthController@forgortPassword');
 Route::post('/zstream_forgot_pass_otp_verify','Api\AuthController@forgotpass_otp_verify');
-
-/*new api for zmall*/
-Route::post('/zmall_get_connection_id','Api\ZMallAuthController@get_connection_id');
-Route::post('/zmall_get_diary_connection_id','DiaryApi\ZMallAuthController@get_connection_id');
-Route::post('/zmall_request_otp','Api\ZMallAuthController@otp_request');
-Route::post('/zmall_verify_otp','Api\ZMallAuthController@verify_otp');
-Route::post('/zmall_verify_otp/{type}','Api\ZMallAuthController@verify_otp_new');
-Route::post('/zmall_customer_register','Api\ZMallAuthController@customer_register');
-Route::post('/zmall_customer_login','Api\ZMallAuthController@customer_login');
-Route::post('/zmall_profile/{type}','Api\ZMallAuthController@profile');
-Route::post('/zmall_logout','Api\ZMallAuthController@logout');
-Route::post('/zmall_celebrity_login','Api\ZMallAuthController@celebrity_login');
-Route::post('/zmall_manager_login','Api\ZMallAuthController@manager_login');
-Route::post('/zmall_forgot_pass','Api\ZMallAuthController@forgortPassword');
-Route::post('/zmall_forgot_pass_otp_verify','Api\ZMallAuthController@forgotpass_otp_verify');
 
 //channels
 // Route::post('/channels','Api\ChannelController@index');
@@ -75,18 +61,8 @@ Route::post('/zstream_get_like_dislike_inventory','Api\WebinarController@get_lik
 Route::post('/zstream_get_like_dislike_webinar','Api\WebinarController@get_like_dislike_webinar');
 // Route::post('/removelike_dislike','Api\WebinarController@removelike_dislike');
 
-//webinar request
-Route::post('/zmall_webinar_dashbord','Api\WebinarController@webinar_dashbord');
-Route::post('/zmall_show_all_booked_appointment','Api\WebinarController@show_all_booked_appointment');
-Route::post('/zmall_book_an_appointment','Api\WebinarController@book_an_appointment');
-Route::post('/zmall_schedule_my_webinar','Api\WebinarController@schedule_my_webinar');
-
 //cart routes
 // Route::post('/zstream_add_to_cart','Api\CartController@add_to_cart');
-
-//home page routes
-Route::post('/zmall_getall_HomePageDetails','Api\CartController@getall_HomePageDetails');
-Route::post('/zmall_get_all_nearby_shops','Api\CartController@get_all_nearby_shops');
 
 //shop routes
 Route::post('/zstream_shopUpdate','Api\ShopController@shopUpdate');
@@ -98,5 +74,4 @@ Route::post('/zstream_showshopDetails','Api\ShopController@showshopDetails');
 // Route::post('/zstream_updateShopGalleryImage','Api\ShopController@updateShopGalleryImage');
 Route::post('/zstream_deleteShopGalleryImage','Api\ShopController@deleteShopGalleryImage');
 
-//zmall shop details
-Route::post('/zmall_showshopDetailsZmall','Api\ShopController@showshopDetailsZmall');
+

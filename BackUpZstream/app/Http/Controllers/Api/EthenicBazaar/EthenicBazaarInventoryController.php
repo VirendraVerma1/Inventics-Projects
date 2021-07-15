@@ -18,7 +18,7 @@ class EthenicBazaarInventoryController extends Controller
         //get all the categories
         $data = [
             'connection_id' => $request->connection_id,
-            'auth_code' => $request->auth_code
+            // 'auth_code' => $request->auth_code
             
         ];
         $url=$this->EthenicBazaar_base_url."api/categories_category";
@@ -48,7 +48,7 @@ class EthenicBazaarInventoryController extends Controller
         
         $data = [
             'connection_id' => $request->connection_id,
-            'auth_code' => $request->auth_code,
+            // 'auth_code' => $request->auth_code,
             'page' => $request->page
         ];
         $response=$this->get_responseDataFromURLPost($data,$url,true);
@@ -61,15 +61,31 @@ class EthenicBazaarInventoryController extends Controller
         return $this->processResponse('Connection',null,'error','Invalid Session');
         else if($response->status=="success")
         {
-            foreach($response->Product_listings as $p)
+            if(isset($response->Product_listings))
             {
-                if($p->has_offer==true)
+                foreach($response->Product_listings as $p)
                 {
-                    $p->price=$p->offer_price;
+                    if($p->has_offer==true)
+                    {
+                        $p->price=$p->offer_price;
+                    }
+                    unset($p->offer_price);
                 }
-                unset($p->offer_price);
+                $temp= $response->Product_listings;
             }
-            $temp= $response->Product_listings;
+            if(isset($response->data))
+            {
+                foreach($response->data as $p)
+                {
+                    if($p->has_offer==true)
+                    {
+                        $p->price=$p->offer_price;
+                    }
+                    unset($p->offer_price);
+                }
+                $temp= $response->data;
+            }
+            
             return $this->processResponse('inventory_detail',$temp,'success','Product List');
         }
         
