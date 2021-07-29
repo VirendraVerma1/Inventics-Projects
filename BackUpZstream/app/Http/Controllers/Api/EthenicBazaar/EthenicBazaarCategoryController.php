@@ -105,9 +105,11 @@ class EthenicBazaarCategoryController extends Controller
         $data = [
             'connection_id' => $request->connection_id
         ];
-        $url=$this->EthenicBazaar_base_url."api/categories_category/".$request->category_id;
+        $url=$this->EthenicBazaar_base_url."api/categories_category";
         
         $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+        //dd($response);
 
         if($response==null)
         return $this->processResponse('API',null,'error','returning null from refrence api');

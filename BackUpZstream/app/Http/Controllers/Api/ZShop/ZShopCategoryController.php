@@ -75,8 +75,6 @@ class ZShopCategoryController extends Controller
     {
         $subgroup_ids=array();
 
-
-
         $url=$this->ZShop_base_url."api/sub_category_list";
         $data = [
             'connection_id' => $request->connection_id,
@@ -86,7 +84,6 @@ class ZShopCategoryController extends Controller
         
         $response=$this->get_responseDataFromURLPost($data,$url,true);
 
-        
         if($response==null)
         return $this->processResponse('API',null,'error','returning null from refrence api');
         elseif($response->status=='error')
@@ -108,41 +105,116 @@ class ZShopCategoryController extends Controller
 
     public function category_list(Request $request)
     {
-        $url=$this->ZShop_base_url."api/category_list";
-        $temp_array=array();
-        array_push($temp_array,$request->category_id);
-        $data = [
-            'connection_id' => $request->connection_id,
-            'auth_code' => $request->auth_code,
-            'category_group_id' => $temp_array
-        ];
+        $subgroup_ids=array();
 
-        $response=$this->get_responseDataFromURLPost($data,$url,true);
+                    $temp_array=array();
+                    if($request->category_id!=null)
+                    {
+                        array_push($temp_array,$request->category_id);
+                    }
+                    else{
+                        //getting the subcategories id
+                        $url=$this->ZShop_base_url."api/sub_category_list";
+                        $data = [
+                            'connection_id' => $request->connection_id,
+                            'auth_code' => $request->auth_code,
+                            'category_group_id' => $request->category_group_id
+                        ];
+                        
+                        $response=$this->get_responseDataFromURLPost($data,$url,true);
+                
+                        if($response==null)
+                        return $this->processResponse('API',null,'error','returning null from refrence api');
+                        elseif($response->status=='error')
+                        return $this->processResponse('Connection',null,'error','Invalid Session');
+                        else if($response->status=="Connection Failure")
+                        return $this->processResponse('Connection',null,'error','Invalid Session');
+                        else if($response->status=="success")
+                        {
+                            foreach($response->sub_category_list as $temp)
+                            {
+                                $temp->image=$this->ZShop_base_url."image/"."image/".$temp->image;
+                                array_push($subgroup_ids,(string)$response->sub_category_list[0]->id);
+                            }
+                            
+                            $temp_array=$subgroup_ids;
+                        }
+                    }
 
-        if($response==null)
-        return $this->processResponse('API',null,'error','returning null from refrence api');
-        elseif($response->status=='error')
-        return $this->processResponse('Connection',null,'error','Invalid Session');
-        else if($response->status=="Connection Failure")
-        return $this->processResponse('Connection',null,'error','Invalid Session');
-        else if($response->status=="success")
-        {
-            foreach($response->category_list as $mcl)
-            {
-                $mcl->image=$this->ZShop_base_url.$mcl->image;
-            }
+                    $url=$this->ZShop_base_url."api/category_list";
+                    $data = [
+                        'connection_id' => $request->connection_id,
+                        'auth_code' => $request->auth_code,
+                        'category_group_id' => $temp_array
+                    ];
 
-            $newcategory_list=array();
-            foreach($response->category_list as $cl)
-            {
-                if($request->category_id==$cl->category_sub_group_id)
-                {
-                    array_push($newcategory_list,$cl);
-                }
-            }
-            $temp= $newcategory_list;
-            return $this->processResponse('category_list',$temp,'success','Product List');
-        }
+                    $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+                    if($response==null)
+                    return $this->processResponse('API',null,'error','returning null from refrence api');
+                    elseif($response->status=='error')
+                    return $this->processResponse('Connection',null,'error','Invalid Session');
+                    else if($response->status=="Connection Failure")
+                    return $this->processResponse('Connection',null,'error','Invalid Session');
+                    else if($response->status=="success")
+                    {
+                        foreach($response->category_list as $mcl)
+                        {
+                            $mcl->image=$this->ZShop_base_url.$mcl->image;
+                        }
+
+                        $newcategory_list=array();
+                        foreach($response->category_list as $cl)
+                        {
+                            if($request->category_id!=null)
+                            {
+                                if($request->category_id==$cl->category_sub_group_id)
+                                {
+                                    array_push($newcategory_list,$cl);
+                                }
+                            }else{
+                                array_push($newcategory_list,$cl);
+                            }
+                            
+                        }
+                        $temp= $newcategory_list;
+                        return $this->processResponse('category_list',$temp,'success','Product List');
+                    }
+        // $url=$this->ZShop_base_url."api/category_list";
+        // $temp_array=array();
+        // array_push($temp_array,$request->category_id);
+        // $data = [
+        //     'connection_id' => $request->connection_id,
+        //     'auth_code' => $request->auth_code,
+        //     'category_group_id' => $temp_array
+        // ];
+
+        // $response=$this->get_responseDataFromURLPost($data,$url,true);
+
+        // if($response==null)
+        // return $this->processResponse('API',null,'error','returning null from refrence api');
+        // elseif($response->status=='error')
+        // return $this->processResponse('Connection',null,'error','Invalid Session');
+        // else if($response->status=="Connection Failure")
+        // return $this->processResponse('Connection',null,'error','Invalid Session');
+        // else if($response->status=="success")
+        // {
+        //     foreach($response->category_list as $mcl)
+        //     {
+        //         $mcl->image=$this->ZShop_base_url.$mcl->image;
+        //     }
+
+        //     $newcategory_list=array();
+        //     foreach($response->category_list as $cl)
+        //     {
+        //         if($request->category_id==$cl->category_sub_group_id)
+        //         {
+        //             array_push($newcategory_list,$cl);
+        //         }
+        //     }
+        //     $temp= $newcategory_list;
+        //     return $this->processResponse('category_list',$temp,'success','Product List');
+        // }
         
     }
 }
