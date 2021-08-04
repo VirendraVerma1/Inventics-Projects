@@ -1,0 +1,31 @@
+Helpers
+	-make folder inside app/Helpers
+	-make any file inside it
+	-make any function inside it
+	
+	ex-	
+		<?php
+		
+		function getMyText()
+		{
+			return "Learning";
+		}
+	
+	-inside composer.json
+	
+		"autoload":{
+			"psr-4":{
+				//some text
+			},
+			"files":[
+				"app/Helpers/thatfile.php"
+			]
+		}
+		
+	-run the command
+		composer dump-autoload
+		
+	- now directly use this file in your controller
+	
+		ex-
+			$value=getMyText();
