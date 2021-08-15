@@ -28,6 +28,7 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
+        'fdb3b5f01b3ed818a713c5450349237f' => __DIR__ . '/../..' . '/app/Helpers/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -79,6 +80,8 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         ),
         'R' => 
         array (
+            'Razorpay\\Tests\\' => 15,
+            'Razorpay\\Api\\' => 13,
             'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
@@ -278,6 +281,14 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Razorpay\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/razorpay/razorpay/tests',
+        ),
+        'Razorpay\\Api\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/razorpay/razorpay/src',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -413,6 +424,13 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
     );
 
     public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Requests' => 
+            array (
+                0 => __DIR__ . '/..' . '/rmccue/requests/library',
+            ),
+        ),
         'M' => 
         array (
             'Mockery' => 
@@ -435,7 +453,9 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
 
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Country' => __DIR__ . '/../..' . '/app/Country.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\Api\\ModelTestController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ModelTestController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -444,6 +464,7 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\PlacementPreprationController' => __DIR__ . '/../..' . '/app/Http/Controllers/PlacementPreprationController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -458,6 +479,7 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\State' => __DIR__ . '/../..' . '/app/State.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
@@ -3677,6 +3699,93 @@ class ComposerStaticInit4452f9fdf067cd8cbf5ca5397e2c94a4
         'Ramsey\\Uuid\\UuidFactory' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactory.php',
         'Ramsey\\Uuid\\UuidFactoryInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactoryInterface.php',
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
+        'Razorpay\\Api\\Addon' => __DIR__ . '/..' . '/razorpay/razorpay/src/Addon.php',
+        'Razorpay\\Api\\Api' => __DIR__ . '/..' . '/razorpay/razorpay/src/Api.php',
+        'Razorpay\\Api\\ArrayableInterface' => __DIR__ . '/..' . '/razorpay/razorpay/src/ArrayableInterface.php',
+        'Razorpay\\Api\\Card' => __DIR__ . '/..' . '/razorpay/razorpay/src/Card.php',
+        'Razorpay\\Api\\Collection' => __DIR__ . '/..' . '/razorpay/razorpay/src/Collection.php',
+        'Razorpay\\Api\\Customer' => __DIR__ . '/..' . '/razorpay/razorpay/src/Customer.php',
+        'Razorpay\\Api\\Entity' => __DIR__ . '/..' . '/razorpay/razorpay/src/Entity.php',
+        'Razorpay\\Api\\Errors\\BadRequestError' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/BadRequestError.php',
+        'Razorpay\\Api\\Errors\\Error' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/Error.php',
+        'Razorpay\\Api\\Errors\\ErrorCode' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/ErrorCode.php',
+        'Razorpay\\Api\\Errors\\GatewayError' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/GatewayError.php',
+        'Razorpay\\Api\\Errors\\ServerError' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/ServerError.php',
+        'Razorpay\\Api\\Errors\\SignatureVerificationError' => __DIR__ . '/..' . '/razorpay/razorpay/src/Errors/SignatureVerificationError.php',
+        'Razorpay\\Api\\Invoice' => __DIR__ . '/..' . '/razorpay/razorpay/src/Invoice.php',
+        'Razorpay\\Api\\Order' => __DIR__ . '/..' . '/razorpay/razorpay/src/Order.php',
+        'Razorpay\\Api\\Payment' => __DIR__ . '/..' . '/razorpay/razorpay/src/Payment.php',
+        'Razorpay\\Api\\PaymentPage' => __DIR__ . '/..' . '/razorpay/razorpay/src/PaymentPage.php',
+        'Razorpay\\Api\\Plan' => __DIR__ . '/..' . '/razorpay/razorpay/src/Plan.php',
+        'Razorpay\\Api\\Refund' => __DIR__ . '/..' . '/razorpay/razorpay/src/Refund.php',
+        'Razorpay\\Api\\Request' => __DIR__ . '/..' . '/razorpay/razorpay/src/Request.php',
+        'Razorpay\\Api\\Resource' => __DIR__ . '/..' . '/razorpay/razorpay/src/Resource.php',
+        'Razorpay\\Api\\Settlement' => __DIR__ . '/..' . '/razorpay/razorpay/src/Settlement.php',
+        'Razorpay\\Api\\Subscription' => __DIR__ . '/..' . '/razorpay/razorpay/src/Subscription.php',
+        'Razorpay\\Api\\Token' => __DIR__ . '/..' . '/razorpay/razorpay/src/Token.php',
+        'Razorpay\\Api\\Transfer' => __DIR__ . '/..' . '/razorpay/razorpay/src/Transfer.php',
+        'Razorpay\\Api\\Utility' => __DIR__ . '/..' . '/razorpay/razorpay/src/Utility.php',
+        'Razorpay\\Api\\VirtualAccount' => __DIR__ . '/..' . '/razorpay/razorpay/src/VirtualAccount.php',
+        'Razorpay\\Api\\Webhook' => __DIR__ . '/..' . '/razorpay/razorpay/src/Webhook.php',
+        'Razorpay\\Tests\\RazorpayTest' => __DIR__ . '/..' . '/razorpay/razorpay/tests/RazorpayTest.php',
+        'Requests' => __DIR__ . '/..' . '/rmccue/requests/library/Requests.php',
+        'Requests_Auth' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Auth.php',
+        'Requests_Auth_Basic' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Auth/Basic.php',
+        'Requests_Cookie' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Cookie.php',
+        'Requests_Cookie_Jar' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Cookie/Jar.php',
+        'Requests_Exception' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception.php',
+        'Requests_Exception_HTTP' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP.php',
+        'Requests_Exception_HTTP_304' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/304.php',
+        'Requests_Exception_HTTP_305' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/305.php',
+        'Requests_Exception_HTTP_306' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/306.php',
+        'Requests_Exception_HTTP_400' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/400.php',
+        'Requests_Exception_HTTP_401' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/401.php',
+        'Requests_Exception_HTTP_402' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/402.php',
+        'Requests_Exception_HTTP_403' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/403.php',
+        'Requests_Exception_HTTP_404' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/404.php',
+        'Requests_Exception_HTTP_405' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/405.php',
+        'Requests_Exception_HTTP_406' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/406.php',
+        'Requests_Exception_HTTP_407' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/407.php',
+        'Requests_Exception_HTTP_408' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/408.php',
+        'Requests_Exception_HTTP_409' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/409.php',
+        'Requests_Exception_HTTP_410' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/410.php',
+        'Requests_Exception_HTTP_411' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/411.php',
+        'Requests_Exception_HTTP_412' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/412.php',
+        'Requests_Exception_HTTP_413' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/413.php',
+        'Requests_Exception_HTTP_414' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/414.php',
+        'Requests_Exception_HTTP_415' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/415.php',
+        'Requests_Exception_HTTP_416' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/416.php',
+        'Requests_Exception_HTTP_417' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/417.php',
+        'Requests_Exception_HTTP_418' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/418.php',
+        'Requests_Exception_HTTP_428' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/428.php',
+        'Requests_Exception_HTTP_429' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/429.php',
+        'Requests_Exception_HTTP_431' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/431.php',
+        'Requests_Exception_HTTP_500' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/500.php',
+        'Requests_Exception_HTTP_501' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/501.php',
+        'Requests_Exception_HTTP_502' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/502.php',
+        'Requests_Exception_HTTP_503' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/503.php',
+        'Requests_Exception_HTTP_504' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/504.php',
+        'Requests_Exception_HTTP_505' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/505.php',
+        'Requests_Exception_HTTP_511' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/511.php',
+        'Requests_Exception_HTTP_Unknown' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/Unknown.php',
+        'Requests_Exception_Transport' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/Transport.php',
+        'Requests_Exception_Transport_cURL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/Transport/cURL.php',
+        'Requests_Hooker' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Hooker.php',
+        'Requests_Hooks' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Hooks.php',
+        'Requests_IDNAEncoder' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IDNAEncoder.php',
+        'Requests_IPv6' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IPv6.php',
+        'Requests_IRI' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IRI.php',
+        'Requests_Proxy' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Proxy.php',
+        'Requests_Proxy_HTTP' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Proxy/HTTP.php',
+        'Requests_Response' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Response.php',
+        'Requests_Response_Headers' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Response/Headers.php',
+        'Requests_SSL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/SSL.php',
+        'Requests_Session' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Session.php',
+        'Requests_Transport' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport.php',
+        'Requests_Transport_cURL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport/cURL.php',
+        'Requests_Transport_fsockopen' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport/fsockopen.php',
+        'Requests_Utility_CaseInsensitiveDictionary' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Utility/CaseInsensitiveDictionary.php',
+        'Requests_Utility_FilteredIterator' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Utility/FilteredIterator.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
