@@ -18,11 +18,55 @@ class PlacementPreprationController extends Controller
         return view('Practice.index')->withQues($ques);
     }
 
+
     public function loadData($start,$last)
     {
         return view('Practice.fetch_all_data');
 
     }
+
+    
+
+    public function newindex()
+    {
+        return view('testindex');
+    }
+
+    public function newloader(Request $request)
+    {
+        return view('loader');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.

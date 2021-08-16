@@ -17,6 +17,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::post('/practice/loadData', 'HomeController@loadData')->name('load');
+
+Route::get('/practice/loadData', 'PlacementPreprationController@loadData')->name('load');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('practice','PlacementPreprationController');
+//Route::resource('practice','PlacementPreprationController');
+
+
+
+//loadmore ajax
+Route::get('/practice/newindex', 'PlacementPreprationController@newindex')->name('newindex');
+Route::post('/practice/loadmore', 'PlacementPreprationController@newloader')->name('newindexload');
