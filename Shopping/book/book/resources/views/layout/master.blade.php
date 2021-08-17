@@ -50,12 +50,12 @@ class="template-product has-smround-btns has-loader-bg equal-height has-sm-conta
 @endif
 >
 
-<div class="ajaxloader">
+<!-- <div class="ajaxloader">
       <div class="loadbar" align="center">
         <img src="images/ajax-loader.gif" >
         <p style="color:white"><b>Please Wait...</b></p>
       </div>
-</div>
+</div> -->
 
       @php
         if(isset($tempBooks))
