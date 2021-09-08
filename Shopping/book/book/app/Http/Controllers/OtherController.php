@@ -9,22 +9,26 @@ class OtherController extends Controller
 {
     public function aboutusindex()
     {
+        $this->updatedata();
         return view('AboutUs.index');
     }
 
     public function faqindex()
     {
+        $this->updatedata();
         $faqs=DB::table('faqs')->get();
         return view('Faq.index',compact('faqs'));
     }
 
     public function errorindex()
     {
+        $this->updatedata();
         return view('Error.index');
     }
 
     public function commingsoonindex()
     {
+        $this->updatedata();
         return view('CommingSoon.index');
     
     }

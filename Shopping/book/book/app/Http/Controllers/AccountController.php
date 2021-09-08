@@ -17,6 +17,7 @@ class AccountController extends Controller
 
     public function index($page)
     {
+        $this->updatedata();
         if(!$this->isAuthenticated())
         return redirect()->route('login');
 
@@ -45,7 +46,6 @@ class AccountController extends Controller
         }
         if(!$flag)
         return redirect()->route('Error');
-
         return view('Account.index',compact('page','customer_detail','countries','addresses','orders','wishlist'));
     }
 

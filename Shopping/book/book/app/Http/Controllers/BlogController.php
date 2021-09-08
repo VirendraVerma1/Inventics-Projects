@@ -8,6 +8,7 @@ class BlogController extends Controller
 {
     public function blogcategoryindex()
     {
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();
@@ -22,7 +23,7 @@ class BlogController extends Controller
 
     public function bloglistindex()
     {
-        
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();
@@ -37,7 +38,7 @@ class BlogController extends Controller
 
     public function blogpostindex($slug)
     {
-        
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();

@@ -40,6 +40,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();

@@ -8,6 +8,7 @@ class CategoryController extends Controller
 {
     public function index($slug)
     {
+        $this->updatedata();
         $cat_product=$this->getcategoriesproduct();
         $allBrands=array();
         foreach($cat_product as $product)
@@ -40,7 +41,7 @@ class CategoryController extends Controller
 
     public function ecategoryindex()
     {
-        
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();

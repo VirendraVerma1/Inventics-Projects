@@ -9,6 +9,8 @@ class ProductController extends Controller
 {
     public function productindex($cat_group,$cat_name,$slug)
     {
+        $this->updatedata();
+        
         $cat_product=$this->getcategoriesproduct();
         $product=array();
         foreach($cat_product as $cat)
@@ -33,6 +35,7 @@ class ProductController extends Controller
 
     public function productindexwithSlug($slug)
     {
+        $this->updatedata();
         $cat_product=$this->getcategoriesproduct();
         $product=array();
         foreach($cat_product as $cat)
@@ -63,6 +66,7 @@ class ProductController extends Controller
         ->where('slug',$cat_name)->first();
         
         // $tempProduct=true;
+       
         return view('Product.index',compact('product','product_images','current_subgroup','current_category'));
     }
 }

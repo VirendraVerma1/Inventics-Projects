@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use DB;
 use View;
+use Session;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class Controller extends BaseController
 {
@@ -19,22 +21,53 @@ class Controller extends BaseController
     public $my_banner_category="Fashion";
     public $current_currency="Rs. ";
     public $for_same_cart="different";//it can be same or different at a time
+    public $shop_id=0;
+    public $category_subgroup_id=array();
 
-    public function __construct()
-    {
-        $img_url=$this->server_image_path;
-        $current_currency=$this->getMyCountryCurrency();
-        $categories=$this->getsubgroup();
-        $sub_categories=$this->getsubgroupcategories();
-        $cat_product=$this->getcategoriesproduct();
+    // public function __construct(Request $request)
+    // {
         
-        if($this->isAuthenticated("check"))
-        $wishlist=$this->showAllWishlist();
-        else
-        $wishlist=array();
-        // dd($wishlist,$cat_product);
-        View::share(['img_url' => $img_url, 'current_currency' => $current_currency, 'wishlist' => $wishlist, 'categories' => $categories, 'sub_categories' => $sub_categories, 'cat_product' => $cat_product]);
+        
+    // }
+
+    public function decode_shop_slug($slug)
+    {
+        $shop_data=DB::table('shops')->where('slug',$slug)->first();
+        $shop_category_data=DB::table('shop_categories')->where('shop_id',$shop_data->id)->first();
+        session(['shop' => $shop_data]);
+        session(['subgroup' => $shop_category_data->category_sub_group_id]);
+        
     }
+
+    public function updatedata()
+    {
+        if(session('shop'))
+        {
+            $this->shop_id=session('shop')->id;
+            $this->category_subgroup_id=json_decode(session('subgroup'));
+
+            // dd($this->category_subgroup_id);
+            $img_url=$this->server_image_path;
+            $current_currency=$this->getMyCountryCurrency();
+           
+            $categories=$this->getsubgroup();
+            $sub_categories=$this->getsubgroupcategories();
+            // dd($sub_categories);
+            $cat_product=$this->getcategoriesproduct("latest");
+            $shopdetails=$this->shopdata();
+            $shopcover_img=$this->shopcoverimage();
+            
+            if($this->isAuthenticated("check"))
+            $wishlist=$this->showAllWishlist();
+            else
+            $wishlist=array();
+            // dd($wishlist,$cat_product);
+            View::share(['img_url' => $img_url, 'current_currency' => $current_currency, 'wishlist' => $wishlist, 'categories' => $categories, 'sub_categories' => $sub_categories, 'cat_product' => $cat_product, 'shopdetails' => $shopdetails ,'shopcover_img'=> $shopcover_img]);
+        }
+        
+    }
+
+    
 
     public function getMyCountryCurrency($country_name="India")
     {
@@ -61,9 +94,37 @@ class Controller extends BaseController
     
     public function getsubgroup()
     {
-        return DB::table('category_groups')
+        $subgroup= DB::table('category_groups')
+        // $categories=DB::table('category_groups')
         ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
-        ->where('category_groups.name',$this->my_category)->get();
+        //->where('category_groups.name','Fashion Accessories')->get();
+        ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
+        ->get();
+
+        //check and filter
+        $fetchedcategories=$this->getsubgroupcategories();//name
+        $newsubgroup=array();//name,cat_sub_name
+
+       // dd($fetchedcategories);
+        foreach($subgroup as $sub)
+        {
+            $counter=0;
+            foreach($fetchedcategories as $cat)
+            {
+                if($cat->cat_sub_name==$sub->name)
+                {
+                    $counter++;
+                    break;
+                }
+            }
+
+            if($counter>0)
+            {
+                array_push($newsubgroup,$sub);
+            }
+        }
+
+        return $newsubgroup;
     }
 
     public function getsubgroupcategories($paginate_limit=0)
@@ -76,8 +137,9 @@ class Controller extends BaseController
             ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
             ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
             ->join('images', 'categories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.featured',1)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('categories.*','categories.id as main_id','category_sub_groups.name as cat_sub_name','images.path as img_path')->get();
         }
         else
@@ -86,8 +148,9 @@ class Controller extends BaseController
             ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
             ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
             ->join('images', 'categories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.featured',1)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('categories.*','categories.id as main_id','category_sub_groups.name as cat_sub_name','images.path as img_path')->paginate($paginate_limit);
         
         }
@@ -118,9 +181,11 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
             ->inRandomOrder()->get();
         }
@@ -135,10 +200,34 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('updated_at', 'DESC')->distinct()->get();
+        
+        }elseif($order=="sale")
+        {
+            $inventory= DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shops','inventories.shop_id','=','shops.id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')            
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            // ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('inventories.stock_quantity','>',0)
+            ->where('inventories.shop_id',$this->shop_id)
+            ->where('inventories.sale_price','>','inventories.offer_price')
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
+            ->select('inventories.*','inventories.title as name','inventories.sale_price as min_price','images.path as img_path','inventories.sale_price as max_price','categories.slug as product_cat','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name','shops.legal_name as shop_name')
             ->orderBy('updated_at', 'DESC')->distinct()->get();
         
         }
@@ -558,6 +647,42 @@ class Controller extends BaseController
     //--------------------------------------------------check out page functions end
     #endregion
 
+
+
+    #region shops
+
+    public function shopdata()
+    {
+        $shop=DB::table('shops')
+        ->join('shop_categories','shop_categories.shop_id','=','shops.id')
+        ->join('users','users.shop_id','=','shop_categories.shop_id')
+        ->join('addresses','addresses.phone','=','users.phone')
+        ->join('images', 'shops.id', '=', 'images.imageable_id')
+        ->where('images.imageable_type','App\Shop')
+        ->where('images.featured',0)
+        ->where('shops.legal_name','FashionInsta')
+        ->select('shops.*','shops.name as Name','shops.legal_name as shop_name','shops.email as emaildetail','users.phone as mob_no','addresses.address_title as addr_name','addresses.address_line_1 as primaryaddress','addresses.city as addr_city','images.path as img_path','images.name as img_name')->first();
+      // dd($shop);
+        return $shop;
+        
+
+    }
+   
+    public function shopcoverimage()
+    {
+        $shop=DB::table('images')
+        ->where('imageable_id',213)
+        ->where('images.imageable_type','App\Shop')
+        ->where('images.featured',1)
+       
+        ->select('images.path as cover_img','images.name as img_name')->first();
+        return $shop;
+
+    }
+
+
+    #endregion
+
     #region common functions
     
     public function giveMeUnRepeated($inventory) 
@@ -572,7 +697,7 @@ class Controller extends BaseController
             $flag=false;
             foreach($unique_id as $id)
             {
-                if($inv->main_id==$id)
+                if($inv->id==$id)
                 {
                     $flag=true;
                     break;
@@ -581,7 +706,7 @@ class Controller extends BaseController
             if($flag==false)
             {
                 array_push($new_inventory,$inv);
-                array_push($unique_id,$inv->main_id);
+                array_push($unique_id,$inv->id);
             }
         }
         return $new_inventory;

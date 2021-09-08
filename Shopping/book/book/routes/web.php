@@ -49,7 +49,9 @@ Route::get('blogpost/{slug}','BlogController@blogpostindex')->name('BlogPost');
 
 Route::get('product/{catgroup}/{catname}/{slug}','ProductController@productindex')->name('Product');
 Route::get('product_this/{slug}','ProductController@productindexwithSlug')->name('ProductCurrent');
-Route::get('/','BooksController@index')->name('Books');
+Route::get('shop/{slug}/{id?}','CosmeticsController@index')->name('homepage');
+Route::get('/','CosmeticsController@index')->name('Books');
+// Route::get('/','CosmeticsController@index')->name('Cosmetics');
 Route::get('books/product/{name}/{cat}/{sub}','BooksController@product_cat_Index')->name('BookProduct');
 Route::resource('books','BooksController');
 

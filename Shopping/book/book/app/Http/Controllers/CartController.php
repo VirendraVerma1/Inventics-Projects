@@ -12,7 +12,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        
+        $this->updatedata();
         $cart_data=array();
         if($this->isAuthenticated())
         {
@@ -30,7 +30,6 @@ class CartController extends Controller
         
 
         //dd($categories);
-        
         return view('Cart.CartPage.index',compact('cart_data','cart_ids','inventory_images'));
     }
 
@@ -130,6 +129,7 @@ class CartController extends Controller
 
     public function getMiniCartItemdata()
     {
+        $this->updatedata();
         //check auth
         if(!$this->isAuthenticated())
         {

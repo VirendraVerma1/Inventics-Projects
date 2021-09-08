@@ -16,6 +16,7 @@ class CheckOutController extends Controller
     // <div class="row  border border-dark mt-3 p-2 ">
     public function index($cart_id)
     {
+        $this->updatedata();
         //this function will work
         $cart=Cart::where('id',$cart_id)->first();
         if(!$this->isAuthenticated())
@@ -40,7 +41,7 @@ class CheckOutController extends Controller
             Cart::where('id',$cart->id)->update(['shipping_zone_id'=>$shipping_data->shipping_zone_id,'shipping_rate_id'=>$shipping_data->id,'ship_to'=>$addresses_primary->country_id]);
             
         }
-
+        
         return view('Cart.CheckOut2.index',compact('addresses','countries','cart','cart_data','shipping_data'));
     }
 

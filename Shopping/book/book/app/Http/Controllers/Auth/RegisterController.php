@@ -74,6 +74,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
+        $this->updatedata();
         $img_url=$this->server_image_path;
         $current_currency=$this->current_currency;
         $categories=$this->getsubgroup();

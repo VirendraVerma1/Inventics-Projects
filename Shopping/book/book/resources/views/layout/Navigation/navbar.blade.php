@@ -8,7 +8,8 @@
             <!-- /Menu Toggle -->
           </div>
           <div class="col-auto hdr-logo">
-            <a href="{{route('Books')}}" class="logo"><img src="{{asset('images/skins/fashion/logo.png')}}" alt="Logo"></a>
+            <a href="{{route('Books')}}" class="logo"><img src="{{$img_url}}{{$shopdetails->img_path}}" style="height: 60px;
+                    width: auto;" alt="Logo"></a>
           </div>
           <!--navigation-->
           <div class="hdr-nav hide-mobile nav-holder-s">
@@ -66,7 +67,8 @@
               <!-- /Menu Toggle -->
             </div>
             <div class="col-auto hdr-logo">
-              <a href="{{route('Books')}}" class="logo"><img srcset="{{asset('images/skins/books/logo-books.png')}} 1x, {{asset('images/skins/books/logo-books2x.png')}} 2x" alt="Logo"></a>
+              <a href="{{route('Books')}}" class="logo"><img srcset="{{$img_url}}{{$shopdetails->img_path}}" style="height: 60px;
+                    width: auto;" alt="Logo"></a>
             </div>
             <!--navigation-->
             @include('layout.Navigation.navigationlink')

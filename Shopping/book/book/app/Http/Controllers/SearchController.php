@@ -12,6 +12,7 @@ class SearchController extends Controller
 
     public function index(Request $request)
     {
+        $this->updatedata();
         $name=($request->search) ? $request->search:'';
         $tempinventory=$this->searchinventory($name,"Latest");
 
@@ -55,6 +56,7 @@ class SearchController extends Controller
 
     public function get_filtered_product(Request $request)
     {
+        $this->updatedata();
         // dd($request->shortbyfilter);
         //get all the searched item from the name
         $name=($request->name) ? $request->name:'';
@@ -114,7 +116,7 @@ class SearchController extends Controller
         
         $viewLimit=count($completeinventory);
         $return_HTML=view('SearchPage.product',compact('inventory'))->render();
-        return json_encode(array('data'=>$return_HTML,'viewLimit'=>$viewLimit));;
+        return json_encode(array('data'=>$return_HTML,'viewLimit'=>$viewLimit));
     }
 
 }

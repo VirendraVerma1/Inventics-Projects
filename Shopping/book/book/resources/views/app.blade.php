@@ -88,7 +88,7 @@
               <!-- /Menu Toggle -->
             </div>
             <div class="col-auto hdr-logo">
-              <a href="index.html" class="logo"><img srcset="images/skins/books/logo-books.png 1x, images/skins/books/logo-books2x.png 2x" alt="Logo"></a>
+              <a href="index.html" class="logo"><img srcset="{{$img_url}}{{$shopdetails->img_path}}" alt="Logo"></a>
             </div>
             <!--navigation-->
             <div class="hdr-nav hide-mobile nav-holder justify-content-center">
