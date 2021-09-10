@@ -80,20 +80,9 @@ class="template-product has-smround-btns has-loader-bg equal-height has-sm-conta
     
     
     @include('layout.mobilemenu')
+    @include('layout.footer.second_footer')
     
-    @php
-        if(isset($tempBooks))
-        {
-          if($tempBooks)
-          {
-            @endphp @include('layout.footer.footer') @php
-          }
-        }
-        else
-        {
-          @endphp @include('layout.footer.second_footer') @php
-        }
-    @endphp
+    
  
     @php
         if(isset($tempBooks))
@@ -108,7 +97,7 @@ class="template-product has-smround-btns has-loader-bg equal-height has-sm-conta
    {{-- @include('layout.paymentnotification') --}}
    @include('layout.customnotification')
     @guest
-    @include('layout.popupnews')
+    {{--@include('layout.popupnews')--}}
     @endguest
 
     {{--@include('CommonContent.quickview1')--}}

@@ -62,6 +62,7 @@ class Controller extends BaseController
             else
             $wishlist=array();
             // dd($wishlist,$cat_product);
+
             View::share(['img_url' => $img_url, 'current_currency' => $current_currency, 'wishlist' => $wishlist, 'categories' => $categories, 'sub_categories' => $sub_categories, 'cat_product' => $cat_product, 'shopdetails' => $shopdetails ,'shopcover_img'=> $shopcover_img]);
         }
         
@@ -248,11 +249,19 @@ class Controller extends BaseController
 
     public function getBanners()
     {
-        return DB::table('banners')
-        ->join('images', 'banners.id', '=', 'images.imageable_id')
-        ->where('banners.store_type',$this->my_banner_category)
-        // ->where('images.imageable_type','App\Banner')
-        ->select('banners.*','images.path as img_path')->get();
+        $category_ids=$this->category_subgroup_id;
+        if(count($category_ids)>0)
+        {
+            return DB::table('banners')
+            ->join('images', 'banners.id', '=', 'images.imageable_id')
+            ->where('banners.sub_category_list',json_encode($category_ids[0]))
+            ->where('banners.group_id','promo_banner')
+            ->select('banners.*','images.path as img_path')->get();
+        }
+        else{
+            return array();
+        }
+        
     }
 
     public function getSlider()
@@ -262,6 +271,20 @@ class Controller extends BaseController
         ->where('sliders.store_type','Sports')
         // ->where('images.imageable_type','App\Slider')
         ->select('sliders.*','images.path as img_path')->first();
+    }
+    
+
+    public function category_with_images()
+    {
+        return DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('images', 'categories.id', '=', 'images.imageable_id')
+            ->where('images.imageable_type','App\Category')
+            ->where('images.featured',1)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
+            ->select('categories.*','images.path as img_path')
+            ->take(3)->get();
     }
 
     #region blog
@@ -366,10 +389,12 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
             ->where('inventories.title', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
             ->orderBy('inventories.updated_at', 'DESC')->get();
     
@@ -383,10 +408,12 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
             ->where('categories.name', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
             ->orderBy('inventories.updated_at', 'DESC')->get();
         }
@@ -401,10 +428,12 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
             ->where('inventories.title', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
             ->orderBy('inventories.sale_price', 'ASC')->get();
     
@@ -418,12 +447,53 @@ class Controller extends BaseController
             ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
             ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
-            ->where('category_groups.name',$this->my_category)
+            // ->where('category_groups.name',$this->my_category)
             ->where('images.imageable_type','App\Inventory')
             ->where('images.featured',1)
             ->where('categories.name', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
             ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
             ->orderBy('inventories.sale_price', 'ASC')->get();
+        }
+        else if($filter=="HighPrice")
+        {
+            $catname_onthebasisofname= DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            // ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('inventories.title', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.sale_price', 'DESC')->get();
+    
+            //on the basis of category name
+            $catname_onthebasisofcategory=DB::table('category_groups')
+            ->join('category_sub_groups', 'category_groups.id', '=', 'category_sub_groups.category_group_id')
+            ->join('categories', 'category_sub_groups.id', '=', 'categories.category_sub_group_id')
+            ->join('category_product', 'categories.id', '=', 'category_product.category_id')
+            ->join('products', 'category_product.product_id', '=', 'products.id')
+            ->join('inventories', 'products.id', '=', 'inventories.product_id')
+            ->join('shipping_zones', 'inventories.shop_id', '=', 'shipping_zones.shop_id')
+            ->join('shipping_rates', 'shipping_zones.id', '=', 'shipping_rates.shipping_zone_id')
+            ->join('images', 'inventories.id', '=', 'images.imageable_id')
+            // ->where('category_groups.name',$this->my_category)
+            ->where('images.imageable_type','App\Inventory')
+            ->where('images.featured',1)
+            ->where('categories.name', 'like', "%$name%")
+            ->where('inventories.shop_id',$this->shop_id)
+            ->whereIn('category_sub_groups.id',$this->category_subgroup_id)
+            ->select('inventories.*','inventories.id as inventory_id','inventories.id as main_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price','categories.slug as product_cat','categories.name as category_name','category_sub_groups.slug as product_sub_cat','category_sub_groups.name as cat_sub_name')
+            ->orderBy('inventories.sale_price', 'DESC')->get();
         }
         
 
@@ -493,7 +563,7 @@ class Controller extends BaseController
     {
         if($cart==null)
         {
-            return DB::table('carts')
+            $cart_items= DB::table('carts')
             ->join('cart_items', 'cart_items.cart_id', '=', 'carts.id')
             ->join('inventories', 'cart_items.inventory_id', '=', 'inventories.id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
@@ -506,7 +576,7 @@ class Controller extends BaseController
         }
         else
         {
-            return DB::table('carts')
+            $cart_items= DB::table('carts')
             ->join('cart_items', 'cart_items.cart_id', '=', 'carts.id')
             ->join('inventories', 'cart_items.inventory_id', '=', 'inventories.id')
             ->join('images', 'inventories.id', '=', 'images.imageable_id')
@@ -518,7 +588,8 @@ class Controller extends BaseController
             ->orderBy('carts.created_at', 'DESC')
             ->get();
         }
-         
+        $cart_items=$this->giveMeUnRepeated_items($cart_items);
+        return $cart_items;
     }
 
     //--------------------------------------------------------------------cart list page query--end
@@ -616,7 +687,7 @@ class Controller extends BaseController
 
     public function showAllWishlist()
     {
-        return DB::table('wishlists')
+        $wishlist= DB::table('wishlists')
         ->join('inventories', 'wishlists.inventory_id', '=', 'inventories.id')
         ->join('images', 'inventories.id', '=', 'images.imageable_id')
         ->join('products', 'wishlists.product_id', '=', 'products.id')
@@ -625,6 +696,8 @@ class Controller extends BaseController
         ->where('wishlists.customer_id',$this->isAuthenticated("id"))
         ->select('inventories.*','inventories.id as inventory_id','products.id as product_id','inventories.title as name','images.path as img_path','inventories.sale_price as min_price')
         ->inRandomOrder()->get();
+
+        return $this->giveMeUnRepeated($wishlist);
     }
 
     #endregion
@@ -660,21 +733,20 @@ class Controller extends BaseController
         ->join('images', 'shops.id', '=', 'images.imageable_id')
         ->where('images.imageable_type','App\Shop')
         ->where('images.featured',0)
-        ->where('shops.legal_name','FashionInsta')
+        ->where('shops.slug',session('shop')->slug)
         ->select('shops.*','shops.name as Name','shops.legal_name as shop_name','shops.email as emaildetail','users.phone as mob_no','addresses.address_title as addr_name','addresses.address_line_1 as primaryaddress','addresses.city as addr_city','images.path as img_path','images.name as img_name')->first();
       // dd($shop);
         return $shop;
-        
-
     }
+
    
     public function shopcoverimage()
     {
         $shop=DB::table('images')
-        ->where('imageable_id',213)
+        ->join('shops','images.imageable_id','=','shops.id')
         ->where('images.imageable_type','App\Shop')
         ->where('images.featured',1)
-       
+        ->where('shops.slug',session('shop')->slug)
         ->select('images.path as cover_img','images.name as img_name')->first();
         return $shop;
 
@@ -707,6 +779,34 @@ class Controller extends BaseController
             {
                 array_push($new_inventory,$inv);
                 array_push($unique_id,$inv->id);
+            }
+        }
+        return $new_inventory;
+    }
+
+
+    public function giveMeUnRepeated_items($inventory) 
+    {
+        // NOTE:
+        // passing array must have main_id parameter else it will not work
+        // or replace main_id from your id 
+        $new_inventory=array();
+        $unique_id=array();
+        foreach($inventory as $inv)
+        {
+            $flag=false;
+            foreach($unique_id as $id)
+            {
+                if($inv->inventory_id==$id)
+                {
+                    $flag=true;
+                    break;
+                }
+            }
+            if($flag==false)
+            {
+                array_push($new_inventory,$inv);
+                array_push($unique_id,$inv->inventory_id);
             }
         }
         return $new_inventory;

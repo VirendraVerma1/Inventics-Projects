@@ -1,7 +1,7 @@
 <div class="holder">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-18 col-lg-12">
+          <div class="col-md-18 col-lg-12" style="width:600px;">
             <h2 class="text-center">Log In</h2>
             <div class="form-wrapper">
               <p>To access your whishlist, address book and contact preferences and to take advantage of our speedy checkout, create an account with us now.</p>

@@ -1,165 +1,134 @@
-<div class="quickView quick_view_Modal" id="quick_view_Modal" style="display: none;" align="center">
-<span onclick="document.getElementById('quick_view_Modal').style.display='none'" class="close" title="Close Modal">&times;</span>
-<div class="modal--quickview modal-quickview--classic fancybox-content customQuickView" align="center" id="modalQuickView" style="display: block;">
-    <div class="modal-content">
+<div id="quickView" class="ModelquickView" align="center">
+    <div class="ModelquickView-content">
+        <span class="close">&times;</span>
         <div class="prd-block prd-block--prv-bottom" id="prdGalleryModal">
             <div class="row no-gutters">
-                <div class="col-lg-9 quickview-gallery" style="opacity: 1;">
-					<div class="prd-block_main-image mt-0">
-						<div class="prd-block_main-image-holder">
-							<div class="product-main-carousel js-product-main-carousel-qw js-product-main-zoom-container" data-zoom-position="inner">
-								<div data-value="Beige"><span class="prd-img"><img  id="Product_img_temp" src="{{asset('images/skins/fashion/product-page/product-01.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-01.jpg')}}"/></span></div>
-								<!-- <div data-value="Beige"><span class="prd-img"><img  id="Product_img_temp" data-src="{{asset('images/skins/fashion/product-page/product-02.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-02.jpg')}}"/></span></div> -->
-								<div class="inner-video js-inner-video">
-									<!-- <video preload="metadata" controls="controls" playsinline="playsinline">
-										<source src="images/skins/fashion/product-page/product-video.mp4" type="video/mp4">
-									</video> -->
-								</div>
-								<!-- <div data-value="Beige"><span class="prd-img"><img  id="Product_name_temp" data-src="{{asset('images/skins/fashion/product-page/product-03.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-03.jpg')}}"/></span></div> -->
-								<!-- <div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-04.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-04.jpg')}}"/></span></div>
-								<div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-05.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-05.jpg')}}"/></span></div>
-								<div data-value="Black"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-06.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-06.jpg')}}"/></span></div>
-								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-07.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-07.jpg')}}"/></span></div>
-								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-08.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-08.jpg')}}"/></span></div>
-								<div data-value="Red"><span class="prd-img"><img data-src="{{asset('images/skins/fashion/product-page/product-09.jpg')}}" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-09.jpg')}}"/></span></div> -->
-							</div>
-						</div>
-						<!-- <div class="prd-block_viewed-wrap">
-							<div class="prd-block_viewed">
-								<i class="icon-watch"></i>
-								<span><span class="quickview-hidden">This product was</span>Viewed 25 times within 24 hours</span>
-							</div>
-							<div class="prd-block_viewed prd-block_viewed--real-time">
-								<div class="prd-block_visitiors">Real time <span class="prd-block_visitiors-count js-visitors-now" data-vmax="100" data-vmin="10">21</span> visitor right now!</div>
-								<i class="icon-user"></i>
-							</div>
-						</div> -->
-					</div>
-					<!-- <div class="product-previews-wrapper">
-						<div class="product-previews-carousel js-product-previews-carousel-qw" data-slick='{"slidesToShow": 3, "responsive": [{"breakpoint": 992,"settings": {"slidesToShow": 3 }},{"breakpoint": 480,"settings": {"slidesToShow": 3 }}]}'>
-							<a href="#" data-value="Beige"><img src="images/skins/fashion/product-page/product-01.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Beige"><img src="images/skins/fashion/product-page/product-02.jpg')}}" alt=""/></a>
-							<a href="#" class="prd-block_video-link video-slide">
-								<span><span><i class="icon icon-play"></i><img src="images/skins/fashion/product-page/product-video.jpg')}}" alt=""/></span></span>
-							</a>
-							<a href="#" data-value="Beige"><img src="images/skins/fashion/product-page/product-03.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Black"><img src="images/skins/fashion/product-page/product-04.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Black"><img src="images/skins/fashion/product-page/product-05.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Black"><img src="images/skins/fashion/product-page/product-06.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Red"><img src="images/skins/fashion/product-page/product-07.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Red"><img src="images/skins/fashion/product-page/product-08.jpg')}}" alt=""/></a>
-							<a href="#" data-value="Red"><img src="images/skins/fashion/product-page/product-09.jpg')}}" alt=""/></a>
-						</div>
-					</div> -->
+                <div class="col-lg-9 " style="border-right:solid">
+                    <div class="prd-block_main-image mt-0">
+                        <div class="prd-block_main-image-holder">
+                            <div class="product-main-carousel js-product-main-carousel-qw js-product-main-zoom-container" data-zoom-position="inner">
+                                <div data-value="Beige"><span class="prd-img"><img id="product_image" src="images/skins/fashion/product-page/product-01.jpg" class="lazyload fade-up elzoom" alt="" data-zoom-image="images/skins/fashion/product-page/product-01.jpg"/></span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-				<div class="col-lg-9 quickview-info">
-					<div class="prd-block_info prd-block_info--style2">
-						<div class="prd-block_countdown js-countdown-wrap prd-block_info_item countdown-init">
-							<div class="countdown-box-full-text-modal">
-								<div class="row no-gutters align-items-center">
-									<div class="col-sm-auto text-center">
-										<div class="countdown js-countdown" data-countdown="2020/12/31"><span><span>37</span>DAYS</span><span><span>06</span>HRS</span><span><span>44</span>MIN</span><span><span>23</span>SEC</span></div>
-									</div>
-									<div class="col">
-										<div class="countdown-txt"> TIME IS RUNNING OUT!</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="prd-block_title-wrap">
-							<h1 class="prd-block_title" id="Product_name_temp">Leather Pegged Pants</h1>
-						</div>
-						<div class="prd-block_price">
-							<div class="prd-block_price--actual"  id="Product_price_temp">$154</div>
-							<!-- <div class="prd-block_price-old-wrap">
-								<span class="prd-block_price--old">$184</span>
-								<span class="prd-block_price--text">You Save: <span>$30</span> (<span>16</span>%)</span>
-							</div> -->
-						</div>
-						<div class="prd-block_description prd-block_info_item">
-							<p  id="Product_description_temp">Model is 5'9" wearing Size XS TallAnd without further ado, we give you our finest Shopify Theme FOXic! It is a subtle, complex and yet an extremely easy to use template for anyone, who wants to create own website in ANY area of expertise.</p>
-							<div class="mt-1"></div>
-							<!-- <div class="row vert-margin-less">
-								<div class="col-sm">
-									<ul class="list-marker">
-										<li>100% Polyester</li>
-										<li>Lining:100% Viscose</li>
-									</ul>
-								</div>
-								<div class="col-sm">
-									<ul class="list-marker">
-										<li>Do not dry clean</li>
-										<li>Only non-chlorine</li>
-									</ul>
-								</div>
-							</div> -->
-						</div>
-						<div class="prd-block_options">
-							<!-- <div class="prd-color swatches">
-								<div class="option-label">Color:</div>
-								<select class="form-control hidden single-option-selector-modalQuickView" id="SingleOptionSelector-2" data-index="option1">
-									<option value="Beige" selected="selected">Beige</option>
-									<option value="Black">Black</option>
-									<option value="Red">Red</option>
-								</select>
-								<ul class="images-list js-size-list" data-select-id="SingleOptionSelector-2">
-									<li class="active">
-										<a href="#" data-value="Beige" data-toggle="tooltip" data-placement="top" data-original-title="Beige"><span class="image-container image-container--product"><img src="images/skins/fashion/product-page/product-01.jpg')}}" alt=""></span></a>
-									<li>
-									<li>
-										<a href="#" data-value="Black" data-toggle="tooltip" data-placement="top" data-original-title="Black"><span class="image-container image-container--product"><img src="images/skins/fashion/product-page/product-04.jpg')}}" alt=""></span></a>
-									<li>
-									<li>
-										<a href="#" data-value="Red" data-toggle="tooltip" data-placement="top" data-original-title="Red"><span class="image-container image-container--product"><img src="images/skins/fashion/product-page/product-07.jpg')}}" alt=""></span></a>
-									</li>
-								</ul>
-							</div> -->
-							<!-- <div class="prd-size swatches">
-								<div class="option-label">Size:</div>
-								<select class="form-control hidden single-option-selector-modalQuickView" id="SingleOptionSelector-3" data-index="option2">
-									<option value="Small" selected="selected">Small</option>
-									<option value="Medium">Medium</option>
-									<option value="Large">Large</option>
-								</select>
-								<ul class="size-list js-size-list" data-select-id="SingleOptionSelector-3">
-									<li class="active"><a href="#" data-value="Small"><span class="value">Small</span></a></li>
-									<li><a href="#" data-value="Medium"><span class="value">Medium</span></a></li>
-									<li><a href="#" data-value="Large"><span class="value">Large</span></a></li>
-								</ul>
-							</div> -->
-						</div>
-						<div class="prd-block_actions prd-block_actions--wishlist">
-							<div class="prd-block_qty">
-								<div class="qty qty-changer">
-									<button class="decrease js-qty-button"></button>
-									<input type="number" class="qty-input" name="quantity" value="1" data-min="1" data-max="1000">
-									<button class="increase js-qty-button"></button>
-								</div>
-							</div>
-							<div class="btn-wrap">
-								<button class="btn btn--add-to-cart js-prd-addtocart" data-product='{"name":"Leather Pegged Pants ", "url": "product.html", "path": "images/skins/fashion/products/product-01-1.jpg')}}", "aspect_ratio ": "0.78"}'>Add to cart</button>
-							</div>
-							<div class="btn-wishlist-wrap">
-								<a href="#" id="AddWishList" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add" title="Add To Wishlist"><i class="icon-heart-hover"></i></a>
-								<a href="#" id="RemoveWishList" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off" title="Remove From Wishlist"><i class="icon-heart-stroke"></i></a>
-							</div>
-						</div>
-						<div class="prd-block_shopping-info-wrap-compact">
-							<div class="prd-block_shopping-info-compact"><i class="icon-delivery-truck"></i><span>Fast<br>Shipping</span></div>
-							<div class="prd-block_shopping-info-compact"><i class="icon-return"></i><span>Easy<br>Return</span></div>
-							<div class="prd-block_shopping-info-compact"><i class="icon-call-center"></i><span>24/7<br>Support</span></div>
-						</div>
-						<div class="prd-block_info_item mt-3 row row--sm-pad vert-margin-middle">
-							<div class="col"><a href="product.html" class="btn btn--grey w-100">View Full Info</a></div>
-							<div class="col"><a href="product.html" class="btn btn--grey w-100" data-fancybox-close>Close</a></div>
-						</div>
-					</div>
+                
+                <div class="col-lg-9 quickview-info pl-2">
+                    <div class="prd-block_info prd-block_info--style2">
+                        <div class="prd-block_countdown js-countdown-wrap prd-block_info_item countdown-init">
+                            <div class="countdown-box-full-text-modal">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-sm-auto text-center">
+                                        <div class="countdown js-countdown" data-countdown="2021/12/31"><span><span>37</span>DAYS</span><span><span>06</span>HRS</span><span><span>44</span>MIN</span><span><span>23</span>SEC</span></div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="countdown-txt"> TIME IS RUNNING OUT!</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prd-block_title-wrap">
+                            <h1 class="prd-block_title" id="product_name">Product Name</h1>
+                        </div>
+                        <div class="prd-block_price">
+                            <div class="prd-block_price--actual" id="product_price">$0</div>
+                            <div class="prd-block_price-old-wrap">
+                                <span class="prd-block_price--old">$2000</span>
+                                <span class="prd-block_price--text">You Save: <span>$30</span> (<span>16</span>%)</span>
+                            </div>
+                        </div>
+                        <div class="prd-block_description prd-block_info_item" >
+                            <p id="product_description" >Model is 5'9" wearing Size XS TallAnd without further ado, we give you our finest Shopify Theme FOXic! It is a subtle, complex and yet an extremely easy to use template for anyone, who wants to create own website in ANY area of expertise.</p>
+                            <div class="mt-1"></div>
+                            <!-- <div class="row vert-margin-less">
+                                <div class="col-sm">
+                                    <ul class="list-marker">
+                                        <li>100% Polyester</li>
+                                        <li>Lining:100% Viscose</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm">
+                                    <ul class="list-marker">
+                                        <li>Do not dry clean</li>
+                                        <li>Only non-chlorine</li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                        </div>
+                        
+                        <!-- <div class="prd-block_actions prd-block_actions--wishlist">
+                            <div class="prd-block_qty">
+                                <div class="qty qty-changer">
+                                    <button class="decrease js-qty-button"></button>
+                                    <input type="number" class="qty-input" id="quantity_product_id" name="quantity" value="1" data-min="1" data-max="1000">
+                                    <button class="increase js-qty-button"></button>
+                                </div>
+                            </div>
+                            <div class="btn-wrap">
+                                
+                                <button class="btn btn--add-to-cart js-prd-addtocart"  data-product='{"name":"Leather Pegged Pants ", "url": "product.html", "path": "images/skins/fashion/products/product-01-1.jpg", "aspect_ratio ": "0.78"}'>Add to cart</button>
+                            </div>
+                            <div class="btn-wishlist-wrap">
+                                <a href="#" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add js-add-wishlist" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a>
+                                <a href="#" class="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off js-remove-wishlist" title="Remove From Wishlist"><i class="icon-heart-hover"></i></a>
+                            </div>
+                        </div> -->
+                        <div class="prd-block_info_item mt-3 row row--sm-pad vert-margin-middle">
+                            <div class="col"><a id="product_link" href="#" class="btn btn--grey w-100">View Full Info</a></div>
+                            
+                        </div>
+
+                        <div class="prd-block_shopping-info-wrap-compact">
+                            <div class="prd-block_shopping-info-compact"><i class="icon-delivery-truck"></i><span>Fast<br>Shipping</span></div>
+                            <div class="prd-block_shopping-info-compact"><i class="icon-return"></i><span>Easy<br>Return</span></div>
+                            <div class="prd-block_shopping-info-compact"><i class="icon-call-center"></i><span>24/7<br>Support</span></div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <style>
-        .modal--quickview .prd-block--prv-bottom .product-previews-carousel {
+</div>  
+<style>
+    .ModelquickView {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 99999; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+        /* Modal Content/Box */
+    .ModelquickView-content {
+        background-color: #fefefe;
+        margin: 2% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 5px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+        /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal--quickview .prd-block--prv-bottom .product-previews-carousel {
             padding: 0;
         }
         body:not(.equal-height) .modal--quickview .product-previews-carousel a > span {
@@ -210,6 +179,4 @@
                 min-height: 65vh;
             }
         }
-    </style>
-</div>
-</div>
+</style>

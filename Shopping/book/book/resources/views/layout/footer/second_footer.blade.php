@@ -17,15 +17,15 @@
           <div class="col-lg col-xl last-mobile">
             <div class="footer-block">
               <div class="footer-logo">
-                <a href="{{route('Books')}}"><img class="lazyload fade-up" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="images/logo-footer.png 1x, images/logo-footer2x.png 2x" alt="Logo"></a>
+                <a href="{{route('Books')}}"><img class="lazyload fade-up" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="{{$img_url}}{{$shopdetails->img_path}}" style="width:60px;height:60px;"alt="Logo"></a>
               </div>
               <div class="collapsed-content">
                 <ul>
-                  <li>E-mail: <a href="mailto:Foxshop@gmail.com">Foxshop@gmail.com</a></li>
-                  <li>Hours: 10:00 - 18:00, Mon - Fri</li>
+                  <li>E-mail: <a href="mailto:{{$shopdetails->emaildetail}}">{{$shopdetails->emaildetail}}</a></li>
+                  <li>Phone: {{$shopdetails->mob_no}}</li>
                 </ul>
               </div>
-              <ul class="social-list">
+              <!-- <ul class="social-list">
                 <li>
                   <a href="#" class="icon icon-facebook"></a>
                 </li>
@@ -44,13 +44,13 @@
                 <li>
                   <a href="#" class="icon icon-pinterest"></a>
                 </li>
-              </ul>
-              <div class="d-lg-none mt-3">
+              </ul> -->
+              <!-- <div class="d-lg-none mt-3">
                 <div class="box-coupon">
                   <div class="box-coupon-icon"><i class="icon-scissors"></i></div>
                   <div class="box-coupon-text"><span class="custom-color">FOXIC</span> THEME</div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-lg col-xl">
@@ -63,9 +63,9 @@
                 <ul>
                   <li><a href="{{route('AboutUs')}}">About Us</a></li>
                   <li><a href="{{route('ContactUs')}}">Contact Us</a></li>
-                  <li><a href="typography.html">Terms & Conditions</a></li>
+                  <!-- <li><a href="typography.html">Terms & Conditions</a></li>
                   <li><a href="typography.html">Returns & Exchanges</a></li>
-                  <li><a href="typography.html">Shipping & Delivery</a></li>
+                  <li><a href="typography.html">Shipping & Delivery</a></li> -->
                 </ul>
               </div>
             </div>
@@ -82,12 +82,12 @@
                   <li><a href="{{route('Cart')}}">View Cart</a></li>
                   <li><a href="{{route('Account','wishlist')}}">My Wishlist</a></li>
                   <li><a href="{{route('Account','orders')}}">Order Status</a></li>
-                  <li><a href="{{route('Account','orders')}}">Track My Order</a></li>
+                  <!-- <li><a href="{{route('Account','orders')}}">Track My Order</a></li> -->
                 </ul>
               </div>
             </div>
           </div>
-          <div class="col-lg col-xl">
+          <!-- <div class="col-lg col-xl">
             <div class="footer-block collapsed-mobile">
               <div class="title">
                 <h4>Safe payments</h4>
@@ -107,17 +107,17 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="footer-bottom footer-bottom--bg">
+    <!-- <div class="footer-bottom footer-bottom--bg">
       <div class="container">
         <div class="footer-copyright text-center">
           <a href="#">FOXshop</a> ©2020 copyright
         </div>
       </div>
-    </div>
+    </div> -->
   </footer>
   
   @include('layout.stickyaddtocart')

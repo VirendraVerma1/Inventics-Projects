@@ -34,7 +34,7 @@
                 @endforeach
                 <li class="mmenu-item--simple"><a href="{{route('Gallery')}}">Gallery</a>
                 </li>
-                <li class="mmenu-item--simple"><a href="#">Pages</a>
+                <!-- <li class="mmenu-item--simple"><a href="#">Pages</a>
                   <div class="mmenu-submenu">
                     <ul class="submenu-list">
                       <li><a href="##">Product page</a>
@@ -81,7 +81,7 @@
                       <li><a href="{{route('CommingSoon')}}" target="_blank">Coming soon</a></li>
                     </ul>
                   </div>
-                </li>
+                </li> -->
                 
                 <!-- <li class="mmenu-item--mega"><a href="collections.html"><span>Books<span class="menu-label menu-label--color1">SKIN</span></span></a>
                   <div class="mmenu-submenu mmenu-submenu--has-bottom">

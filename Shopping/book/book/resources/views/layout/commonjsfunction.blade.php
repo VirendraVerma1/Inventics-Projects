@@ -11,44 +11,165 @@
       
     });
 
+    
+    //---------------- otp register----------------------
+    $("#register_now").click(function(){
+      $("#dropdonAccountlogin").hide();
+      $("#dropdonAccountRegister").show();
+
+    })
+
+    $("#submit-registerRequest").click(function(){
+      var n=$("#name").val();
+      var e=$("#email").val();
+      var ph=$("#registerphone").val();
+      var ps=$("#regpassword").val();
+      var cnfps=$("#password-confirm").val();
+      var tnc=$("#checkbox1").val();
+      console.log(n);
+      console.log(e);
+      console.log(ph);
+      console.log(ps);
+      console.log(cnfps);
+      console.log(tnc);
+      $("#eroor-regname").empty();
+      $("#eroor-regphone").empty();
+      $("#eroor-regemail").empty();
+      $("#eroor-regpassword").empty();
+      $("#eroor-regcnfpassword").empty();
+      $.ajax({
+        type:'POST',
+        url:"{{route('customer_signup')}}",
+        data:{
+            _token:'{{ csrf_token() }}',
+            name: n,
+            email: e,
+            phone: ph,
+            password: ps,
+            password_confirmation: cnfps,
+            checkbox1: tnc,
+          },
+          success: function(response){
+              console.log(response);
+              console.log("hello");
+              window.location.assign("{{route('Account','details')}}");
+          },
+          error: function(response){
+              console.log(response);
+              if(response.responseJSON.errors.name)
+                $("#eroor-regname").html(response.responseJSON.errors.name[0]);
+              if(response.responseJSON.errors.phone)
+                $("#eroor-regphone").html(response.responseJSON.errors.phone[0]);
+              if(response.responseJSON.errors.email)
+                $("#eroor-regemail").html(response.responseJSON.errors.email[0]);
+              if(response.responseJSON.errors.password)
+                $("#eroor-regpassword").html(response.responseJSON.errors.password[0]);
+              if(response.responseJSON.errors.password_confirmation)
+                $("#eroor-regcnfpassword").html(response.responseJSON.errors.password_confirmation[0]);
+              //$("#eroor-eroor-regtnc").html(response.responseJSON.errors.checkbox1[0]);
+              console.log("hii");
+
+          }
+      })
+    });
+
+
+
+    $("#loginNow").click(function(){
+        console.log("hello");
+        //alert("login");
+        $("#dropdonAccountlogin").show();
+        $("#dropdonAccountRegister").hide();
+    });
+    //---------------- otp register closed----------------------
+
+    //----------------otp login-------------------------
+    $("#request_otp").click(function(){
+      var type='requestOTP';
+      var mobile=$("#loginphone").val();
+      console.log(mobile);
+      $.ajax({
+        type:'post',
+        url:"{{route('request_login_otp')}}",
+        data:{
+          _token:'{{ csrf_token() }}',
+          login_type: type,
+          phone: mobile,
+        },
+        success: function(response)
+        {
+          console.log(response);
+          //$("#dropdonAccountlogin").html(response); //testing purpose only
+          if(response.message=='verified')
+          {
+              var phone=parseInt(response.phone);
+              $("#RequestLoginOtp").hide();
+              $("#EnterLoginOtp").show();
+              $("#verifyphone").attr('value',phone);
+              //alert('otp sent');
+          }
+          else if(response.message=='please_register')
+          {
+            $("#dropdonAccountlogin").hide();
+            $("#dropdonAccountRegister").show();
+            $("#notRegistered").text('You are not registered with us |Please Register');
+            $("#registerphone").attr('value',response.phone);
+            $("#registerphone").attr('placeholder',response.phone);
+            //alert('user not registered , Please register first');
+          }
+        }
+      });
+    });
+
+    $("#ResendOtp").click(function(){
+      var mobile= $("#verifyphone").val();
+      var type='requestOTP';
+      console.log(mobile);
+      $.ajax({
+        type:'post',
+        url:"{{route('request_login_otp')}}",
+        data:{
+          _token:'{{ csrf_token() }}',
+          login_type: type,
+          phone: mobile,
+        },
+        success: function(response)
+        {
+          console.log(response);
+        }
+      })
+    })
+
+    //----------------otp login closed-------------------------
+
    
 
-  function getQuickViewData(isWishList,product_id,product_name,product_desripction,product_img_path,product_price)
+ //---------------quickview script----------
+ function getQuickviewData(product_link,product_name,product_img_path,product_desripction,product_price)
   {
-   alert(isWishList);
-    document.getElementById('quick_view_Modal').style.display='block';
-    // document.getElementById("Product_img_temp").innerHTML=product_id;
-    document.getElementById("Product_name_temp").innerHTML=product_name;
-    document.getElementById("Product_description_temp").innerHTML=product_desripction;
+    console.log(product_link);
+    console.log(product_name);
+    console.log(product_img_path);
+    console.log(product_desripction);
+    console.log(product_price);
+    //alert('hello')
+    //alert('functionworking');
+    document.getElementById("quickView").style.display= "block";
+    
+    $("#product_name").html(product_name);
+    $("#product_price").html("$"+product_price);
+    $("#product_description").html(product_desripction);
+    $("#product_image").attr("src",product_img_path);
+    $("#product_link").attr("href",product_link);
 
-    // document.getElementById("Product_img_temp").src="{{$img_url}}"+product_img_path;
-    document.getElementsById("Product_img_temp").src="http://zcommerce.online/image/images/1624596966.jpeg";
-    document.getElementById("Product_price_temp").innerHTML=product_price;
-
-
-
-    var addClassString="btn-add-to-wishlist ml-auto btn-add-to-wishlist--add";
-    var removeClassString="btn-add-to-wishlist ml-auto btn-add-to-wishlist--off";
-    var addToWishlist = document.getElementById('AddWishList');
-    var removeFromWishlist = document.getElementById('RemoveWishList');
-
-    if(isWishList)
-    {
-      addToWishlist.classList.remove(addClassString);
-      removeFromWishlist.classList.remove(removeClassString);
-
-      addToWishlist.classList.add(removeClassString);
-      removeFromWishlist.classList.add(addClassString);
-    }
-    else
-    {
-      addToWishlist.classList.remove(removeClassString);
-      removeFromWishlist.classList.remove(addClassString);
-
-      addToWishlist.classList.add(addClassString);
-      removeFromWishlist.classList.add(removeClassString);
-    }
-
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() 
+      {
+        document.getElementById("quickView").style.display = "none";
+      }
   }
 
 
@@ -213,10 +334,10 @@ function getandUpdateTotalWishListNumber()
           if(response!="login")
           {
             var wishlist1=document.getElementById("wishlist_quant1");
-            var wishlist2=document.getElementById("wishlist_quant1");
-            if(wishlist1)
+            var wishlist2=document.getElementById("wishlist_quant2");
+            if(wishlist1!=null)
             wishlist1.innerHTML=response;
-            if(wishlist2)
+            if(wishlist2!=null)
             wishlist2.innerHTML=response;
           }
           
@@ -320,30 +441,10 @@ function testAjax()
           
       }
   });
+
+  
 }
 
-
-// function onaddtocartclick1(id)
-// {
-//   alert(id);
-//   $.ajax({
-//     type:'GET',
-//     url:'add_to_cart1/'+id,
-//   });
-  
-// }
-
-// import Noty from "noty";
-
-// const Noty = require("noty");
-
-// new Noty({
-//   text: "Notification text"
-// }).show();
-
-// document.getElementById("my_product").addEventListener("click", function() {
-//   alert("hello world");
-// });
 
 
 </script>

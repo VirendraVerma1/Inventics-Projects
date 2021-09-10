@@ -1,10 +1,10 @@
 <div class="col-lg aside">
             <div class="prd-grid-wrap">
               <!-- Products Grid -->
-              <div class="prd-listview product-listing data-to-show-3 data-to-show-md-3 data-to-show-sm-2 js-category-grid" data-grid-tab-content>
-      <div id="my_searched_items_container">
+              <div class="prd-grid  data-to-show-3 data-to-show-md-3 data-to-show-sm-2 js-category-grid" data-grid-tab-content id="my_searched_items_container">
+      <!-- <div > -->
               @include('SearchPage.product')
-        </div>
+        <!-- </div> -->
                 <!-- <div class="prd prd--style2 prd-labels--max prd-labels-shadow ">
                   <div class="prd-inside">
                     <div class="prd-img-area">

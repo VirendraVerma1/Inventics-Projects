@@ -9,6 +9,11 @@ use App\Customer;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use DB;
+use Illuminate\Auth\Events\Registered;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -82,5 +87,41 @@ class RegisterController extends Controller
         $cat_product=$this->getcategoriesproduct();
 
         return view('Account.SignUp.index',compact('cat_product','categories','sub_categories','img_url','current_currency'));
+    }
+
+
+    //signup with phone number
+    public function customer_signup(Request $request)
+    {
+        
+        $this->sign_up_validator($request->all())->validate();
+
+        event(new Registered($user = $this->createCustomer($request->all())));
+
+        $this->guard()->login($user);
+        session()->flash('success', 'Registered Successfully');
+        return "success";
+
+        // return $this->registered($request, $user)
+        //                 ?: redirect($this->redirectPath());
+    }
+
+    protected function sign_up_validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'numeric', 'digits:10', 'unique:customers'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:customers'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+    protected function createCustomer(array $data)
+    {
+        return Customer::create([
+            'name' => $data['name'],
+            'phone' => $data['phone'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
     }
 }

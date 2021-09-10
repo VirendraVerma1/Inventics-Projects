@@ -46,7 +46,7 @@
               </div>
               <!-- /Header Account -->
               <div class="dropdn dropdn_fullheight minicart">
-                <a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" data-panel="#dropdnMinicart">
+                <a href="{{route('Cart')}}" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" >
                   <i class="icon-basket"></i>
                   <span class="minicart-qty" id="minicart_quantity1">0</span>
                   <span class="minicart-total hide-mobile" id="minicart_price1">$34.99</span>
@@ -92,11 +92,11 @@
                 </div>
                 <!-- /Header Search -->
                 <!-- Header Compare -->
-                <div class="dropdn dropdn_compare">
+                <!-- <div class="dropdn dropdn_compare">
                   <a href="#" class="dropdn-link only-icon compare-link ">
                     <i class="icon-compare"></i><span class="dropdn-link-txt">Wishlist</span><span class="compare-qty">3</span>
                   </a>
-                </div>
+                </div> -->
                 <!-- /Header Compare -->
                 <!-- Header Account -->
                 <div class="dropdn dropdn_account dropdn_fullheight">
@@ -104,7 +104,7 @@
                 </div>
                 <!-- /Header Account -->
                 <div class="dropdn dropdn_fullheight minicart">
-                  <a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" data-panel="#dropdnMinicart">
+                  <a href="{{route('Cart')}}" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" >
                     <i class="icon-basket"></i>
                     <span class="minicart-qty" id="minicart_quantity2">0</span>
                     <span class="minicart-total hide-mobile" id="minicart_price2">$34.99</span>

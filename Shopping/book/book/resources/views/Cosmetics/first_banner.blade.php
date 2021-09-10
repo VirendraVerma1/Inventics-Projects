@@ -3,7 +3,7 @@
         <div class="bnr-wrap bnr-">
           <div class="bnr custom-caption  bnr--middle bnr--left bnr--fullwidth" data-fontratio=19.2>
             <div class="bnr-img  image-container" style="padding-bottom: 43.33%">
-              <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="images/skins/cosmetics/banners/banner-cosmetics-full.png" class="lazyload fade-up" alt="">
+              <img src="{{$img_url}}{{$banners->img_path}}" data-src="{{$img_url}}{{$banners->img_path}}" class="lazyload fade-up" alt="">
             </div>
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 150 150" class="circle_decor circle_decor--tl" style="z-index:1;enable-background:new 0 0 150 150; transform: translate(-71%, -71%) rotate(-50deg); opacity:0.4; mix-blend-mode:normal; fill:#a813ed;     width:65%" xml:space="preserve">
               <defs>
@@ -43,13 +43,13 @@
               <path fill="#55C1AE" d="M81.177,142.363c0,3.346-2.761,6.06-6.164,6.06l0,0c-3.404,0-6.164-2.714-6.164-6.06l0,0
                           c0-3.345,2.76-6.058,6.164-6.058l0,0C78.416,136.306,81.177,139.019,81.177,142.363L81.177,142.363z" />
             </svg>
-            <div class="bnr-caption text-left" style="padding: 4% 4%; ">
+            <!-- <div class="bnr-caption text-left" style="padding: 4% 4%; ">
               <div class="bnr-caption-inside w-s-100 w-ms-100">
                 <div class="bnr-text3 heading-font  mt-lg order-1  inherit" style=" color:#ffffff; font-size:0.4em; font-weight:600; line-height:1em"><span style="font-size:450%">2020</span>SUMMER COLLECTION</div>
                 <div class="bnr-text3 heading-font  mt-0 order-2  inherit " style=" color:#ffffff; font-size:0.7em; font-weight:700; line-height:1.5em;">MAKEUP AND PARFUME</div>
                 <div class="bnr-btn inherit mt-sm order-3"><a href="" target="_self" class="btn btn--lg">Buy Now</a></div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

@@ -59,7 +59,7 @@
               <!-- Header Wishlist -->
               <div class="dropdn dropdn_wishlist">
                 <a href="account-wishlist.html" class="dropdn-link only-icon wishlist-link ">
-                  <i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty">3</span>
+                  <i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty" id="wishlist_quant2">3</span>
                 </a>
               </div>
               <!-- /Header Wishlist -->
@@ -69,7 +69,7 @@
               </div>
               <!-- /Header Account -->
               <div class="dropdn dropdn_fullheight minicart">
-                <a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" data-panel="#dropdnMinicart">
+                <a href="{{route('Cart')}}" class="dropdn-link js-dropdn-link minicart-link only-icon" data-panel="#dropdnMinicart">
                   <i class="icon-basket"></i>
                   <span class="minicart-qty">3</span>
                   <span class="minicart-total hide-mobile">$34.99</span>
@@ -483,7 +483,7 @@
                 <!-- Header Wishlist -->
                 <div class="dropdn dropdn_wishlist">
                   <a href="account-wishlist.html" class="dropdn-link only-icon wishlist-link ">
-                    <i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty">3</span>
+                    <i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty" id="wishlist_quant1">3</span>
                   </a>
                 </div>
                 <!-- /Header Wishlist -->

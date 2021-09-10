@@ -50,7 +50,7 @@
               </div>
               <!-- /Header Account -->
               <div class="dropdn dropdn_fullheight minicart">
-                <a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" data-panel="#dropdnMinicart">
+                <a href="{{route('Cart')}}" class="dropdn-link js-dropdn-link minicart-link only-icon" onclick="getMiniCartData()" data-panel="#dropdnMinicart">
                   <i class="icon-basket"></i>
                   <span class="minicart-qty" id="minicart_quantity1">0</span>
                   <span class="minicart-total hide-mobile" id="minicart_price1">$34.99</span>

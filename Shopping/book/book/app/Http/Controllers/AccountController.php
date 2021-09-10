@@ -303,5 +303,11 @@ class AccountController extends Controller
     }
 
     #endregion
+
+    public function account_create()
+    {
+        $this->updateViewData();
+        return view('account.create');
+    }
     
 }

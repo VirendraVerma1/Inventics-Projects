@@ -26,10 +26,14 @@ use App\Http\Controllers\Controller;
 
 class CosmeticsController extends Controller
 {
-    public function index(Request $request,$slug)
+    public function index($slug=null)
     {
+
+        if($slug==null)
+        $slug="sonali-fashion";
         $this->decode_shop_slug($slug);
         
+        $this->updatedata();
         $wishlist=$this->showAllWishlist();
         
         $tempBooks=true;
@@ -39,6 +43,7 @@ class CosmeticsController extends Controller
         $bottom_banner=array();
         $shopdetails=$this->shopdata();
         $sale_products=$this->getcategoriesproduct("sale");
+        $categories_with_images=$this->category_with_images();
         foreach($banners as $bann)
         {
             if($bann->group_id=="promo_banner")
@@ -47,8 +52,7 @@ class CosmeticsController extends Controller
                 array_push($bottom_banner,$bann);
         }
         //session()->flash('success', 'Welcome again');
-        $this->updatedata();
-        return view('Cosmetics.index',compact('tempBooks','promo_banner','bottom_banner','sliders','wishlist','shopdetails','sale_products'));
+        return view('Cosmetics.index',compact('tempBooks','promo_banner','bottom_banner','sliders','wishlist','shopdetails','sale_products','banners','categories_with_images'));
     }
 
     public function product_cat_Index($name)

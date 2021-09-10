@@ -10,13 +10,14 @@
     <!-- //Main Slider -->
   @include('Cosmetics.featured')
 
+  @if(count($banners)>0)
   @include('Cosmetics.first_banner')
+  @endif
 
   @include('Cosmetics.collections')
     
   @include('Cosmetics.sales_product')
 
-  @include('Cosmetics.comments')
   </div>
   
 

@@ -12,14 +12,9 @@
                   --}}
                   </div>
                 </div>
-                <div class="prd-block_viewed-wrap d-none d-md-flex">
-                  <div class="prd-block_viewed">
-                    <i class="icon-time"></i>
-                    <span>This product was viewed 13 times within last hour</span>
-                  </div>
-                </div>
+                
               </div>
-              <div class="prd-block_description prd-block_info_item ">
+              <!-- <div class="prd-block_description prd-block_info_item ">
                 <h3>Short description</h3>
                 <p>{!! $product->description !!}</p>
                 <div class="mt-1"></div>
@@ -37,38 +32,8 @@
                     </ul>
                   </div>
                 </div>
-              </div>
-              <div class="prd-progress prd-block_info_item" data-left-in-stock="">
-                <div class="prd-progress-text">
-                  Hurry Up! Left <span class="prd-progress-text-left js-stock-left">26</span> in stock
-                </div>
-                <div class="prd-progress-text-null"></div>
-                <div class="prd-progress-bar-wrap progress">
-                  <div class="prd-progress-bar progress-bar active" data-stock="50, 10, 30, 25, 1000, 15000" style="width: 53%;"></div>
-                </div>
-              </div>
-              <div class="prd-block_countdown js-countdown-wrap prd-block_info_item countdown-init">
-                <div class="countdown-box-full-text w-md">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col-sm-auto text-center">
-                      <div class="countdown js-countdown" data-countdown="2021/07/01"></div>
-                    </div>
-                    <div class="col">
-                      <div class="countdown-txt"> TIME IS RUNNING OUT!</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="prd-block_order-info prd-block_info_item " data-order-time="" data-locale="en">
-                <i class="icon-box-2"></i>
-                <div>Order in the next <span class="prd-block_order-info-time countdownCircleTimer" data-time="8:00:00, 15:30:00, 23:59:59"><span><span>04</span>:</span><span><span>46</span>:</span><span><span>24</span></span></span> to get it by <span data-date="">Tuesday, September 08, 2020</span></div>
-              </div>
-              <div class="prd-block_info_item prd-block_info-when-arrives d-none" data-when-arrives>
-                <div class="prd-block_links prd-block_links m-0 d-inline-flex">
-                  <i class="icon-email-1"></i>
-                  <div><a href="#" data-follow-up="" data-name="Oversize Cotton Dress" class="prd-in-stock" data-src="#whenArrives">Inform me when the item arrives</a></div>
-                </div>
-              </div>
+              </div> -->
+              
               <div class="prd-block_info-box prd-block_info_item">
                 <div class="two-column">
                   <p>Availability:
@@ -85,7 +50,7 @@
               </div>
               <div class="order-0 order-md-100">
                 <!-- <form action="#"> -->
-                  <div class="prd-block_options">
+                  <!-- <div class="prd-block_options">
                     <div class="prd-color swatches">
                       <div class="option-label">Color:</div>
                       <select class="form-control hidden single-option-selector-modalQuickView" id="SingleOptionSelector-0" data-index="option1">
@@ -118,7 +83,7 @@
                         <li><a href="#" data-value="Large"><span class="value">Large</span></a></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="prd-block_actions prd-block_actions--wishlist">
                     <div class="prd-block_qty">
                       <div class="qty qty-changer">
@@ -128,7 +93,7 @@
                       </div>
                     </div>
                     <div class="btn-wrap">
-                    <button onclick="onaddtocartclick({{$product->id}},1)" class="btn btn--add-to-cart js-trigger-addtocart js-prd-addtocart" data-product='{"name": "{{$product->name}}", "path":"{{$img_url}}{{$product->img_path}}", "url":"#", "aspect_ratio":0.778}'>Add To Cart</button>
+                    <button @auth onclick="onaddtocartclick({{$product->id}},1)" class="btn btn--add-to-cart js-trigger-addtocart js-prd-addtocart" data-product='{"name": "{{$product->name}}", "path":"{{$img_url}}{{$product->img_path}}", "url":"#", "aspect_ratio":0.778}' @else  class="dropdn-link js-dropdn-link js-dropdn-link only-icon btn js-prd-addtocart" data-panel="#dropdnAccount" @endauth>Add To Cart</button>
                       
                       <!-- <button class="btn btn--add-to-cart js-trigger-addtocart js-prd-addtocart" data-product='{"name":  "Leather Pegged Pants ",  "url ": "product.html",  "path ": "{{asset('images/skins/fashion/product-page/product-01.jpg')}},  "aspect_ratio ": "0.78"}'>Add to cart</button> -->
                     </div>
@@ -145,11 +110,11 @@
               </div>
               <div class="prd-block_info_item">
                 <ul class="prd-block_links list-unstyled">
-                  <li><i class="icon-size-guide"></i><a href="#" data-fancybox class="modal-info-link" data-src="#sizeGuide">Size Guide</a></li>
+                  <!-- <li><i class="icon-size-guide"></i><a href="#" data-fancybox class="modal-info-link" data-src="#sizeGuide">Size Guide</a></li> -->
                   <li><i class="icon-delivery-1"></i><a href="#" data-fancybox class="modal-info-link" data-src="#deliveryInfo">Delivery and Return</a></li>
-                  <li><i class="icon-email-1"></i><a href="#" data-fancybox class="modal-info-link" data-src="#contactModal">Ask about this product</a></li>
+                  <li><i class="icon-email-1"></i><a href="#" data-fancybox class="modal-info-link" data-src="#contactModal">Contact Us</a></li>
                 </ul>
-                <div id="sizeGuide" style="display: none;" class="modal-info-content modal-info-content-lg">
+                <!-- <div id="sizeGuide" style="display: none;" class="modal-info-content modal-info-content-lg">
                   <div class="modal-info-heading">
                     <div class="mb-1"><i class="icon-size-guide"></i></div>
                     <h2>Size Guide</h2>
@@ -210,7 +175,7 @@
                       </tbody>
                     </table>
                   </div>
-                </div>
+                </div> -->
                 <div id="deliveryInfo" style="display: none;" class="modal-info-content modal-info-content-lg">
                   <div class="modal-info-heading">
                     <div class="mb-1"><i class="icon-delivery-1"></i></div>
@@ -252,9 +217,9 @@
                   </form>
                 </div>
               </div>
-              <div class="prd-block_info_item">
+              <!-- <div class="prd-block_info_item">
                 <img class="img-responsive lazyload d-none d-sm-block" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{asset('images/payment/safecheckout.png')}}" alt="">
                 <img class="img-responsive lazyload d-sm-none" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{asset('images/payment/safecheckout-m.png')}}" alt="">
-              </div>
+              </div> -->
             </div>
           </div>

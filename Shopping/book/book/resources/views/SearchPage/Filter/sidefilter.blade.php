@@ -113,6 +113,8 @@
                   </ul>
                 </div>
               </div> -->
+
+              {{--
               <div class="sidebar-block filter-group-block collapsed">
                 <div class="sidebar-block_title">
                   <span>Brands</span>
@@ -132,20 +134,24 @@
                   </ul>
                 </div>
               </div>
-              <div class="sidebar-block filter-group-block collapsed">
+              --}}
+
+              <div class="sidebar-block filter-group-block">
                 <div class="sidebar-block_title">
                   <span>Price</span>
                   <span class="toggle-arrow"><span></span><span></span></span>
                 </div>
                 <div class="sidebar-block_content">
                   <ul class="category-list">
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}5000</a></li>
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}2000</a></li>
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}1000</a></li>
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}500</a></li>
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}300</a></li>
-                    <li class="price_Name" ><a class="priceName">Under {{$current_currency}}200</a></li>
-                    <li class="price_Name"><a class="priceName">Under {{$current_currency}}100</a></li>
+                    <li><a class="priceName">Under {{$current_currency}} 500</a></li>
+                    <li><a class="priceName">{{$current_currency}}500 - {{$current_currency}}1000 </a></li>
+                    <li><a class="priceName">{{$current_currency}}1000 - {{$current_currency}}2000 </a></li>
+                    <li><a class="priceName">{{$current_currency}}2000 - {{$current_currency}}3000 </a></li>
+                    <li><a class="priceName">{{$current_currency}}3000 - {{$current_currency}}4000 </a></li>
+                    <li><a class="priceName">{{$current_currency}}4000 - {{$current_currency}}5000 </a></li>
+                    <li><a class="priceName">Above {{$current_currency}}5000 </a></li>
+                    <!-- <li ><a class="priceName">Under {{$current_currency}} 200</a></li>
+                    <li><a class="priceName">Under {{$current_currency}} 100</a></li> -->
                   </ul>
                 </div>
               </div>
@@ -179,6 +185,7 @@ var searchName="{{$name}}";
 var brand_name="";
 var price_name="";
 var price_val=-1;
+var pricemax_val=-1;
 var short_by_type="Featured";//accepts only Featured,Price
 
 //for load more variables
@@ -206,8 +213,28 @@ $(document).ready(function () {
   //for price filter
   $(".priceName").click(function () {
       let price=$(this).html();
-      price_name=price.replace('Under {{$current_currency}}','');
-      price_val=parseInt(price_name);
+    if(!price.includes("Under")&&!price.includes("Above") )
+    {
+      price_name=price.replace('{{$current_currency}}','');
+      price_name=price_name.replace('{{$current_currency}}','');
+     // alert(price_name);
+      price_name=price_name.replace(' ','');
+      price_name=price_name.replace(' ','');
+      price_array=price_name.split('-');
+     //alert(price_array[0]+'@'+price_array[1]);
+    }
+    else if(price.includes("Under"))
+    {
+    price_array[0]=0;
+    price_array[1]=500;
+    }
+    else if(price.includes("Above"))
+    {
+    price_array[0]=5000;
+    price_array[1]=999999;
+    }
+      price_val=parseInt(price_array[0]);
+      pricemax_val=parseInt(price_array[1]);
       appendData=false;
       get_filtered_product();
   });
@@ -278,6 +305,8 @@ function get_filtered_product()
         brandName: brand_name,
         priceVal:price_val,
         viewCount:view_count,
+        priceVal:price_val,
+        PRICEMAXVal:pricemax_val,
         shortbyfilter:short_by_filter,
         loadedProduct:currentProductCount,
         _token:'{{ csrf_token() }}'
@@ -374,7 +403,7 @@ function get_filtered_product()
     }
 
     //update totalproduct item on the left side of short by
-    document.getElementById("items_count").innerHTML = currentProductCount+" items";
+    // document.getElementById("items_count").innerHTML = currentProductCount+" items";
     document.getElementById("totalProduct_count").innerHTML = totalProductCount;
   }
 

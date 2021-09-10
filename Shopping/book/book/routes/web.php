@@ -14,7 +14,7 @@
 
 Route::get('/', function () {
     //return view('welcome');
-    return redirect()->route('Books');
+    return redirect()->route('Book');
 });
 
 Route::get('ajax',function() {
@@ -41,7 +41,7 @@ Route::get('error','OtherController@errorindex')->name('Error');
 Route::get('commingsoon','OtherController@commingsoonindex')->name('CommingSoon');
 
 Route::get('emptycategory','CategoryController@ecategoryindex')->name('EmptyCategory');
-Route::get('category/{slug}','CategoryController@index')->name('Category');
+Route::get('category/{slug}','SearchController@search_by_category')->name('Category');
 
 Route::get('blogcategory','BlogController@blogcategoryindex')->name('BlogCategory');
 Route::get('bloglist','BlogController@bloglistindex')->name('BlogList');
@@ -63,3 +63,12 @@ Route::resource('books','BooksController');
 Auth::routes();
 
 Route::get('/home', 'BooksController@index')->name('home');
+//otp login
+Route::post('request_login_otp','Auth\LoginController@request_login_otp')->name('request_login_otp');
+Route::post('verify_login_otp','Auth\LoginController@verify_login_otp')->name('verify_login_otp');
+
+//otp register
+Route::post('customer_signup','Auth\RegisterController@customer_signup')->name('customer_signup');
+Route::get('account_create','AccountController@account_create')->name('account_create');
+
+Route::post('electronics_product_feedback','ProductController@product_feedback')->name('electronic.product_feedback');

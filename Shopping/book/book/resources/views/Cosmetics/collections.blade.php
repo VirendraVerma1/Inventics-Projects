@@ -1,23 +1,25 @@
 <div class="holder holder-mt-xsmall">
       <div class="container">
         <div class="row bnr-grid vert-margin-small">
+          @foreach($categories_with_images as $cat)
           <div class="col-18 col-sm-6">
             <a href="product.html" class="bnr-wrap">
               <div class="bnr custom-caption image-hover-scale bnr--bottom bnr--left " data-fontratio=5.7>
                 <div class="bnr-img  image-container" style="padding-bottom: 145.02%">
-                  <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="images/skins/cosmetics/banners/banner-cosmetics-01.png" class="lazyload fade-up" alt="">
+                  <img src="{{$img_url}}{{$cat->img_path}}" data-srcset="{{$img_url}}{{$cat->img_path}}" class="lazyload fade-up" alt="">
                 </div>
                 <div class="bnr-caption" style="padding: 11% 13%; width: 100%;">
-                  <div class="bnr-text3  mt-sm order-1" style=" color:#ffffff; font-size:0.85em; font-weight:800; line-height:1em">PALITRA</div>
-                  <div class="bnr-text3 mt-0 order-2" style=" color:#ffffff; font-size:0.85em; font-weight:800; line-height:1em;">2020</div>
+                  <div class="bnr-text3  mt-sm order-1" style=" color:black; font-size:0.85em; font-weight:800; line-height:1em">{{$cat->name}}</div>
+                  <!-- <div class="bnr-text3 mt-0 order-2" style=" color:#ffffff; font-size:0.85em; font-weight:800; line-height:1em;">2020</div>
                   <div class="bnr-btn mt-lg order-3">
                     <div class="btn">Buy Now</div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </a>
           </div>
-          <div class="col-18 col-sm-6">
+          @endforeach
+          <!-- <div class="col-18 col-sm-6">
             <a href="product.html" class="bnr-wrap">
               <div class="bnr custom-caption image-hover-scale bnr--bottom bnr--center " data-fontratio=5.7>
                 <div class="bnr-img  image-container" style="padding-bottom: 145.02%">
@@ -42,7 +44,7 @@
                 </div>
               </div>
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

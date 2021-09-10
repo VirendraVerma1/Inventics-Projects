@@ -2,8 +2,22 @@
           <div class="col">
             <div class="js-prd-d-holder">
               <div class="prd-block_title-wrap">
-                <div class="prd-block_reviews" data-toggle="tooltip" data-placement="top" title="Scroll To Reviews"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star"></i>
-                  <span class="reviews-link"><a href="#" class="js-reviews-link"> (17 reviews)</a></span>
+              <div class="prd-block_reviews" data-toggle="tooltip" data-placement="top" title="Scroll To Reviews">
+                  @php
+                  $avgRating=0;
+                    for($i=0; $i< count($feedbacks); $i++)
+                    {
+                      $avgRating= $avgRating + intval($feedbacks[$i]->rating);
+                    }
+                  @endphp
+                  @for($i=0; $i< 5; $i++)
+                    @if($i< $avgRating)
+                    <i class="icon-star-fill fill"></i>
+                    @else
+                    <i class="icon-star"></i>
+                    @endif
+                  @endfor
+                  <span class="reviews-link"><a href="#" class="js-reviews-link"> ({{count($feedbacks)}} reviews)</a></span>
                 </div>
                 <h1 class="prd-block_title">{{$product->name}}</h1>
               </div>
