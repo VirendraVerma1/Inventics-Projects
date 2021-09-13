@@ -32,8 +32,8 @@
                   </div>
                 </li>
                 @endforeach
-                <li class="mmenu-item--simple"><a href="{{route('Gallery')}}">Gallery</a>
-                </li>
+                <!-- <li class="mmenu-item--simple"><a href="{{route('Gallery')}}">Gallery</a>
+                </li> -->
                 <!-- <li class="mmenu-item--simple"><a href="#">Pages</a>
                   <div class="mmenu-submenu">
                     <ul class="submenu-list">

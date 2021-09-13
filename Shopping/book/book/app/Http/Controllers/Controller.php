@@ -821,4 +821,22 @@ class Controller extends BaseController
 
     #endregion
   
+
+    #region coupon
+
+    public function validate_coupon($coupon,$cart_id)
+    {
+        $cart=DB::table('carts')->where('id',$cart_id)->first();
+        $mytime = Carbon\Carbon::now();
+        $coupon=DB::table('coupons')
+        ->where('ending_time','>',$mytime)
+        ->where('min_order_amount','<',$cart->grand_total)
+        ->where('active','=',1)
+        ->where('min_order_amount','<',$cart->grand_total)->first();
+        return $coupon;
+    }
+
+    #endregion
+
+
 }

@@ -62,6 +62,7 @@
       </div>
     </div>
     <div class="hdr">
+      {{--
       <div class="hdr-topline hdr-topline--dark js-hdr-top">
         <div class="container">
           <div class="row flex-nowrap">
@@ -144,7 +145,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>--}}
       <div class="hdr-content">
         <div class="container">
           <div class="row">

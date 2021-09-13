@@ -13,3 +13,6 @@ Route::get('reorderMyOrder/{order_id}','CheckOutController@reorderMyOrder')->nam
 
 //clear order history
 Route::get('clearorderhistory','CheckOutController@clearorderhistory')->name('clearorderhistory');
+
+//apply coupoun
+Route::post('apply_coupoun','CheckOutController@check_and_applyCoupoun')->name('apply_coupoun');

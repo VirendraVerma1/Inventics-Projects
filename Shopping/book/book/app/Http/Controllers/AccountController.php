@@ -212,6 +212,13 @@ class AccountController extends Controller
     public function delete_address($hidden_address_id)
     {
         Address::where('id',$hidden_address_id)->delete();
+        $address_type="Primary";
+        $oldcustomerAddressids=Address::where('addressable_id',$this->isAuthenticated("id"))
+            ->where('addressable_type',"App\Customer")
+            ->first();
+        $oldcustomerAddressids->address_type=$address_type;
+        $oldcustomerAddressids->save();
+            
         session()->flash('success', 'Address has been deleted successfully');
         return redirect()->route('Account','address');
     }
@@ -225,6 +232,7 @@ class AccountController extends Controller
 
     public function orderList($order_id)
     {
+        $this->updatedata();
         $order_items=$this->getOrderList($order_id);
         $orders=$this->getCurrentOrderData($order_id);
         // dd($order_items);

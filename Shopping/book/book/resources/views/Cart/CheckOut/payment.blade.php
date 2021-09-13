@@ -5,10 +5,10 @@
                   <input id="formcheckoutRadio4" value="" name="radio2" type="radio" class="radio" checked="checked">
                   <label for="formcheckoutRadio4">Credit Card</label>
                 </div>
-                <div class="clearfix">
+                <!-- <div class="clearfix">
                   <input id="formcheckoutRadio5" value="" name="radio2" type="radio" class="radio">
                   <label for="formcheckoutRadio5">Paypal</label>
-                </div>
+                </div> -->
                 <div class="mt-2"></div>
                 <label>Cart Number</label>
                 <div class="form-group">

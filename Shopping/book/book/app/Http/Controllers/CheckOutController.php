@@ -34,6 +34,7 @@ class CheckOutController extends Controller
         $shipping_data=$this->getShippingDetails($cart->shop_id);
             
         $countries=DB::table('countries')->get();
+        
 
         if(count($addresses)>0)
         {
@@ -42,7 +43,7 @@ class CheckOutController extends Controller
             
         }
         
-        return view('Cart.CheckOut2.index',compact('addresses','countries','cart','cart_data','shipping_data'));
+        return view('Cart.CheckOut2.index',compact('addresses','countries','cart','cart_data','shipping_data','cart_id'));
     }
 
 
@@ -345,4 +346,14 @@ class CheckOutController extends Controller
 
     #endregion
 
+
+    #region check and apply coupoun
+
+    public function check_and_applyCoupoun(Request $request)
+    {
+        $coupon=$this->validate_coupon($request->couponCode,$request->cartId);
+        return json_encode(array('data'=>$coupon));
+    }
+
+    #endregion
 }

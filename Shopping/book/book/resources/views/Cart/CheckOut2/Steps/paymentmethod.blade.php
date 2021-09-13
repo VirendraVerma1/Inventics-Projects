@@ -68,6 +68,6 @@
                   </button>
                 </div>
                 @endif
-                <button onclick="reloadthispage()">hello reload</button>
+               
               </div>
 

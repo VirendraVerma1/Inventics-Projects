@@ -35,7 +35,7 @@
               <div class="view-mode">
                 <!-- <span class="js-horview d-none d-lg-inline-flex"><i class="icon-grid"></i></span>
                 <span class="js-gridview"><i class="icon-grid"></i></span> -->
-                <span class="js-listview"><i class="icon-list"></i></span>
+                <!-- <span class="js-listview"><i class="icon-list"></i></span> -->
               </div>
             </div>
           </div>

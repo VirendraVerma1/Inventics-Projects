@@ -24,7 +24,9 @@
 
 <script>
 var payment_method_id=6;
+var cart_id={{$cart_id}};
 $(document).ready(function () {
+ 
     //for shipping
   $(".address_box").click(function () {
     $(".address_box").removeClass("highlight");
@@ -65,6 +67,15 @@ $(document).ready(function () {
   $("#country_id").change(function(){
       let country_id=this.value;
       loadState(country_id,0);
+    })
+
+    //for form section , get states from country
+  $("#apply_promo_te").click(function(){
+    alert("asdasdaqwd");
+      let promoCode=$("#discount_temp_val").val();
+      alert(promoCode);
+      checkandgetcoupoun(promoCode,cart_id);
+      //loadState(country_id,0);
     })
 
 });
@@ -155,6 +166,27 @@ function saveShippingAddress(address_id,cart_id)
           }
       });  
   }
+
+  // function checkandgetcoupoun(coupon_code,cart_id)
+  // {
+  //   $.ajax({
+  //     url: "{{route('apply_coupoun')}}",
+  //     type: 'POST',
+  //     // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+  //     data: {
+  //       couponCode: coupon_code,
+  //       cartId: cart_id,
+  //       _token:'{{ csrf_token() }}'
+  //     },
+  //        success: function(response){
+  //         console.log(response);
+  //         console.log(response);
+  //         var dataResult = JSON.parse(response);
+  //         alert(dataResult.data;)
+  //       }
+  //     });  
+  // }
+
 </script>
 
 
