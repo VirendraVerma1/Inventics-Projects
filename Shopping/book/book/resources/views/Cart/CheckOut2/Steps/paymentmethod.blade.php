@@ -4,10 +4,10 @@
                     <input id="formcheckoutRadio4" value="6" name="radio2" type="radio" class="radio" checked="checked">
                     <label for="formcheckoutRadio4">Cash On Delivery</label>
                   </div>
-                  <div class="clearfix">
+                  <!-- <div class="clearfix">
                     <input id="formcheckoutRadio5" value="8" name="radio2" type="radio" class="radio">
                     <label for="formcheckoutRadio5" >Paypal</label>
-                  </div>
+                  </div> -->
                   <p id="payment-instructions" class="text-info small space30">
               <i class="fa fa-info-circle"></i>
               <span>Start from today</span>

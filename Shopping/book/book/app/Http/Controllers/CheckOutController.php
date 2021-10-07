@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Cart;
 use App\Order;
+use App\Coupon;
 use App\OrderItems;
 use App\CartItems;
 use Carbon\Carbon;
@@ -36,6 +37,13 @@ class CheckOutController extends Controller
         $countries=DB::table('countries')->get();
         
 
+        $promocode=null;
+        if($cart->coupon_id!=null)
+        {
+            $coupon=DB::table('coupons')->where('id',$cart->coupon_id)->first();
+            $promocode=$coupon->code;
+        }
+
         if(count($addresses)>0)
         {
             //update shipping ids and ship_to to cart table
@@ -43,7 +51,7 @@ class CheckOutController extends Controller
             
         }
         
-        return view('Cart.CheckOut2.index',compact('addresses','countries','cart','cart_data','shipping_data','cart_id'));
+        return view('Cart.CheckOut2.index',compact('addresses','countries','cart','cart_data','shipping_data','cart_id','promocode'));
     }
 
 
@@ -351,8 +359,25 @@ class CheckOutController extends Controller
 
     public function check_and_applyCoupoun(Request $request)
     {
-        $coupon=$this->validate_coupon($request->couponCode,$request->cartId);
-        return json_encode(array('data'=>$coupon));
+        $cart=Cart::where('id',$request->cartId)->first();
+        $mytime = Carbon\Carbon::now();
+
+        $message="";
+        $response="";
+
+        $coupon=Coupon::where('code','=',$request->couponCode)->first();
+        // ->where('ending_time','>',$mytime)
+        // ->where('min_order_amount','<',$cart->grand_total)
+        // ->where('active','=',1)
+        // ->where('min_order_amount','<',$cart->grand_total)->first();
+
+        if($coupon)
+        {
+            $cart->coupon_id=$coupon->id;
+            $cart->save();
+        }
+        $coupon->value=$coupon->value+0;
+        return json_encode(array('data'=>$coupon,'response'=>'success','message'=>'lol'));
     }
 
     #endregion

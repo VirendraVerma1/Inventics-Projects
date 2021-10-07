@@ -39,7 +39,7 @@
                   <div class="prd-info-top">
                     <div class="prd-rating"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i></div>
                   </div>
-                  <div class="prd-rating justify-content-center"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i></div>
+                  <!-- <div class="prd-rating justify-content-center"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i></div> -->
                   <div class="prd-tag"><a href="#">{{$cat_product[$i]->brand}}</a></div>
                   <h2 class="prd-title"><a href="#">{{$cat_product[$i]->name}}</a></h2>
                   <div class="prd-description">

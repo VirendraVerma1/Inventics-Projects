@@ -18,10 +18,10 @@
                 <input type="hidden" name="cartId" value="{{$cartid->id}}">
                 <button type="submit" class="btn btn--full btn--lg"><span>Checkout</span></button>
               </form>
-              <div class="card-text-info text-right">
+              <!-- <div class="card-text-info text-right">
                 <h5>Standart shipping</h5>
                 <p><b>10 - 11 business days</b><br>1 item ships from the U.S. and will be delivered in 10 - 11 business days</p>
-              </div>
+              </div> -->
             </div>
             <div class="mt-2"></div>
           </div>

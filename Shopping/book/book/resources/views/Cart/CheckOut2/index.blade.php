@@ -23,8 +23,11 @@
   
 
 <script>
+
 var payment_method_id=6;
-var cart_id={{$cart_id}};
+var cart_idd={{$cart_id}};
+var cart_price={{$cart->total+0}};
+var iscouponApplied=@if($cart->coupon_id!=null)  true; @else  false; @endif
 $(document).ready(function () {
  
     //for shipping
@@ -71,14 +74,39 @@ $(document).ready(function () {
 
     //for form section , get states from country
   $("#apply_promo_te").click(function(){
-    alert("asdasdaqwd");
-      let promoCode=$("#discount_temp_val").val();
-      alert(promoCode);
-      checkandgetcoupoun(promoCode,cart_id);
+    
+    showcoponsformat();
+    let promoCode=$("#discount_temp_val").val();
+    checkandgetcoupoun(promoCode,cart_idd);
       //loadState(country_id,0);
     })
 
+    if(iscouponApplied)
+    {
+      let promoCode="{{$promocode}}";
+      showcoponsformat();
+      checkandgetcoupoun(promoCode,cart_idd);
+    }else{
+      hidecoponsformat();
+    }
+
 });
+
+function hidecoponsformat()
+{
+  var temp = document.getElementsByClassName('custom_coupon');
+  for (var i = 0; i < temp.length; i ++) {
+    temp[i].style.display = 'none';
+  }
+}
+
+function showcoponsformat()
+{
+  var temp = document.getElementsByClassName('custom_coupon');
+  for (var i = 0; i < temp.length; i ++) {
+    temp[i].style.display = 'block';
+  }
+}
 
 function saveShippingAddress(address_id,cart_id)
   {
@@ -167,25 +195,41 @@ function saveShippingAddress(address_id,cart_id)
       });  
   }
 
-  // function checkandgetcoupoun(coupon_code,cart_id)
-  // {
-  //   $.ajax({
-  //     url: "{{route('apply_coupoun')}}",
-  //     type: 'POST',
-  //     // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-  //     data: {
-  //       couponCode: coupon_code,
-  //       cartId: cart_id,
-  //       _token:'{{ csrf_token() }}'
-  //     },
-  //        success: function(response){
-  //         console.log(response);
-  //         console.log(response);
-  //         var dataResult = JSON.parse(response);
-  //         alert(dataResult.data;)
-  //       }
-  //     });  
-  // }
+
+  function checkandgetcoupoun(coupon_code,cart_id)
+  {
+    $.ajax({
+      url: "{{route('apply_coupoun')}}",
+      type: 'POST',
+      // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+      data: {
+        couponCode: coupon_code,
+        cartId: cart_id,
+        _token:'{{ csrf_token() }}'
+      },
+         success: function(response){
+            console.log(response);
+            var dataResult = JSON.parse(response);
+            
+            if(dataResult.response=="success")
+            {
+              iscouponApplied=true;
+              showcoponsformat();
+              
+              $("#old_price_before_coupon").html("<del>"+"{{$current_currency}}"+ cart_price+"</del>");
+              $("#coupon_code_show").html(dataResult.data['code']);
+              $("#coupon_code_value_deducted").html("{{$current_currency}}"+dataResult.data['value']);
+              $("#final_price_after_coupon").html("{{$current_currency}}" +(parseInt(cart_price) - parseInt(dataResult.data['value'])));
+              
+              customLoadAndShowMSG("success","coupon applied successfully");
+            }
+            
+            
+          }
+      });  
+  }
+
+  
 
 </script>
 

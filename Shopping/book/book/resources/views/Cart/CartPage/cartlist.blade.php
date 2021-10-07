@@ -173,7 +173,7 @@
           
           <div class="col-lg-7 col-xl-5 mt-3 mt-md-0">
           
-            <div class="panel-group panel-group--style1 prd-block_accordion" id="productAccordion">
+            <!-- <div class="panel-group panel-group--style1 prd-block_accordion" id="productAccordion">
               <div class="panel">
                 <div class="panel-heading active">
                   <h4 class="panel-title">
@@ -258,7 +258,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         
 </div>       

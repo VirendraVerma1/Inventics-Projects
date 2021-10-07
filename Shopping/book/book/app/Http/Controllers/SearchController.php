@@ -12,6 +12,8 @@ class SearchController extends Controller
 
     public function search_by_category(Request $request,$name)
     {
+        $name=DB::table('categories')->where('slug',$name)->first();
+        $name=$name->name;
         $slug="sonali-fashion";
         $this->decode_shop_slug($slug);
         $this->updatedata();

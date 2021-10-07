@@ -1,0 +1,59 @@
+//installation
+"require": {
+    ...
+    "mixpanel/mixpanel-php" : "2.*"
+    ...
+}
+
+
+use Mixpanel;
+
+public function create_or_update_customer_mixpannel(Request $request,$user_id,$extra_features_array=null)
+    {
+        $customer_data=Customer::find($user_id);
+        $required_info=array(
+            '$first_name'       => $customer_data->name,
+            '$last_name'        => "",
+            '$email'            => $customer_data->email,
+            '$phone'            => $customer_data->phone
+        );
+        if($extra_features_array!=null)
+        $data = array_merge($required_info,$extra_features_array);
+        else
+        $data=$required_info;
+
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->set($user_id, $data, $ip = $request->ip(), $ignore_time = false);
+    }
+
+    public function increment_customer_data($user_id,$feature,$increment_count=1)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->increment($user_id,$feature, $increment_count);
+    }
+
+    public function decrement_customer_data($user_id,$feature,$decrement_count=1)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->decrement($user_id,$feature,$decrement_count*-1);
+    }
+
+    public function make_new_track($key,$array_parameters)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->track($key,$array_parameters); 
+    }
+
+    public function update_track($key)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->track($key);
+    }
+
+    public function earned_from_customer($user_id,$charges_earned)
+    {
+        // use Carbon\Carbon;
+        $current_date_time = Carbon::now()->toDateTimeString(); // Produces something like "2019-03-11 12:25:00"
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->trackCharge($user_id, $charges_earned,$current_date_time);
+    }

@@ -28,7 +28,7 @@ class CosmeticsController extends Controller
 {
     public function index($slug=null)
     {
-
+        
         if($slug==null)
         $slug="sonali-fashion";
         $this->decode_shop_slug($slug);
