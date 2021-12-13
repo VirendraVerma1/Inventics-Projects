@@ -2,6 +2,14 @@
 
 All notable changes to `ignition` will be documented in this file
 
+## 1.18.0 - 2021-08-02
+
+- disable executing solutions on non-local environments or from non-local IP addresses on version 1.x (#404)
+
+## 1.17.0
+
+- add extra editors (#389)
+
 ## 1.16.5 - 2021-02-14
 
 - fix CVE-2021-3129 for facade/ignition 1.16.x (Laravel 6) (#351)

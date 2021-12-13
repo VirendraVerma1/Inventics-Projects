@@ -6,6 +6,7 @@ use DB;
 use App\Books;
 use Illuminate\Http\Request;
 use Session;
+use Mixpanel;
 use Illuminate\Support\Facades\Auth;
 
 class BooksController extends Controller

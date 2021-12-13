@@ -8,6 +8,7 @@
     ],
     "license": "MIT",
     "require": {
+        "mixpanel/mixpanel-php" : "2.*",
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.4",
         "laravel/framework": "^6.20",

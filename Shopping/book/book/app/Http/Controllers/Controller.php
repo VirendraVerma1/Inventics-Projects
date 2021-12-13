@@ -11,7 +11,10 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Carbon;
+use Mixpanel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use URL;
 
 class Controller extends BaseController
 {
@@ -37,7 +40,32 @@ class Controller extends BaseController
         $shop_category_data=DB::table('shop_categories')->where('shop_id',$shop_data->id)->first();
         session(['shop' => $shop_data]);
         session(['subgroup' => $shop_category_data->category_sub_group_id]);
+        $this->check_url_and_redirect($shop_data);
         
+    }
+
+    public function check_url_and_redirect($shop)
+    {
+        //get the current url
+        $url=URL::to('/');
+        $lastindex=strlen($url);
+        $base_url = substr($url, strpos($url, '://') + 3,$lastindex);
+
+        if($base_url==$shop->domain_name)
+        {
+            //do nothing its all correct
+        }
+        elseif($shop->store_url!=null)
+        {
+            //check if the base url or current url is same or not
+            $shop_theme_url=$shop->store_url;
+            $base_url = substr($url, strpos($url, '://') + 3,$lastindex);
+            $complete_url=explode($base_url,"/");
+            $base_url=$complete_url[0];
+            dd($base_url);
+        }
+
+        return Redirect::to('http://heera.it');
     }
 
     public function updatedata()
@@ -838,6 +866,95 @@ class Controller extends BaseController
     }
 
     #endregion
+
+
+
+
+
+
+
+    
+
+    #region mix pannel region
+
+    public function create_or_update_customer_mixpannel(Request $request,$user_id,$extra_features_array=null)
+    {
+        $customer_data=Customer::where('staffid',$user_id)->first();
+       
+        $first_name = $customer_data->firstname;
+      
+        $required_info=array(
+            '$first_name'       => $first_name,
+            '$last_name'        => "",
+            '$email'            => $customer_data->email,
+            '$phone'            => $customer_data->phonenumber
+        );
+      
+        if($extra_features_array!=null)
+        $data = array_merge($required_info,$extra_features_array);
+        else
+        $data=$required_info;
+       
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->set($user_id, $data, $ip = $request->ip(), $ignore_time = false);
+    }
+
+    public function increment_customer_data($user_id,$feature,$increment_count=1)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->increment($user_id,$feature, $increment_count);
+    }
+
+    public function decrement_customer_data($user_id,$feature,$decrement_count=1)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->decrement($user_id,$feature,$decrement_count*-1);
+    }
+
+    public function make_new_track($key,$array_parameters)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->track($key,$array_parameters); 
+    }
+
+    public function update_track($key)
+    {
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->track($key);
+    }
+
+    public function register_new_track($key,$param)
+    {
+        // register the Ad Source super property
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->register($key, $param);
+    }
+
+    public function earned_from_customer($user_id,$charges_earned)
+    {
+        // use Carbon\Carbon;
+        $current_date_time = Carbon::now()->toDateTimeString(); // Produces something like "2019-03-11 12:25:00"
+        $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+        $mp->people->trackCharge($user_id, $charges_earned,$current_date_time);
+    }
+
+
+    #endregion
+
+    public function update_user_activity($user_id)
+       {
+            $date = Carbon::now()->subDays(1);
+            $employee_activity=DB::table('employee_activity')->where('user_id',$user_id)->where('created_at', '>', $date)->orderBy('created_at', 'DESC')->first();
+            
+            if(!$employee_activity)
+            {
+                //insert new row and update to mixpannel
+                DB::table('employee_activity')->insert( array( 'user_id'     =>   $user_id));
+                $this->update_track("Daily Visitors");
+            }
+
+       }
+
 
 
 }

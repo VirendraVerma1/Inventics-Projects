@@ -26,9 +26,27 @@ use App\Http\Controllers\Controller;
 
 class CosmeticsController extends Controller
 {
+
+    
+
+    public function test_mixpannel()
+    {
+        // $mp = Mixpanel::getInstance(env('MIXPANEL_PROJECT_TOKEN'));
+
+        // // register the Ad Source super property
+        // $mp->register("Ad Source", "Google");
+        
+        // // track an event with a property "Ad Source" = "Google"
+        // $mp->track("test 1 button is clicked");
+        // dd("something had done");
+
+    }
+
+    
     public function index($slug=null)
     {
-        
+        $this->register_new_track("new","key");
+        $this->update_track("hello");
         if($slug==null)
         $slug="sonali-fashion";
         $this->decode_shop_slug($slug);
