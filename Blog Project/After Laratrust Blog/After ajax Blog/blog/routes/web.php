@@ -71,6 +71,7 @@ Route::middleware(['auth'])->group(function(){
     Route::put('/category/update/{slug}', 'CategoryController@update')->name('category.update');
     Route::delete('/category/destroy/{slug}', 'CategoryController@destroy')->name('category.delete');
 });
+    
 
 Route::get('/blog/create', 'BlogController@create')->name('blog.create');
 Route::resource('tag','TagController');
@@ -79,6 +80,4 @@ Route::resource('blog','BlogController');
 
 // Route::get('/role/deletedindex', 'AuthorizationController@deletedindex')->name('role.deletedindex');
 // Route::get('/role/restore/{id}', 'AuthorizationController@restore')->name('role.restore');
-
-
 

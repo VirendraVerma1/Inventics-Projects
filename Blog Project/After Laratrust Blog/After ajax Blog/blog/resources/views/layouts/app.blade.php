@@ -32,7 +32,8 @@
 
                 @if(session('latest'))
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{session('latest')}}
+
+                    Bank Recovery
                 </a>
                 @endif
 
