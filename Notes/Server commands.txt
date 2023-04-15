@@ -1,0 +1,139 @@
+server commands
+
+sudo chmod -R 777 public
+sudo service apache2 restart
+sudo rm -rf bankrecovery
+
+
+mysql
+
+mysql -u root -p
+CREATE TABLE Test ( id int NOT NULL AUTO_INCREMENT, name varchar(255),primary key (id));
+use databasename
+show databases
+show tables
+drop table tablename
+mysql -u root -p bankrecovery < /var/www/admin.sql
+ALTER TABLE excelfile ADD Email varchar(255);
+
+CREATE TABLE `connectionrequest` (`id` int(11) NOT NULL AUTO_INCREMENT,`connection_id` text DEFAULT NULL,`auth_id` text DEFAULT NULL,`updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),`created_at` timestamp NULL DEFAULT current_timestamp()) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `search_data` (`id` int(11) NOT NULL AUTO_INCREMENT,`user_id` int(50) DEFAULT NULL,`data_id` int(50) DEFAULT NULL,`created_at` timestamp NULL DEFAULT current_timestamp(),`updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE search_data ( id int NOT NULL AUTO_INCREMENT,user_id int(50) DEFAULT NULL,data_id int(50) DEFAULT NULL,`created_at` timestamp NULL DEFAULT current_timestamp(),`updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),primary key (id));
+
+ALTER TABLE connectionrequest ADD user_id int(50);
+ALTER TABLE users ADD pin varchar(255) DEFAULT NULL;
+ALTER TABLE `users` ADD `city` TEXT NULL AFTER `pin`;
+
+ALTER TABLE users ADD device_id varchar(255);
+
+
+http://165.232.184.39/api/registerAccount
+name:test
+phone:12312
+address:address
+pin:pin
+email:123@12
+password:0987654321
+
+
+http://165.232.184.39/api/loginAccount
+email:123@123
+password:0987654321
+
+
+
+
+ALTER TABLE `data` ADD `product` TEXT NULL, ADD `address` TEXT NULL , ADD `allocation` TEXT NULL, ADD `bank` TEXT NULL , ADD `state` TEXT NULL, ADD `app_id` TEXT NULL;
+
+
+
+
+product
+address
+allocation
+bank
+state
+app_id
+emi_amt
+emi_due
+pos
+bucket
+total_out_standing
+pos_category
+legal
+seasoning
+count_order
+expirydate
+firstname
+first_no
+secondname
+second_no
+thirdname
+third_no
+agengy_name
+
+
+
+
+
+
+
+ALTER TABLE `data`  ADD `product` TEXT NULL  AFTER `enginenum`,  ADD `address` TEXT NULL  AFTER `product`,  ADD `allocation` TEXT NULL  AFTER `address`,  ADD `bank` TEXT NULL  AFTER `allocation`,  ADD `state` TEXT NULL  AFTER `bank`,  ADD `app_id` TEXT NULL  AFTER `state`,  ADD `emi_amt` TEXT NULL  AFTER `app_id`,  ADD `emi_due` TEXT NULL  AFTER `emi_amt`,  ADD `pos` TEXT NULL  AFTER `emi_due`,  ADD `bucket` TEXT NULL  AFTER `pos`,  ADD `total_out_standing` TEXT NULL  AFTER `bucket`,  ADD `pos_category` TEXT NULL  AFTER `total_out_standing`,  ADD `legal` TEXT NULL  AFTER `pos_category`,  ADD `seasoning` TEXT NULL  AFTER `legal`,  ADD `count_order` TEXT NULL  AFTER `seasoning`,  ADD `firstname` TEXT NULL  AFTER `count_order`,  ADD `first_no` TEXT NULL  AFTER `firstname`,  ADD `secondname` TEXT NULL  AFTER `first_no`,  ADD `second_no` TEXT NULL  AFTER `secondname`,  ADD `thirdname` TEXT NULL  AFTER `second_no`,  ADD `third_no` TEXT NULL  AFTER `thirdname`,  ADD `agengy_name` TEXT NULL  AFTER `third_no`;
+
+
+
+ALTER TABLE `users` ADD `comany_name` TEXT NULL AFTER `phone`;
+
+ALTER TABLE users DROP COLUMN comany_name;
+
+
+
+http://206.189.128.208/api/searchDataRegNo
+
+user_id:13
+search:CH0
+
+
+{
+    "status": "success",
+    "Search": [
+        {
+            "chasisnum": "CH01CD2993"
+        },
+        {
+            "chasisnum": "UP27AN2993"
+        },
+        {
+            "chasisnum": "UP27AN2993"
+        },
+        {
+            "chasisnum": "UP54AM2993"
+        },
+        {
+            "chasisnum": "UP31BS2993"
+        }
+    ],
+    "message": "search result",
+    "code": 200
+}
+
+
+
+
+Please check your payment status in your agency
+
+
+
+
+-to add remark in user table
+-data deletion
+-add vehicle column in data
+
+
+-add user local prosessing index
+-add user min delete index
+-add user max delete index
+-add & thing to differentiate the excel
+
+
+Latestversion.5
