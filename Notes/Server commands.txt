@@ -14,7 +14,9 @@ show databases
 show tables
 drop table tablename
 mysql -u root -p bankrecovery < /var/www/admin.sql
+mysql -u root -p gstrecovery < /var/www/gstrecovery.sql
 mysqldump -u root -p bankrecovery > /var/www/bankrecovery.sql
+mysqldump -u root -p gstrecovery > /var/www/gstrecovery.sql
 mysqldump -u root -p kreasaar > /var/www/kreasaar.sql
 ALTER TABLE excelfile ADD Email varchar(255);
 
