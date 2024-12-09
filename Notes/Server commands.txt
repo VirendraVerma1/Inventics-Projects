@@ -18,6 +18,8 @@ mysql -u root -p gstrecovery < /var/www/gstrecovery.sql
 mysqldump -u root -p bankrecovery > /var/www/bankrecovery.sql
 mysqldump -u root -p gstrecovery > /var/www/gstrecovery.sql
 mysqldump -u root -p kreasaar > /var/www/kreasaar.sql
+mysqldump -u root -p crm > /var/www/crm.sql
+mysqldump -u root -p lhc > /var/www/lhc.sql
 ALTER TABLE excelfile ADD Email varchar(255);
 
 CREATE TABLE `connectionrequest` (`id` int(11) NOT NULL AUTO_INCREMENT,`connection_id` text DEFAULT NULL,`auth_id` text DEFAULT NULL,`updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),`created_at` timestamp NULL DEFAULT current_timestamp()) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
